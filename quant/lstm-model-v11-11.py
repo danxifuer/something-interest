@@ -53,15 +53,17 @@ class DataHandle:
 class LstmModel:
     def __init__(self):
         filePath = '/home/daiab/code/ml/something-interest/data/2016.csv'
+        # filePath = '/home/daiab/code/something-interest/data/2016.csv'
         self.TIME_STEP = 20
         self.NUM_HIDDEN = 10
-        self.epochs = 1
+        self.epochs = 200
         self.testDays = 40
         self._session = tf.Session()
         dataHandle = DataHandle(filePath, self.TIME_STEP)
         self.data = dataHandle.data
         self.trainData = dataHandle.trainData
         self.days = dataHandle.days
+        self.isPlot = False
 
     # 当前天前timeStep天的数据，包含当前天
     def getOneEpochTrainData(self, day):
@@ -98,8 +100,9 @@ class LstmModel:
     def trainModel(self):
         init_op = tf.initialize_all_variables()
         self._session.run(init_op)
-        for i in range(self.epochs):
-            print("epoch %i " % i)
+        self.rightNumArr = []
+        for epoch in range(self.epochs):
+            print("epoch %i " % epoch)
             for day in range(self.TIME_STEP, self.days - self.testDays):
                 self._session.run(self.minimize,
                                   {self.oneTrainData: self.getOneEpochTrainData(day),
@@ -120,26 +123,37 @@ class LstmModel:
                     # print(self.getOneEpochTrainData(day))
                     print(self.getOneEpochTarget(day))
                     print(diff)
+            if epoch % 20 == 0:
+                self.rightNumArr.append(self.test())
+        print("rightNumArr is >>>>>>>>>>>")
+        print(self.rightNumArr)
 
     def test(self):
         predict = np.array([[0, 0, 0, 0]])
         real = np.array([[0, 0, 0, 0]])
-        from_index = self.days - self.testDays
-        day = [from_index - 1]
-        for i in range(from_index, self.days - 1):
-            predict_price = self._session.run(self.predictPrice,
-                                              {self.oneTrainData: self.getOneEpochTrainData(i),
-                                               self.targetPrice: self.getOneEpochTarget(i)})
-            real_price = self.getOneEpochTarget(i)
-            # print(predict_price)
-            predict = np.concatenate([predict, predict_price], 0)
-            # print(predict)
-            real = np.concatenate([real, real_price], 0)
-            # print(real)
-            day.append(i)
-        # print(predict[:, 0])
+        fromDay = self.days - self.testDays
+        dayIndex = [fromDay - 1]
+        rightNum = 0
+        for day in range(fromDay, self.days - 1):
+            predictPrice = self._session.run(self.predictPrice,
+                                              {self.oneTrainData: self.getOneEpochTrainData(day),
+                                               self.targetPrice: self.getOneEpochTarget(day)})
+            realPrice = self.getOneEpochTarget(day)
+            # check whether trend between predict and real is consistent
+            trend = predictPrice[0] * realPrice[0]
+            rightNum = trend[trend > 0].shape[0]
 
-        self.plotLine(day[1:], predict[1:, :], real[1:, :])
+            # print(predict_price)
+            predict = np.concatenate([predict, predictPrice], 0)
+            # print(predict)
+            real = np.concatenate([real, realPrice], 0)
+            # print(real)
+            dayIndex.append(day)
+        # print(predict[:, 0])
+        if self.isPlot:
+            self.plotLine(dayIndex[1:], predict[1:, :], real[1:, :])
+        print("rightNum is %d" % rightNum)
+        return rightNum
 
     def plotLine(self, days, predict, real):
         plt.plot(days, predict[:, 0], 'r-')
