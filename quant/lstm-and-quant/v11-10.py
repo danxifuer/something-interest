@@ -205,6 +205,11 @@ class LstmModel:
         if not self.is_back_test:
             self.predict()
 
+    def temp(self, from_date, to_date):
+        p = ts.get_hist_data('000001', from_date, to_date)
+        p = p.open.values
+        return p[0] / p[1] - 1
+
 
 # =====================================================
 # rqalpha run -f v11-10.py -s 2016-10-01 -e 2016-011-07 -o result.pkl --plot
@@ -237,10 +242,13 @@ def before_trading(context, bar_dict):
 
     start_datetime = context.now - datetime.timedelta(days=context.TIME_STEP - 1) - datetime.timedelta(days=30)
     start_date = start_datetime.strftime('%Y-%m-%d')
-    end_datetime = context.now - datetime.timedelta(days=1)
+    end_datetime = context.now  # - datetime.timedelta(days=1)
     end_date = end_datetime.strftime('%Y-%m-%d')
+    tomorrow_datetime = context.now + datetime.timedelta(days=1)
+    tomorrow_date = tomorrow_datetime.strftime('%Y-%m-%d')
     print("start date is %s, end date is %s" % (start_date, end_date))
     print("today is %s" % context.now)
+    print("tomorrow price is %f" % context.lstm_model.temp(end_date, tomorrow_date))
 
     data = context.lstm_model.get_data_by_date(start_date, end_date)
     context.price = context.lstm_model.predict_some_day(data)[0][0]
