@@ -89,9 +89,13 @@ class LstmModel:
         self.val = tf.transpose(val, [1, 0, 2])
         self.last_time = tf.gather(self.val, self.TIME_STEP - 1)
 
-        self.weight = tf.Variable(tf.truncated_normal([self.NUM_HIDDEN, 4], dtype=tf.float32))
+        self.weight_1 = tf.Variable(tf.truncated_normal([self.NUM_HIDDEN, 10], dtype=tf.float32))
+        self.bias_1 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 10]))
+        self.predictPrice_1 = tf.matmul(self.last_time, self.weight_1) + self.bias_1
+
+        self.weight = tf.Variable(tf.truncated_normal([10, 4], dtype=tf.float32))
         self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 4]))
-        self.predictPrice = tf.matmul(self.last_time, self.weight) + self.bias
+        self.predictPrice = tf.matmul(self.predictPrice_1, self.weight) + self.bias
 
         self.diff = tf.sqrt(tf.reduce_sum(tf.square(self.predictPrice - self.targetPrice)))
 
