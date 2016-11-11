@@ -123,7 +123,7 @@ class LstmModel:
                     # print(self.getOneEpochTrainData(day))
                     print(self.getOneEpochTarget(day))
                     print(diff)
-            if epoch % 20 == 0:
+            if epoch % 10 == 0:
                 self.rightNumArr.append(self.test())
         print("rightNumArr is >>>>>>>>>>>")
         print(self.rightNumArr)
@@ -133,7 +133,7 @@ class LstmModel:
         real = np.array([[0, 0, 0, 0]])
         fromDay = self.days - self.testDays
         dayIndex = [fromDay - 1]
-        rightNum = 0
+        rightNum = [0, 0, 0, 0]
         for day in range(fromDay, self.days - 1):
             predictPrice = self._session.run(self.predictPrice,
                                               {self.oneTrainData: self.getOneEpochTrainData(day),
@@ -141,7 +141,9 @@ class LstmModel:
             realPrice = self.getOneEpochTarget(day)
             # check whether trend between predict and real is consistent
             trend = predictPrice[0] * realPrice[0]
-            rightNum = trend[trend > 0].shape[0]
+            trend[trend > 0] = 1
+            trend[trend <= 0] = 0
+            rightNum += trend
 
             # print(predict_price)
             predict = np.concatenate([predict, predictPrice], 0)
@@ -152,7 +154,8 @@ class LstmModel:
         # print(predict[:, 0])
         if self.isPlot:
             self.plotLine(dayIndex[1:], predict[1:, :], real[1:, :])
-        print("rightNum is %d" % rightNum)
+        print("rightNum is >>>>>>>>>")
+        print(rightNum)
         return rightNum
 
     def plotLine(self, days, predict, real):
