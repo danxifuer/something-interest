@@ -208,6 +208,8 @@ class LstmModel:
     def temp(self, from_date, to_date):
         p = ts.get_hist_data('000001', from_date, to_date)
         p = p.open.values
+        if p.shape[0] != 2:
+            return 0
         return p[0] / p[1] - 1
 
 
