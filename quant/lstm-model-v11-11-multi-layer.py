@@ -55,7 +55,7 @@ class LstmModel:
         filePath = '/home/daiab/code/ml/something-interest/data/2016.csv'
         # filePath = '/home/daiab/code/something-interest/data/2016.csv'
         self.TIME_STEP = 20
-        self.NUM_HIDDEN = 10
+        self.NUM_HIDDEN = 20
         self.epochs = 200
         self.testDays = 40
         self._session = tf.Session()
