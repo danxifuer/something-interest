@@ -1,5 +1,5 @@
 """
-除去开盘价作为目标
+除去开盘价作为目标, 目标中加上logits
 """
 import pandas as pd
 import tensorflow as tf
@@ -127,11 +127,16 @@ class LstmModel:
                                              {self.oneTrainData: self.getOneEpochTrainData(day),
                                               self.targetPrice: self.getOneEpochTarget(day)})
 
+                    logit = self._session.run(self.logit,
+                                             {self.oneTrainData: self.getOneEpochTrainData(day),
+                                              self.targetPrice: self.getOneEpochTarget(day)})
+
 
                     print(">>>>>>>>>>>>>>>>>>>")
                     print(predictPrice)
                     print(self.getOneEpochTarget(day))
                     print(diff)
+                    print(logit)
             if epoch % 40 == 0:
                 self.rightNumArr.append(self.test())
         print("rightNumArr is >>>>>>>>>>>")
