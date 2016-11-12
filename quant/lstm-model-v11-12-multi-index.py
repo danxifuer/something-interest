@@ -30,7 +30,10 @@ class DataHandle:
             [data.open.values[:, np.newaxis],
              data.close.values[:, np.newaxis],
              data.high.values[:, np.newaxis],
-             data.low.values[:, np.newaxis]], 1)
+             data.low.values[:, np.newaxis],
+             data.amount.values[:, np.newaxis],
+             data.money.values[:, np.newaxis],
+             data.num.values[:, np.newaxis]], 1)
         # print("concat data==========>")
         # print(data)
         return data
@@ -55,8 +58,8 @@ class DataHandle:
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/data/2016.csv'
-        # filePath = '/home/daiab/code/something-interest/data/2016.csv'
+        filePath = '/home/daiab/code/ml/something-interest/data/2016-multi-index.csv'
+        # filePath = '/home/daiab/code/something-interest/data/2016-multi-index.csv'
         self.TIME_STEP = 20
         self.NUM_HIDDEN = 20
         self.epochs = 200
@@ -79,26 +82,26 @@ class LstmModel:
 
     # 当前天后一天的数据
     def getOneEpochTarget(self, day):
-        target = self.data[day + 1][1:]
+        target = self.data[day + 1]
         # target = np.hsplit(target, [1])[1]
         # print("get_one_epoch_target >>>>>>>>>>>>>>")
         # print(np.array(target))
         return target[np.newaxis, :]
 
     def buildGraph(self):
-        self.oneTrainData = tf.placeholder(tf.float32, [1, self.TIME_STEP, 4])
+        self.oneTrainData = tf.placeholder(tf.float32, [1, self.TIME_STEP, 7])
         # self.train_target = tf.placeholder(tf.float32, [1, 4])
-        self.targetPrice = tf.placeholder(tf.float32, [1, 3])
+        self.targetPrice = tf.placeholder(tf.float32, [1, 7])
         cell = tf.nn.rnn_cell.LSTMCell(self.NUM_HIDDEN)
         val, state = tf.nn.dynamic_rnn(cell, self.oneTrainData, dtype=tf.float32)
         self.val = tf.transpose(val, [1, 0, 2])
         self.last_time = tf.gather(self.val, self.TIME_STEP - 1)
 
-        self.weight = tf.Variable(tf.truncated_normal([self.NUM_HIDDEN, 3], dtype=tf.float32))
-        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 3]))
+        self.weight = tf.Variable(tf.truncated_normal([self.NUM_HIDDEN, 7], dtype=tf.float32))
+        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 7]))
         self.predictPrice = tf.matmul(self.last_time, self.weight) + self.bias
 
-        self.weight_2 = tf.Variable(tf.truncated_normal([3, 1], dtype=tf.float32))
+        self.weight_2 = tf.Variable(tf.truncated_normal([7, 1], dtype=tf.float32))
         self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1]))
         self.logit = 1 / (1 + tf.exp(tf.matmul(tf.mul(self.predictPrice, self.targetPrice), self.weight_2) + self.bias_2))
 
@@ -143,10 +146,10 @@ class LstmModel:
         print(self.rightNumArr)
 
     def test(self):
-        predict = np.array([[0, 0, 0]])
-        real = np.array([[0, 0, 0]])
+        predict = np.array([[0, 0, 0, 0, 0, 0, 0]])
+        real = np.array([[0, 0, 0, 0, 0, 0, 0]])
         dayIndex = [self.trainDays - 1]
-        rightNum = [0, 0, 0]
+        rightNum = [0, 0, 0, 0, 0, 0, 0]
         for day in range(self.trainDays, self.days - 1):
             predictPrice = self._session.run(self.predictPrice,
                                               {self.oneTrainData: self.getOneEpochTrainData(day),
@@ -172,18 +175,34 @@ class LstmModel:
         return rightNum
 
     def plotLine(self, days, predict, real):
+        plt.ylabel("open")
         plt.plot(days, predict[:, 0], 'r-')
         plt.plot(days, real[:, 0], 'b-')
         plt.show()
+        plt.ylabel("close")
         plt.plot(days, predict[:, 1], 'r-')
         plt.plot(days, real[:, 1], 'b-')
         plt.show()
+        plt.ylabel("high")
         plt.plot(days, predict[:, 2], 'r-')
         plt.plot(days, real[:, 2], 'b-')
         plt.show()
-        # plt.plot(days, predict[:, 3], 'r-')
-        # plt.plot(days, real[:, 3], 'b-')
-        # plt.show()
+        plt.ylabel("low")
+        plt.plot(days, predict[:, 3], 'r-')
+        plt.plot(days, real[:, 3], 'b-')
+        plt.show()
+        plt.ylabel("amount")
+        plt.plot(days, predict[:, 4], 'r-')
+        plt.plot(days, real[:, 4], 'b-')
+        plt.show()
+        plt.ylabel("money")
+        plt.plot(days, predict[:, 5], 'r-')
+        plt.plot(days, real[:, 5], 'b-')
+        plt.show()
+        plt.ylabel("num")
+        plt.plot(days, predict[:, 6], 'r-')
+        plt.plot(days, real[:, 6], 'b-')
+        plt.show()
 
     def run(self):
         self.buildGraph()
