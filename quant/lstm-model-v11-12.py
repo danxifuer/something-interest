@@ -66,7 +66,8 @@ class LstmModel:
         self.data = dataHandle.data
         self.trainData = dataHandle.trainData
         self.days = dataHandle.days
-        self.isPlot = False
+        self.trainDays = self.days - self.testDays
+        self.isPlot = True
 
     # 当前天前timeStep天的数据，包含当前天
     def getOneEpochTrainData(self, day):
@@ -97,9 +98,14 @@ class LstmModel:
         self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 3]))
         self.predictPrice = tf.matmul(self.last_time, self.weight) + self.bias
 
+        self.weight_2 = tf.Variable(tf.truncated_normal([3, 1], dtype=tf.float32))
+        self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1]))
+        self.logit = 1 / (1 + tf.exp(tf.matmul(tf.mul(self.predictPrice, self.targetPrice), self.weight_2) + self.bias_2))
+
+
         self.diff = tf.sqrt(tf.reduce_sum(tf.square(self.predictPrice - self.targetPrice)))
 
-        self.minimize = tf.train.AdamOptimizer().minimize(self.diff)
+        self.minimize = tf.train.AdamOptimizer().minimize(self.diff + self.logit)
 
     def trainModel(self):
         init_op = tf.initialize_all_variables()
@@ -107,7 +113,7 @@ class LstmModel:
         self.rightNumArr = []
         for epoch in range(self.epochs):
             print("epoch %i " % epoch)
-            for day in range(self.TIME_STEP, self.days - self.testDays):
+            for day in range(self.TIME_STEP, self.trainDays):
                 self._session.run(self.minimize,
                                   {self.oneTrainData: self.getOneEpochTrainData(day),
                                    self.targetPrice: self.getOneEpochTarget(day)})
@@ -126,7 +132,7 @@ class LstmModel:
                     print(predictPrice)
                     print(self.getOneEpochTarget(day))
                     print(diff)
-            if epoch % 10 == 0:
+            if epoch % 40 == 0:
                 self.rightNumArr.append(self.test())
         print("rightNumArr is >>>>>>>>>>>")
         print(self.rightNumArr)
@@ -134,10 +140,9 @@ class LstmModel:
     def test(self):
         predict = np.array([[0, 0, 0]])
         real = np.array([[0, 0, 0]])
-        fromDay = self.days - self.testDays
-        dayIndex = [fromDay - 1]
+        dayIndex = [self.trainDays - 1]
         rightNum = [0, 0, 0]
-        for day in range(fromDay, self.days - 1):
+        for day in range(self.trainDays, self.days - 1):
             predictPrice = self._session.run(self.predictPrice,
                                               {self.oneTrainData: self.getOneEpochTrainData(day),
                                                self.targetPrice: self.getOneEpochTarget(day)})
