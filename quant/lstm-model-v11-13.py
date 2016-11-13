@@ -169,17 +169,22 @@ class LstmModel:
         return rightNum
 
     def plotLine(self, days, predict, real):
+        plt.grid(True)
         plt.plot(days, predict[:, 0], 'r-')
         plt.plot(days, real[:, 0], 'b-')
+        plt.plot(days, 100 * real[:, 0] * predict[:, 0], 'k-')
         plt.show()
         plt.plot(days, predict[:, 1], 'r-')
         plt.plot(days, real[:, 1], 'b-')
+        plt.plot(days, 100 * real[:, 1] * predict[:, 1], 'k-')
         plt.show()
         plt.plot(days, predict[:, 2], 'r-')
         plt.plot(days, real[:, 2], 'b-')
+        plt.plot(days, 100 * real[:, 2] * predict[:, 2], 'k-')
         plt.show()
         plt.plot(days, predict[:, 3], 'r-')
         plt.plot(days, real[:, 3], 'b-')
+        plt.plot(days, 100 * real[:, 3] * predict[:, 3], 'k-')
         plt.show()
 
     def run(self):
