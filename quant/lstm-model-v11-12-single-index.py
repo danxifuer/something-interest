@@ -55,7 +55,7 @@ class DataHandle:
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/data/2016.csv'
+        filePath = '/home/daiab/code/ml/something-interest/data/minute.csv'
         # filePath = '/home/daiab/code/something-interest/data/2016.csv'
         self.TIME_STEP = 20
         self.NUM_HIDDEN = 20

@@ -82,7 +82,7 @@ class LstmModel:
 
     # 当前天后一天的数据
     def getOneEpochTarget(self, day):
-        target = self.data[day + 1]
+        target = self.data[day + 1][1:2]
         # target = np.hsplit(target, [1])[1]
         # print("get_one_epoch_target >>>>>>>>>>>>>>")
         # print(np.array(target))
@@ -91,24 +91,24 @@ class LstmModel:
     def buildGraph(self):
         self.oneTrainData = tf.placeholder(tf.float32, [1, self.TIME_STEP, 7])
         # self.train_target = tf.placeholder(tf.float32, [1, 4])
-        self.targetPrice = tf.placeholder(tf.float32, [1, 7])
+        self.targetPrice = tf.placeholder(tf.float32, [1, 1])
         cell = tf.nn.rnn_cell.LSTMCell(self.NUM_HIDDEN)
         val, state = tf.nn.dynamic_rnn(cell, self.oneTrainData, dtype=tf.float32)
         self.val = tf.transpose(val, [1, 0, 2])
         self.last_time = tf.gather(self.val, self.TIME_STEP - 1)
 
-        self.weight = tf.Variable(tf.truncated_normal([self.NUM_HIDDEN, 7], dtype=tf.float32))
-        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 7]))
+        self.weight = tf.Variable(tf.truncated_normal([self.NUM_HIDDEN, 1], dtype=tf.float32))
+        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 1]))
         self.predictPrice = tf.matmul(self.last_time, self.weight) + self.bias
 
-        self.weight_2 = tf.Variable(tf.truncated_normal([7, 1], dtype=tf.float32))
+        self.weight_2 = tf.Variable(tf.truncated_normal([1, 1], dtype=tf.float32))
         self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1]))
         self.logit = 1 / (1 + tf.exp(tf.matmul(tf.mul(self.predictPrice, self.targetPrice), self.weight_2) + self.bias_2))
 
 
         self.diff = tf.sqrt(tf.reduce_sum(tf.square(self.predictPrice - self.targetPrice)))
 
-        self.minimize = tf.train.AdamOptimizer().minimize(self.diff + 0.1 * self.logit)
+        self.minimize = tf.train.AdamOptimizer().minimize(self.diff)
 
     def trainModel(self):
         init_op = tf.initialize_all_variables()
@@ -130,26 +130,26 @@ class LstmModel:
                                              {self.oneTrainData: self.getOneEpochTrainData(day),
                                               self.targetPrice: self.getOneEpochTarget(day)})
 
-                    logit = self._session.run(self.logit,
-                                             {self.oneTrainData: self.getOneEpochTrainData(day),
-                                              self.targetPrice: self.getOneEpochTarget(day)})
+                    # logit = self._session.run(self.logit,
+                    #                          {self.oneTrainData: self.getOneEpochTrainData(day),
+                    #                           self.targetPrice: self.getOneEpochTarget(day)})
 
 
                     print(">>>>>>>>>>>>>>>>>>>")
                     print(predictPrice)
                     print(self.getOneEpochTarget(day))
                     print(diff)
-                    print(logit)
+                    # print(logit)
             if epoch % 40 == 0:
                 self.rightNumArr.append(self.test())
         print("rightNumArr is >>>>>>>>>>>")
         print(self.rightNumArr)
 
     def test(self):
-        predict = np.array([[0, 0, 0, 0, 0, 0, 0]])
-        real = np.array([[0, 0, 0, 0, 0, 0, 0]])
+        predict = np.array([[0]])
+        real = np.array([[0]])
         dayIndex = [self.trainDays - 1]
-        rightNum = [0, 0, 0, 0, 0, 0, 0]
+        rightNum = [0]
         for day in range(self.trainDays, self.days - 1):
             predictPrice = self._session.run(self.predictPrice,
                                               {self.oneTrainData: self.getOneEpochTrainData(day),
@@ -175,33 +175,9 @@ class LstmModel:
         return rightNum
 
     def plotLine(self, days, predict, real):
-        plt.ylabel("open")
+        plt.ylabel("close")
         plt.plot(days, predict[:, 0], 'r-')
         plt.plot(days, real[:, 0], 'b-')
-        plt.show()
-        plt.ylabel("close")
-        plt.plot(days, predict[:, 1], 'r-')
-        plt.plot(days, real[:, 1], 'b-')
-        plt.show()
-        plt.ylabel("high")
-        plt.plot(days, predict[:, 2], 'r-')
-        plt.plot(days, real[:, 2], 'b-')
-        plt.show()
-        plt.ylabel("low")
-        plt.plot(days, predict[:, 3], 'r-')
-        plt.plot(days, real[:, 3], 'b-')
-        plt.show()
-        plt.ylabel("amount")
-        plt.plot(days, predict[:, 4], 'r-')
-        plt.plot(days, real[:, 4], 'b-')
-        plt.show()
-        plt.ylabel("money")
-        plt.plot(days, predict[:, 5], 'r-')
-        plt.plot(days, real[:, 5], 'b-')
-        plt.show()
-        plt.ylabel("num")
-        plt.plot(days, predict[:, 6], 'r-')
-        plt.plot(days, real[:, 6], 'b-')
         plt.show()
 
     def run(self):
