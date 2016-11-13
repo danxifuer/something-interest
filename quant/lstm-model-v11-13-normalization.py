@@ -1,5 +1,5 @@
 """
-使用多层lstm神经层,并且使用了SMA
+使用多层lstm神经层,重新使用减去均值除以标准差的方式正则化数据
 """
 import pandas as pd
 import tensorflow as tf
@@ -36,11 +36,11 @@ class DataHandle:
         return data
 
     def normalization(self, data):
-        rows = data.shape[0]
-        minus = np.concatenate([[data[0, :]], data[0:rows - 1, :]], 0)
-        # print("normalization data==========>")
-        # print(data / minus - 1)
-        return data / minus - 1
+        # rows = data.shape[0]
+        norm = (data - data.min(axis=0)) / (data.max(axis=0) - data.min(axis=0))
+        print("normalization data==========>")
+        print(norm[-50:])
+        return norm
 
     def buildSample(self, data):
         result = []
@@ -55,8 +55,8 @@ class DataHandle:
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/data/SMA.csv'
-        # filePath = '/home/daiab/code/something-interest/data/SMA.csv'
+        filePath = '/home/daiab/code/ml/something-interest/data/2016.csv'
+        # filePath = '/home/daiab/code/something-interest/data/2016.csv'
         self.TIME_STEP = 10
         self.NUM_HIDDEN = 10
         self.epochs = 200
@@ -149,8 +149,13 @@ class LstmModel:
                                               {self.oneTrainData: self.getOneEpochTrainData(day),
                                                self.targetPrice: self.getOneEpochTarget(day)})
             realPrice = self.getOneEpochTarget(day)
+            yesterdayRealPrice = self.getOneEpochTarget(day - 1)
+
+
             # check whether trend between predict and real is consistent
-            trend = predictPrice[0] * realPrice[0]
+            trend = (predictPrice - yesterdayRealPrice)[0] * (realPrice - yesterdayRealPrice)[0]
+            print("trend is >>>>>>>>>>>>")
+            print(trend)
             trend[trend > 0] = 1
             trend[trend <= 0] = 0
             rightNum += trend
@@ -172,19 +177,18 @@ class LstmModel:
         plt.grid(True)
         plt.plot(days, predict[:, 0], 'r-')
         plt.plot(days, real[:, 0], 'b-')
-        plt.plot(days, 100 * real[:, 0] * predict[:, 0], 'k-')
         plt.show()
+        plt.grid(True)
         plt.plot(days, predict[:, 1], 'r-')
         plt.plot(days, real[:, 1], 'b-')
-        plt.plot(days, 100 * real[:, 1] * predict[:, 1], 'k-')
         plt.show()
+        plt.grid(True)
         plt.plot(days, predict[:, 2], 'r-')
         plt.plot(days, real[:, 2], 'b-')
-        plt.plot(days, 100 * real[:, 2] * predict[:, 2], 'k-')
         plt.show()
+        plt.grid(True)
         plt.plot(days, predict[:, 3], 'r-')
         plt.plot(days, real[:, 3], 'b-')
-        plt.plot(days, 100 * real[:, 3] * predict[:, 3], 'k-')
         plt.show()
 
     def run(self):
