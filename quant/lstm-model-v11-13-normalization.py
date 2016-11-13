@@ -37,9 +37,8 @@ class DataHandle:
 
     def normalization(self, data):
         # rows = data.shape[0]
-        norm = (data - data.min(axis=0)) / (data.max(axis=0) - data.min(axis=0))
-        print("normalization data==========>")
-        print(norm[-50:])
+        # norm = (data - data.min(axis=0)) / (data.max(axis=0) - data.min(axis=0))
+        norm = (data - data.mean(axis=0)) / data.var(axis=0)
         return norm
 
     def buildSample(self, data):
@@ -104,8 +103,7 @@ class LstmModel:
         self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 4]))
         self.predictPrice = tf.matmul(self.last_time, self.weight) + self.bias
 
-
-        self.diff = tf.sqrt(tf.reduce_sum(tf.square(self.predictPrice - self.targetPrice)))
+        self.diff = tf.sqrt(tf.reduce_mean(tf.square(self.predictPrice - self.targetPrice)))
 
         self.minimize = tf.train.AdamOptimizer().minimize(self.diff)
 
@@ -154,8 +152,6 @@ class LstmModel:
 
             # check whether trend between predict and real is consistent
             trend = (predictPrice - yesterdayRealPrice)[0] * (realPrice - yesterdayRealPrice)[0]
-            print("trend is >>>>>>>>>>>>")
-            print(trend)
             trend[trend > 0] = 1
             trend[trend <= 0] = 0
             rightNum += trend
@@ -174,22 +170,22 @@ class LstmModel:
         return rightNum
 
     def plotLine(self, days, predict, real):
-        plt.grid(True)
-        plt.plot(days, predict[:, 0], 'r-')
-        plt.plot(days, real[:, 0], 'b-')
-        plt.show()
+        # plt.grid(True)
+        # plt.plot(days, predict[:, 0], 'r-')
+        # plt.plot(days, real[:, 0], 'b-')
+        # plt.show()
         plt.grid(True)
         plt.plot(days, predict[:, 1], 'r-')
         plt.plot(days, real[:, 1], 'b-')
         plt.show()
-        plt.grid(True)
-        plt.plot(days, predict[:, 2], 'r-')
-        plt.plot(days, real[:, 2], 'b-')
-        plt.show()
-        plt.grid(True)
-        plt.plot(days, predict[:, 3], 'r-')
-        plt.plot(days, real[:, 3], 'b-')
-        plt.show()
+        # plt.grid(True)
+        # plt.plot(days, predict[:, 2], 'r-')
+        # plt.plot(days, real[:, 2], 'b-')
+        # plt.show()
+        # plt.grid(True)
+        # plt.plot(days, predict[:, 3], 'r-')
+        # plt.plot(days, real[:, 3], 'b-')
+        # plt.show()
 
     def run(self):
         self.buildGraph()
