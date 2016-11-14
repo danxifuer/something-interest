@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09880e29-17ed-40fa-a0f2-822d5b6503f5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/quant/lstm-model-v11-14.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/2016-multi-index.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/2016.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/SMA.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/minute.csv" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/quant/lstm-model-v11-13-normalization.py" afterPath="$PROJECT_DIR$/quant/gool-model/lstm-model-v11-13-normalization.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/quant/lstm-model-v11-14-predict-future-days.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/quant/lstm-model-v11-14.py" afterPath="$PROJECT_DIR$/quant/lstm-model-v11-14.py" />
     </list>
     <ignored path="something-interest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -71,7 +67,7 @@
       <file leaf-file-name="lstm-model-v11-13-normalization.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/quant/gool-model/lstm-model-v11-13-normalization.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-144">
+            <state relative-caret-position="1368">
               <caret line="79" column="34" selection-start-line="79" selection-start-column="34" selection-end-line="79" selection-end-column="34" />
               <folding>
                 <element signature="e#51#70#0" expanded="true" />
@@ -80,11 +76,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lstm-model-v11-14.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="lstm-model-v11-14.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-14.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="147" column="35" selection-start-line="147" selection-start-column="35" selection-end-line="147" selection-end-column="35" />
+            <state relative-caret-position="162">
+              <caret line="33" column="46" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lstm-model-v11-14-predict-future-days.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-14-predict-future-days.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="205">
+              <caret line="81" column="8" selection-start-line="81" selection-start-column="8" selection-end-line="81" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fromnumeric.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/numpy/core/fromnumeric.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-875">
+              <caret line="127" column="4" selection-start-line="127" selection-start-column="4" selection-end-line="127" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -129,13 +145,14 @@
         <option value="$PROJECT_DIR$/quant/lstm-model-v11-13-normalization.py" />
         <option value="$PROJECT_DIR$/quant/gool-model/lstm-model-v11-13-normalization.py" />
         <option value="$PROJECT_DIR$/quant/lstm-model-v11-14.py" />
+        <option value="$PROJECT_DIR$/quant/lstm-model-v11-14-predict-future-days.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="24" />
-    <option name="width" value="1440" />
-    <option name="height" value="876" />
+    <option name="width" value="1366" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -199,8 +216,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -253,6 +268,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -261,32 +278,15 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/quant" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/quant/gool-model" />
       <recent name="$PROJECT_DIR$/quant" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/quant" />
-    </key>
   </component>
-  <component name="RunManager" selected="Python.lstm-model-v11-14">
-    <configuration default="false" name="lstm-model-v11-12-multi-index" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/quant" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="something-interest" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/quant/lstm-model-v11-12-multi-index.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.lstm-model-v11-14-predict-future-days">
     <configuration default="false" name="lstm-model-v11-12-single-index" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -351,6 +351,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="something-interest" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/quant/lstm-model-v11-14.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="lstm-model-v11-14-predict-future-days" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/quant" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="something-interest" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/quant/lstm-model-v11-14-predict-future-days.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -490,19 +507,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.lstm-model-v11-12-multi-index" />
-      <item index="1" class="java.lang.String" itemvalue="Python.lstm-model-v11-12-single-index" />
-      <item index="2" class="java.lang.String" itemvalue="Python.lstm-model-v11-13" />
-      <item index="3" class="java.lang.String" itemvalue="Python.lstm-model-v11-13-normalization" />
-      <item index="4" class="java.lang.String" itemvalue="Python.lstm-model-v11-14" />
+      <item index="0" class="java.lang.String" itemvalue="Python.lstm-model-v11-12-single-index" />
+      <item index="1" class="java.lang.String" itemvalue="Python.lstm-model-v11-13" />
+      <item index="2" class="java.lang.String" itemvalue="Python.lstm-model-v11-13-normalization" />
+      <item index="3" class="java.lang.String" itemvalue="Python.lstm-model-v11-14" />
+      <item index="4" class="java.lang.String" itemvalue="Python.lstm-model-v11-14-predict-future-days" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.lstm-model-v11-14" />
-        <item index="1" class="java.lang.String" itemvalue="Python.lstm-model-v11-13-normalization" />
-        <item index="2" class="java.lang.String" itemvalue="Python.lstm-model-v11-13" />
-        <item index="3" class="java.lang.String" itemvalue="Python.lstm-model-v11-12-single-index" />
-        <item index="4" class="java.lang.String" itemvalue="Python.lstm-model-v11-12-multi-index" />
+        <item index="0" class="java.lang.String" itemvalue="Python.lstm-model-v11-14-predict-future-days" />
+        <item index="1" class="java.lang.String" itemvalue="Python.lstm-model-v11-14" />
+        <item index="2" class="java.lang.String" itemvalue="Python.lstm-model-v11-13-normalization" />
+        <item index="3" class="java.lang.String" itemvalue="Python.lstm-model-v11-13" />
+        <item index="4" class="java.lang.String" itemvalue="Python.lstm-model-v11-12-single-index" />
       </list>
     </recent_temporary>
   </component>
@@ -520,15 +537,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1440" height="876" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="24" width="1366" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24841213" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24795234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.6092545" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6052632" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24944155" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -560,6 +577,48 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-13.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quant/gool-model/lstm-model-v11-13-normalization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1368">
+          <caret line="79" column="34" selection-start-line="79" selection-start-column="34" selection-end-line="79" selection-end-column="34" />
+          <folding>
+            <element signature="e#51#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-14.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2016">
+          <caret line="115" column="40" selection-start-line="115" selection-start-column="40" selection-end-line="115" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-12-multi-index.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2502">
+          <caret line="142" column="20" selection-start-line="142" selection-start-column="20" selection-end-line="142" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/matplotlib/pyplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63792">
+          <caret line="3544" column="4" selection-start-line="3544" selection-start-column="4" selection-end-line="3544" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/tensorflow/python/ops/rnn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -863,16 +922,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/numpy/core/fromnumeric.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="2994" column="4" selection-start-line="2994" selection-start-column="4" selection-end-line="2994" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/quant/gool-model/lstm-model-v11-13-normalization.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-144">
+        <state relative-caret-position="1368">
           <caret line="79" column="34" selection-start-line="79" selection-start-column="34" selection-end-line="79" selection-end-column="34" />
           <folding>
             <element signature="e#51#70#0" expanded="true" />
@@ -898,8 +950,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-14.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="147" column="35" selection-start-line="147" selection-start-column="35" selection-end-line="147" selection-end-column="35" />
+        <state relative-caret-position="162">
+          <caret line="33" column="46" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/numpy/core/fromnumeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-875">
+          <caret line="127" column="4" selection-start-line="127" selection-start-column="4" selection-end-line="127" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-14-predict-future-days.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="81" column="8" selection-start-line="81" selection-start-column="8" selection-end-line="81" selection-end-column="8" />
           <folding />
         </state>
       </provider>
