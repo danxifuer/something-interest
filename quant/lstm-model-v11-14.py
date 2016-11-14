@@ -1,5 +1,6 @@
 """
-使用多层lstm神经层,重新使用减去均值除以标准差的方式正则化数据
+使用多层lstm神经层,重新使用减去均值除以标准差的方式正则化数据,仅预测close price
+尝试测试多个stock
 """
 import pandas as pd
 import tensorflow as tf
@@ -54,9 +55,10 @@ class DataHandle:
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/data/2016.csv'
-        # filePath = '/home/daiab/code/something-interest/data/2016.csv'
-        self.TIME_STEP = 10
+        filePath = '/home/daiab/code/ml/something-interest/data/000001.csv'
+        # filePath = '/home/daiab/code/ml/something-interest/data/601988.csv'
+        # filePath = '/home/daiab/code/ml/something-interest/data/000068.csv'
+        self.TIME_STEP = 20
         self.NUM_HIDDEN = 50
         self.epochs = 200
         self.testDays = 40
@@ -78,7 +80,7 @@ class LstmModel:
 
     # 当前天后一天的数据
     def getOneEpochTarget(self, day):
-        target = self.data[day + 1]
+        target = self.data[day + 1][1:2]
         # target = np.hsplit(target, [1])[1]
         # print("get_one_epoch_target >>>>>>>>>>>>>>")
         # print(np.array(target))
@@ -87,7 +89,7 @@ class LstmModel:
     def buildGraph(self):
         self.oneTrainData = tf.placeholder(tf.float32, [1, self.TIME_STEP, 4])
         # self.train_target = tf.placeholder(tf.float32, [1, 4])
-        self.targetPrice = tf.placeholder(tf.float32, [1, 4])
+        self.targetPrice = tf.placeholder(tf.float32, [1, 1])
         cell = tf.nn.rnn_cell.LSTMCell(self.NUM_HIDDEN)
         # self.val = tf.transpose(val, [1, 0, 2])
         # self.last_time = tf.gather(self.val, self.TIME_STEP - 1)
@@ -99,8 +101,8 @@ class LstmModel:
         self.last_time = tf.gather(self.val, self.TIME_STEP - 1)
 
 
-        self.weight = tf.Variable(tf.truncated_normal([self.NUM_HIDDEN, 4], dtype=tf.float32))
-        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 4]))
+        self.weight = tf.Variable(tf.truncated_normal([self.NUM_HIDDEN, 1], dtype=tf.float32))
+        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 1]))
         self.predictPrice = tf.matmul(self.last_time, self.weight) + self.bias
 
         self.diff = tf.sqrt(tf.reduce_mean(tf.square(self.predictPrice - self.targetPrice)))
@@ -112,36 +114,48 @@ class LstmModel:
         self._session.run(init_op)
         self.rightNumArr = []
         for epoch in range(self.epochs):
-            print("epoch %i " % epoch)
+            print("epoch %i >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" % epoch)
+            rightNum = 0
             for day in range(self.TIME_STEP, self.trainDays):
+                realPrice = self.getOneEpochTarget(day)
+
                 self._session.run(self.minimize,
                                   {self.oneTrainData: self.getOneEpochTrainData(day),
-                                   self.targetPrice: self.getOneEpochTarget(day)})
+                                   self.targetPrice: realPrice})
+
+                predictPrice = self._session.run(self.predictPrice,
+                                                 {self.oneTrainData: self.getOneEpochTrainData(day),
+                                                  self.targetPrice: realPrice})
+
+                diff = self._session.run(self.diff,
+                                         {self.oneTrainData: self.getOneEpochTrainData(day),
+                                          self.targetPrice: realPrice})
+
+                yesterdayRealPrice  = self.getOneEpochTarget(day - 1)
+
+                trend = (predictPrice - yesterdayRealPrice) * (realPrice - yesterdayRealPrice)
+
+                if trend[0][0] > 0:
+                    rightNum += 1
 
                 if day % 100 == 0:
-                    predictPrice = self._session.run(self.predictPrice,
-                                                      {self.oneTrainData: self.getOneEpochTrainData(day),
-                                                       self.targetPrice: self.getOneEpochTarget(day)})
+                    print("...................................................")
+                    print("predictPrice is %s" % predictPrice)
+                    print("real price is %s" % self.getOneEpochTarget(day))
+                    print("diff is %s" % diff)
 
-                    diff = self._session.run(self.diff,
-                                             {self.oneTrainData: self.getOneEpochTrainData(day),
-                                              self.targetPrice: self.getOneEpochTarget(day)})
+            rightRatio = rightNum / (self.trainDays - self.TIME_STEP)
+            print("right ratio is %f" % rightRatio)
 
-
-                    print(">>>>>>>>>>>>>>>>>>>")
-                    print(predictPrice)
-                    print(self.getOneEpochTarget(day))
-                    print(diff)
             if epoch % 40 == 0:
                 self.rightNumArr.append(self.test())
-        print("rightNumArr is >>>>>>>>>>>")
-        print(self.rightNumArr)
+        print("rightNumArr is %s" % self.rightNumArr)
 
     def test(self):
-        predict = np.array([[0, 0, 0, 0]])
-        real = np.array([[0, 0, 0, 0]])
+        predict = np.array([[0]])
+        real = np.array([[0]])
         dayIndex = [self.trainDays - 1]
-        rightNum = [0, 0, 0, 0]
+        rightNum = [0]
         for day in range(self.trainDays, self.days - 1):
             predictPrice = self._session.run(self.predictPrice,
                                               {self.oneTrainData: self.getOneEpochTrainData(day),
@@ -165,27 +179,16 @@ class LstmModel:
         # print(predict[:, 0])
         if self.isPlot:
             self.plotLine(dayIndex[1:], predict[1:, :], real[1:, :])
-        print("rightNum is >>>>>>>>>")
-        print(rightNum)
+        print("rightNum is %s" % rightNum)
         return rightNum
 
     def plotLine(self, days, predict, real):
-        # plt.grid(True)
-        # plt.plot(days, predict[:, 0], 'r-')
-        # plt.plot(days, real[:, 0], 'b-')
-        # plt.show()
+        plt.ylabel("close")
         plt.grid(True)
-        plt.plot(days, predict[:, 1], 'r-')
-        plt.plot(days, real[:, 1], 'b-')
+        plt.plot(days, predict[:, 0], 'r-')
+        plt.plot(days, real[:, 0], 'b-')
         plt.show()
-        # plt.grid(True)
-        # plt.plot(days, predict[:, 2], 'r-')
-        # plt.plot(days, real[:, 2], 'b-')
-        # plt.show()
-        # plt.grid(True)
-        # plt.plot(days, predict[:, 3], 'r-')
-        # plt.plot(days, real[:, 3], 'b-')
-        # plt.show()
+
 
     def run(self):
         self.buildGraph()
