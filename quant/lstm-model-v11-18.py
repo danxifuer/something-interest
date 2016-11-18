@@ -12,8 +12,8 @@ class DataHandle:
         self.timeStep = timeStep
         originData = self.readCsv(filePath)
         self.formatDataDim(originData)
-        print("originData--------------")
-        print(originData.head(100))
+        # print("originData--------------")
+        # print(originData.head(100))
 
     def readCsv(self, file_path):
         csv = pd.read_csv(file_path, index_col=0)
@@ -26,16 +26,14 @@ class DataHandle:
         # rate
         rateNormData = self.rateNorm(data)
         self.target = zscoreData[self.timeStep:, 1:2]
-        print("target %s" % self.target[:5])
+        # print("target %s" % self.target[:5])
         self.ratio = rateNormData[self.timeStep:, 1:2]
-        print("ratio %s" % self.ratio[:5])
+        # print("ratio %s" % self.ratio[:5])
         self.softmax = self.softmaxTarget(self.ratio)
-        print("softmax %s" % self.softmax[:5])
+        # print("softmax %s" % self.softmax[:5])
         self.days = self.target.shape[0]
         self.trainData = self.buildSample(zscoreData)[:-1]
 
-        # print("target >>>>>>>>>>>>>>>>>>>>")
-        # print(self.target)
 
     def concatenateData(self, data):
         data = np.concatenate(
@@ -64,9 +62,9 @@ class DataHandle:
         softmax = np.zeros(shape=[ratio.shape[0], 2])
         #[1, 0] refer to increment, [0, 1] refer to decrement
         softmax[np.where(ratio[:, 0] >= 0), 0] = 1
-        print(softmax[:5])
+        # print(softmax[:5])
         softmax[np.where(ratio[:, 0] < 0), 1] = 1
-        print(softmax[:5])
+        # print(softmax[:5])
         return softmax
 
     def buildSample(self, data):
@@ -170,7 +168,7 @@ class LstmModel:
                 diffSum = 0
                 count = 1
                 for oneEpochTrainData, _, ratio, _ in batchData:
-                    print(len(oneEpochTrainData))
+                    # print(len(oneEpochTrainData))
                     # print("day %d" % day)
 
                     dict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: ratio}
