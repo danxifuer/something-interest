@@ -169,7 +169,6 @@ class LstmModel:
                                   self.softmax[:self.trainDays], shuffle=True)
                 diffSum = 0
                 count = 1
-                day = 0
                 for oneEpochTrainData, _, ratio, _ in batchData:
                     print(len(oneEpochTrainData))
                     # print("day %d" % day)
@@ -183,12 +182,12 @@ class LstmModel:
                     diffSum += diff
                     count += 1
 
-                    if day % 200 == 0:
+                    if count % 200 == 0:
                         predictPrice = self._session.run(self.predictPrice, feed_dict=dict)
                         dice = self._session.run(self.dice, feed_dict=dict)
                         print("...................................................")
-                        print("predictPrice is %s" % predictPrice)
-                        print("real price is %s" % ratio)
+                        # print("predictPrice is %s" % predictPrice)
+                        # print("real price is %s" % ratio)
                         print("diff is %s" % diff)
                         print("dice is %s" % dice)
                         # print("state is %s" % states)
@@ -212,13 +211,9 @@ class LstmModel:
 
                 realPrice = self.getOneEpochRatio(day)[0, 0]
 
-                # print(">>>>>>>>>>>>>>>,,,,,,,,,,,,, day %d" % day)
                 predict.append(predictPrice)
-                # print(predict)
                 real.append(realPrice)
-                # print(real)
                 dayIndex.append(day)
-            # print(predict[:, 0])
             if self.isPlot:
                 self.plotLine(dayIndex, predict, real)
 
