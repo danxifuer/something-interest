@@ -54,12 +54,13 @@ class DataHandle:
             # tmp = []
             # tmp.append(data[i - self.timeStep: i, :])
             result.append(np.array(data[i - self.timeStep: i, :]))
-        return result
+        return np.array(result)
 
 def batch(batch_size, data=None, target=None, shuffle=False):
     assert len(data) == len(target)
     if shuffle:
-        indices = np.arange(len(data))
+        indices = np.arange(len(data), dtype=np.int32)
+        # indices = range(len(data))
         np.random.shuffle(indices)
     for start_idx in range(0, len(data) - batch_size + 1, batch_size):
         if shuffle:
@@ -72,7 +73,7 @@ def batch(batch_size, data=None, target=None, shuffle=False):
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/data/000001.csv'
+        filePath = '/home/daiab/code/ml/something-interest/data/601901.csv'
         # filePath = '/home/daiab/code/ml/something-interest/data/601988.csv'
         # filePath = '/home/daiab/code/ml/something-interest/data/000068.csv'
         self.timeStep = 19
@@ -85,7 +86,7 @@ class LstmModel:
         self.trainData = dataHandle.trainData
         self.target = dataHandle.target
         self.days = self.target.shape[0]
-        self.testDays = (int)(self.days / 4)
+        self.testDays = (int)(self.days / 6)
         print("all days is %d" % self.days)
         self.trainDays = self.days - self.testDays
         self.isPlot = True
@@ -144,7 +145,7 @@ class LstmModel:
             self._session.run(tf.initialize_all_variables())
             for epoch in range(self.epochs):
                 print("epoch %i >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" % epoch)
-                batchData = batch(self.batchSize, self.trainData, self.target)
+                batchData = batch(self.batchSize, self.trainData[:self.trainDays], self.target[:self.trainDays], shuffle=True)
                 diffSum = 0
                 count = 1
                 day = 0
@@ -202,7 +203,6 @@ class LstmModel:
 
     with tf.device("/cpu:3"):
         def plotLine(self, days, predict, real):
-            print(predict)
             plt.ylabel("close")
             plt.grid(True)
             plt.plot(days, predict, 'r-')
