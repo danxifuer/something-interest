@@ -1,6 +1,5 @@
 """
-使用多层lstm神经层,重新使用减去均值除以标准差的方式正则化数据,仅预测close price
-尝试测试多个stock
+use softmax regression
 """
 import pandas as pd
 import tensorflow as tf
@@ -123,15 +122,21 @@ class LstmModel:
     # 当前天后一天的数据
     def getOneEpochTarget(self, day):
         target = self.target[day:day + 1, :]
+        print("target %s" %target)
         return np.reshape(target, [1, 1])
 
     def getOneEpochRatio(self, day):
         ratio = self.ratio[day:day + 1, :]
         return np.reshape(ratio, [1, 1])
 
+    def getOneEpochSoftmax(self, day):
+        softmax = self.softmax[day:day + 1, :]
+        # print("softmax %s" % softmax)
+        return softmax
+
     def buildGraph(self):
         self.oneTrainData = tf.placeholder(tf.float32, [None, self.timeStep, 4])
-        self.targetPrice = tf.placeholder(tf.float32, [None, 1])
+        self.targetPrice = tf.placeholder(tf.float32, [None, 2])
         cell = tf.nn.rnn_cell.LSTMCell(self.hiddenNum)
 
         cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * 1)
@@ -143,17 +148,19 @@ class LstmModel:
         self.val = tf.transpose(val, [1, 0, 2])
         self.lastTime = tf.gather(self.val, self.val.get_shape()[0] - 1)
 
-        self.weight = tf.Variable(tf.truncated_normal([self.hiddenNum, 1], dtype=tf.float32))
-        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[self.batchSize, 1]))
+        self.weight = tf.Variable(tf.truncated_normal([self.hiddenNum, 2], dtype=tf.float32))
+        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]))
         self.predictPrice = tf.matmul(self.lastTime, self.weight) + self.bias
-        self.diff = tf.sqrt(tf.reduce_mean(tf.squared_difference(self.predictPrice, self.targetPrice)))
 
-        inse = tf.reduce_sum(self.predictPrice * self.targetPrice)
-        l = tf.reduce_sum(self.predictPrice * self.predictPrice)
-        r = tf.reduce_sum(self.targetPrice * self.targetPrice)
-        self.dice = 2 * inse / (l + r)
+        self.cross_entropy = tf.nn.softmax_cross_entropy_with_logits(self.predictPrice, self.targetPrice)
 
-        self.minimize = tf.train.AdamOptimizer().minimize(self.diff - self.dice)
+
+        # inse = tf.reduce_sum(self.predictPrice * self.targetPrice)
+        # l = tf.reduce_sum(self.predictPrice * self.predictPrice)
+        # r = tf.reduce_sum(self.targetPrice * self.targetPrice)
+        # self.dice = 2 * inse / (l + r)
+
+        self.minimize = tf.train.AdamOptimizer().minimize(self.cross_entropy)
 
     with tf.device("/cpu:0"):
         def trainModel(self):
@@ -165,55 +172,48 @@ class LstmModel:
                                   self.target[:self.trainDays],
                                   self.ratio[:self.trainDays],
                                   self.softmax[:self.trainDays], shuffle=True)
-                diffSum = 0
                 count = 1
-                for oneEpochTrainData, _, ratio, _ in batchData:
-                    # print(len(oneEpochTrainData))
-                    # print("day %d" % day)
-
-                    dict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: ratio}
+                for oneEpochTrainData, _, _, softmax in batchData:
+                    count += 1
+                    dict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: softmax}
 
                     self._session.run(self.minimize, feed_dict=dict)
 
-                    diff = self._session.run(self.diff, feed_dict=dict)
-
-                    diffSum += diff
-                    count += 1
-
                     if count % 20 == 0:
-                        predictPrice = self._session.run(self.predictPrice, feed_dict=dict)
-                        dice = self._session.run(self.dice, feed_dict=dict)
-                        print("...................................................")
+                        pass
+                        # predictPrice = self._session.run(self.predictPrice, feed_dict=dict)
+                        # print("...................................................")
                         # print("predictPrice is %s" % predictPrice)
-                        # print("real price is %s" % ratio)
-                        print("diff is %s" % diff)
-                        print("dice is %s" % dice)
+                        # print("real price is %s" % softmax)
                         # print("state is %s" % states)
                         # print(states.shape)
-                print("diff mean >>>>>>>>>>>>>> %f" % (diffSum / count))
+
                 if epoch % 20 == 0:
                     self.test()
 
     with tf.device("/cpu:1"):
         def test(self):
-            predict = []
-            real = []
-            dayIndex = []
+            count = 0
+            right = 0
+            print("--------------------------------")
 
             for day in range(self.trainDays, self.days - 1):
                 trainData = [self.getOneEpochTrainData(day)]
-                # target = self.getOneEpochTarget(day)
-
                 predictPrice = self._session.run(self.predictPrice,
-                                                 {self.oneTrainData: trainData})[0, 0]
+                                                 {self.oneTrainData: trainData})
 
-                realPrice = self.getOneEpochRatio(day)[0, 0]
+                realPrice = self.getOneEpochSoftmax(day)
 
-                predict.append(predictPrice)
-                real.append(realPrice)
-                dayIndex.append(day)
+                if np.argmax(predictPrice) == np.argmax(realPrice):
+                    right += 1
+                count += 1
+                print(predictPrice)
+                print(realPrice)
+
+            print("test right ratio == %f" % (right / count))
             if self.isPlot:
-                self.plotLine(dayIndex, predict, real)
+                pass
+                # self.plotLine(dayIndex, predict, real)
 
     with tf.device("/cpu:3"):
         def plotLine(self, days, predict, real):
