@@ -41,8 +41,8 @@ def gen_data(data):
 
 def gen_target(data):
     global index
-    # return np.array(data[index])
-    # print(data[index + 1][np.newaxis, :])
+    # return np.array(datasource[index])
+    # print(datasource[index + 1][np.newaxis, :])
     return data[index + 1][np.newaxis, :]
 
 

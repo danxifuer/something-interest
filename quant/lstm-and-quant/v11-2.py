@@ -20,7 +20,7 @@ class LstmModel:
         self.test_sample_num = 30
         # whether print log
         self.log_print_on = False
-        # whether plot data
+        # whether plot datasource
         self.plot_figure_on = False
         self.is_plot_line = True
 
@@ -49,8 +49,8 @@ class LstmModel:
         return result
 
     def gen_target(self):
-        # return np.array(data[index])
-        # print(data[index + 1][np.newaxis, :])
+        # return np.array(datasource[index])
+        # print(datasource[index + 1][np.newaxis, :])
         return self.stock_example[self.index + 1][np.newaxis, :]
 
     def get_data(self):
@@ -148,7 +148,7 @@ class LstmModel:
         # print(result)
         return result
 
-    # 用训练好的模型进行预测, data: 1Dim
+    # 用训练好的模型进行预测, datasource: 1Dim
     def predict(self, data):
         print(data)
         data = self.handle_data_format(data)
@@ -193,7 +193,7 @@ def before_trading(context, bar_dict):
     # 这里只截取了最后TIME STEP时间的数据
     context.data_yesterday = ts.get_hist_data(context.s1.split(".")[0], start=start_date, end=now_date).close.values[-(context.TIME_STEP):]
     context.data_yesterday_yesterday = ts.get_hist_data(context.s1.split(".")[0], start=start_date, end=now_date).close.values[-(context.TIME_STEP + 1): -1]
-    # context.data = handle_data_format(np.array(data))
+    # context.datasource = handle_data_format(np.array(datasource))
     context.predict_price_today = context.lstm_model.predict(context.data_yesterday)
     context.predict_price_yesterday = context.lstm_model.predict(context.data_yesterday_yesterday)
 

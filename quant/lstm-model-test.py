@@ -24,7 +24,7 @@ class LstmModel:
             self.test_sample_num = 0
         else:
             self.test_sample_num = 40
-        # whether plot data
+        # whether plot datasource
         self.is_plot_line = True
         # self.buffer = collections.deque(maxlen=self.TIME_STEP)
         self._session = tf.Session()
@@ -32,13 +32,13 @@ class LstmModel:
 
     def get_data(self):
         data = ts.get_hist_data('000001', '2016-11-01', '2016-11-07')
-        print("tushare data==========>")
+        print("tushare datasource==========>")
         print(data)
         result, origin_data = self.format_data_dim(data)
         self.origin_data = origin_data
         self.all_data_num = len(result)
         self.all_data = result
-        print("result data==========>")
+        print("result datasource==========>")
         print(result)
 
 
@@ -46,7 +46,7 @@ class LstmModel:
     def format_data_dim(self, data):
         data = self.reverse_data(data)
         data = self.concatenate_data(data)
-        # rows = data.shape[0]
+        # rows = datasource.shape[0]
         origin_data = self.normalization(data)
         self.origin_data = origin_data
         data = self.build_sample(origin_data)
@@ -54,7 +54,7 @@ class LstmModel:
 
     def reverse_data(self, data):
         data = data.reindex(index=data.index[::-1])
-        print("reverse_data data==========>")
+        print("reverse_data datasource==========>")
         print(data)
         return data
 
@@ -64,14 +64,14 @@ class LstmModel:
              data.close.values[:, np.newaxis],
              data.high.values[:, np.newaxis],
              data.low.values[:, np.newaxis]], 1)
-        print("concat data==========>")
+        print("concat datasource==========>")
         print(data)
         return data
 
     def normalization(self, data):
         rows = data.shape[0]
         minus = np.concatenate([[data[0, :]], data[0:rows - 1, :]], 0)
-        print("normalization data==========>")
+        print("normalization datasource==========>")
         print(data / minus - 1)
         return data / minus - 1
 

@@ -24,7 +24,7 @@ class LstmModel:
             self.test_sample_num = 40
         else:
             self.test_sample_num = 40
-        # whether plot data
+        # whether plot datasource
         self.is_plot_line = True
         self._session = tf.Session()
         # self.init_plot()
@@ -42,7 +42,7 @@ class LstmModel:
     def format_data_dim(self, data):
         data = self.reverse_data(data)
         data = self.concatenate_data(data)
-        # rows = data.shape[0]
+        # rows = datasource.shape[0]
         origin_data = self.normalization(data)
         self.origin_data = origin_data
         data = self.build_sample(origin_data)
@@ -50,8 +50,8 @@ class LstmModel:
 
     def reverse_data(self, data):
         data = data.reindex(index=data.index[::-1])
-        # print("reverse_data data==========>")
-        # print(data)
+        # print("reverse_data datasource==========>")
+        # print(datasource)
         return data
 
     def concatenate_data(self, data):
@@ -60,15 +60,15 @@ class LstmModel:
              data.close.values[:, np.newaxis],
              data.high.values[:, np.newaxis],
              data.low.values[:, np.newaxis]], 1)
-        # print("concat data==========>")
-        # print(data)
+        # print("concat datasource==========>")
+        # print(datasource)
         return data
 
     def normalization(self, data):
         rows = data.shape[0]
         minus = np.concatenate([[data[0, :]], data[0:rows - 1, :]], 0)
-        # print("normalization data==========>")
-        # print(data / minus - 1)
+        # print("normalization datasource==========>")
+        # print(datasource / minus - 1)
         return data / minus - 1
 
     def build_sample(self, data):
@@ -171,7 +171,7 @@ class LstmModel:
     def get_data_by_date(self, from_date, to_date):
         """date format 'yyyy-mm-dd"""
         data = ts.get_hist_data('000001', start=from_date, end=to_date)
-        #result, _ = self.format_data_dim(data)
+        #result, _ = self.format_data_dim(datasource)
         return self.get_data_for_predict(data)
 
     def get_data_for_predict(self, data):

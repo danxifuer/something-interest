@@ -24,7 +24,7 @@ class LstmModel:
         self.test_sample_num = 40
         # whether print log
         self.log_print_on = True
-        # whether plot data
+        # whether plot datasource
         self.plot_figure_on = False
         self.is_plot_line = True
         self.stock_index = 'close'
@@ -54,8 +54,8 @@ class LstmModel:
         return result
 
     def get_today_real_price(self):
-        # return np.array(data[index])
-        # print(data[index + 1][np.newaxis, :])
+        # return np.array(datasource[index])
+        # print(datasource[index + 1][np.newaxis, :])
         return self.stock_example[self.index + 1][np.newaxis, :]
 
     def get_yes_real_price(self):
@@ -202,7 +202,7 @@ class LstmModel:
         print(result)
         return result
 
-    # 用训练好的模型进行预测, data: 1Dim
+    # 用训练好的模型进行预测, datasource: 1Dim
     def predict(self, data):
         data = self.handle_data_format(data)
         predict_stock_price = self._session.run(

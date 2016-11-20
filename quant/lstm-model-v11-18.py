@@ -41,13 +41,13 @@ class DataHandle:
              data.close.values[:, np.newaxis],
              data.high.values[:, np.newaxis],
              data.low.values[:, np.newaxis]], 1)
-        # print("concat data==========>")
-        # print(data)
+        # print("concat datasource==========>")
+        # print(datasource)
         return data
 
     def zscore(self, data):
-        # rows = data.shape[0]
-        # norm = (data - data.min(axis=0)) / (data.max(axis=0) - data.min(axis=0))
+        # rows = datasource.shape[0]
+        # norm = (datasource - datasource.min(axis=0)) / (datasource.max(axis=0) - datasource.min(axis=0))
         norm = (data - data.mean(axis=0)) / data.var(axis=0)
         return norm
 
@@ -78,7 +78,7 @@ def batch(batch_size, data=None, target=None, ratio=None, softmax=None, shuffle=
     assert len(data) == len(target)
     if shuffle:
         indices = np.arange(len(data), dtype=np.int32)
-        # indices = range(len(data))
+        # indices = range(len(datasource))
         np.random.shuffle(indices)
     for start_idx in range(0, len(data) - batch_size + 1, batch_size):
         if shuffle:
@@ -91,9 +91,9 @@ def batch(batch_size, data=None, target=None, ratio=None, softmax=None, shuffle=
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/data/601901.csv'
-        # filePath = '/home/daiab/code/ml/something-interest/data/601988.csv'
-        # filePath = '/home/daiab/code/ml/something-interest/data/000068.csv'
+        filePath = '/home/daiab/code/ml/something-interest/datasource/601901.csv'
+        # filePath = '/home/daiab/code/ml/something-interest/datasource/601988.csv'
+        # filePath = '/home/daiab/code/ml/something-interest/datasource/000068.csv'
         self.timeStep = 19
         self.hiddenNum = 50
         self.epochs = 200
@@ -164,7 +164,7 @@ class LstmModel:
                                   self.trainData[:self.trainDays],
                                   self.target[:self.trainDays],
                                   self.ratio[:self.trainDays],
-                                  self.softmax[:self.trainDays], shuffle=True)
+                                  self.softmax[:self.trainDays], shuffle=False)
                 diffSum = 0
                 count = 1
                 for oneEpochTrainData, _, ratio, _ in batchData:

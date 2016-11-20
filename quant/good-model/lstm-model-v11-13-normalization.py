@@ -13,7 +13,7 @@ class DataHandle:
         self.formatDataDim(originData)
         # print("==================")
         # print(self.trainData[:5])
-        # print(self.data[120:140])
+        # print(self.datasource[120:140])
 
     def readCsv(self, file_path):
         csv = pd.read_csv(file_path, index_col=0)
@@ -31,13 +31,13 @@ class DataHandle:
              data.close.values[:, np.newaxis],
              data.high.values[:, np.newaxis],
              data.low.values[:, np.newaxis]], 1)
-        # print("concat data==========>")
-        # print(data)
+        # print("concat datasource==========>")
+        # print(datasource)
         return data
 
     def normalization(self, data):
-        # rows = data.shape[0]
-        # norm = (data - data.min(axis=0)) / (data.max(axis=0) - data.min(axis=0))
+        # rows = datasource.shape[0]
+        # norm = (datasource - datasource.min(axis=0)) / (datasource.max(axis=0) - datasource.min(axis=0))
         norm = (data - data.mean(axis=0)) / data.var(axis=0)
         return norm
 
@@ -54,7 +54,7 @@ class DataHandle:
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/data/SMA.csv'
+        filePath = '/home/daiab/code/ml/something-interest/datasource/SMA.csv'
         self.TIME_STEP = 20
         self.NUM_HIDDEN = 50
         self.epochs = 200

@@ -26,7 +26,7 @@ class LstmModel:
         self.test_sample_num = 1
         # whether print log
         self.log_print_on = True
-        # whether plot data
+        # whether plot datasource
         self.plot_figure_on = False
         self.is_plot_line = True
         self.stock_index = 'close'
@@ -56,8 +56,8 @@ class LstmModel:
         return result
 
     def gen_target(self):
-        # return np.array(data[index])
-        # print(data[index + 1][np.newaxis, :])
+        # return np.array(datasource[index])
+        # print(datasource[index + 1][np.newaxis, :])
         return self.stock_example[self.index + 1][np.newaxis, :]
 
     def get_data(self):
@@ -154,7 +154,7 @@ class LstmModel:
         # print(result)
         return result
 
-    # 用训练好的模型进行预测, data: 1Dim
+    # 用训练好的模型进行预测, datasource: 1Dim
     def predict(self, data):
         data = self.handle_data_format(data)
         predict_stock_price = self._session.run(
@@ -170,7 +170,7 @@ class LstmModel:
 # =====================================================
 # 使用预测的当天的数据，比较预测的昨天的数据，决定是否买卖
 # 简单的使用了阶梯的买卖数量的策略
-# rqalpha run -f v11-4-user-other-index.py -s 2016-10-01 -e 2016-011-03 -o result.pkl --plot
+# rqalpha run -f v11-4-user-insertmongodb-index.py -s 2016-10-01 -e 2016-011-03 -o result.pkl --plot
 
 
 
@@ -202,7 +202,7 @@ def before_trading(context, bar_dict):
     # 这里只截取了最后TIME STEP时间的数据
     context.data_yesterday = ts.get_hist_data(context.s1.split(".")[0], start=start_date, end=now_date).open.values[-(context.TIME_STEP):]
     context.data_yesterday_yesterday = ts.get_hist_data(context.s1.split(".")[0], start=start_date, end=now_date).open.values[-(context.TIME_STEP + 1): -1]
-    # context.data = handle_data_format(np.array(data))
+    # context.datasource = handle_data_format(np.array(datasource))
     context.predict_price_today = context.lstm_model.predict(context.data_yesterday)
     context.predict_price_yesterday = context.lstm_model.predict(context.data_yesterday_yesterday)
 

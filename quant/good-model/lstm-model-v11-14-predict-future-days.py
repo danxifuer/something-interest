@@ -14,7 +14,7 @@ class DataHandle:
         self.formatDataDim(originData)
         # print(self.trainData[:5])
         # print("==================")
-        # print(self.data[0:60])
+        # print(self.datasource[0:60])
 
     def readCsv(self, file_path):
         csv = pd.read_csv(file_path, index_col=0)
@@ -37,13 +37,13 @@ class DataHandle:
              data.close.values[:, np.newaxis],
              data.high.values[:, np.newaxis],
              data.low.values[:, np.newaxis]], 1)
-        # print("concat data==========>")
-        # print(data)
+        # print("concat datasource==========>")
+        # print(datasource)
         return data
 
     def zscore(self, data):
-        # rows = data.shape[0]
-        # norm = (data - data.min(axis=0)) / (data.max(axis=0) - data.min(axis=0))
+        # rows = datasource.shape[0]
+        # norm = (datasource - datasource.min(axis=0)) / (datasource.max(axis=0) - datasource.min(axis=0))
         norm = (data - data.mean(axis=0)) / data.var(axis=0)
         return norm
 
@@ -52,7 +52,7 @@ class DataHandle:
         rows = data.shape[0]
         for i in range(self.timeStep, rows + 1):
             # tmp = []
-            # tmp.append(data[i - self.timeStep: i, :])
+            # tmp.append(datasource[i - self.timeStep: i, :])
             result.append(np.array(data[i - self.timeStep: i, :]))
         return np.array(result)
 
@@ -60,7 +60,7 @@ def batch(batch_size, data=None, target=None, shuffle=False):
     assert len(data) == len(target)
     if shuffle:
         indices = np.arange(len(data), dtype=np.int32)
-        # indices = range(len(data))
+        # indices = range(len(datasource))
         np.random.shuffle(indices)
     for start_idx in range(0, len(data) - batch_size + 1, batch_size):
         if shuffle:
@@ -73,16 +73,16 @@ def batch(batch_size, data=None, target=None, shuffle=False):
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/data/601901.csv'
-        # filePath = '/home/daiab/code/ml/something-interest/data/601988.csv'
-        # filePath = '/home/daiab/code/ml/something-interest/data/000068.csv'
+        filePath = '/home/daiab/code/ml/something-interest/datasource/601901.csv'
+        # filePath = '/home/daiab/code/ml/something-interest/datasource/601988.csv'
+        # filePath = '/home/daiab/code/ml/something-interest/datasource/000068.csv'
         self.timeStep = 19
         self.hiddenNum = 50
         self.epochs = 200
         self._session = tf.Session()
         # self.predictFutureDay = 1
         dataHandle = DataHandle(filePath, self.timeStep)
-        # self.data = dataHandle.data
+        # self.datasource = dataHandle.datasource
         self.trainData = dataHandle.trainData
         self.target = dataHandle.target
         self.days = self.target.shape[0]
