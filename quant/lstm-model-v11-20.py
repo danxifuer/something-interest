@@ -34,7 +34,7 @@ def batch(batch_size, data=None, target=None, ratio=None, softmax=None, shuffle=
 class LstmModel:
     def __init__(self):
         self.timeStep = 10
-        self.hiddenNum = 50
+        self.hiddenNum = 400
         self.epochs = 200
         self._session = tf.Session()
 
@@ -42,7 +42,7 @@ class LstmModel:
         self.dataHandle = DataHandle(self.timeStep)
         self.readDb = ReadDB(stockCodeList=self.allStockCode, threshold=2 * self.timeStep, datahandle=self.dataHandle)
         # 从数据库取出一次数据后，重复利用几次
-        self.reuseTime = 10
+        self.reuseTime = 2
         self.isPlot = True
         self.batchSize = 10
 
@@ -53,7 +53,7 @@ class LstmModel:
         self.ratio = self.dataHandle.ratio
         self.softmax = self.dataHandle.softmax
         self.days = self.target.shape[0]
-        self.testDays = (int)(self.days / 5)
+        self.testDays = (int)(self.days / 10)
         self.trainDays = self.days - self.testDays
 
 
@@ -80,7 +80,7 @@ class LstmModel:
         self.targetPrice = tf.placeholder(tf.float32, [None, 2])
         cell = tf.nn.rnn_cell.LSTMCell(self.hiddenNum)
 
-        cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * 1)
+        cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * 3)
         val, self.states = tf.nn.dynamic_rnn(cell_2, self.oneTrainData, dtype=tf.float32)
 
         self.val = tf.transpose(val, [1, 0, 2])
@@ -98,36 +98,36 @@ class LstmModel:
         def trainModel(self):
             self._session.run(tf.initialize_all_variables())
             for epoch in range(self.epochs):
+                logger.info("epoch-epoch-epoch-epoch")
 
-                for i in range(len(self.allStockCode) * self.reuseTime):
+                for i in range(len(self.allStockCode)):
                     logger.info("epoch == %d, time == %d", epoch, i)
                     self.updateData()
-                    batchData = batch(self.batchSize,
-                                      self.trainData[:self.trainDays],
-                                      self.target[:self.trainDays],
-                                      self.ratio[:self.trainDays],
-                                      self.softmax[:self.trainDays], shuffle=False)
+                    for useTime in range(self.reuseTime):
+                        logger.info("reuse time == %d", useTime)
+                        batchData = batch(self.batchSize,
+                                          self.trainData[:self.trainDays],
+                                          self.target[:self.trainDays],
+                                          self.ratio[:self.trainDays],
+                                          self.softmax[:self.trainDays], shuffle=False)
 
-                    count = 1
-                    dict = {}
-                    for oneEpochTrainData, _, _, softmax in batchData:
-                        count += 1
-                        dict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: softmax}
-                        # logger.info("dict == %s", dict)
+                        dict = {}
+                        for oneEpochTrainData, _, _, softmax in batchData:
+                            dict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: softmax}
+                            # logger.info("dict == %s", dict)
 
-                        self._session.run(self.minimize, feed_dict=dict)
+                            self._session.run(self.minimize, feed_dict=dict)
 
-                    if len(dict) != 0:
-                        crossEntropy = self._session.run(self.cross_entropy, feed_dict=dict).sum()
-                        logger.info("crossEntropy == %f", crossEntropy)
+                        if len(dict) != 0:
+                            crossEntropy = self._session.run(self.cross_entropy, feed_dict=dict).sum()
+                            logger.info("crossEntropy == %f", crossEntropy)
 
-                    if epoch % 20 == 0:
-                        self.test()
+                    self.test()
 
     with tf.device("/cpu:1"):
         def test(self):
             count, right = 1, 0
-            logger.info("test begin >>>>>>>>>>>>>>>>>>>>>>> ")
+            logger.info("test begin ......")
 
             for day in range(self.trainDays, self.days - 1):
                 trainData = [self.getOneEpochTrainData(day)]
@@ -139,7 +139,7 @@ class LstmModel:
                 if np.argmax(predictPrice) == np.argmax(realPrice): right += 1
                 count += 1
 
-            logger.info("test right ratio == %f", (right / count))
+            logger.info("test right ratio >>>>>>>>>>>>>>>>>>>>>>>> %f", (right / count))
 
 
     def run(self):
