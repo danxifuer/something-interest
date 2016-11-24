@@ -3,6 +3,7 @@ import pandas as pd
 def readallcode():
     filePath = "/home/daiab/code/ml/something-interest/mongodb/allstockcode.csv"
     csv = pd.read_csv(filepath_or_buffer=filePath, index_col=0, dtype=str)
+    # return fiterCode(csv['code'].values[:3])
     return fiterCode(csv['code'].values)
 
 def fiterCode(codeList):

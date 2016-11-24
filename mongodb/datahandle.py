@@ -17,6 +17,8 @@ class DataHandle:
         rateNormData = self.rateNorm(data)
         self.target = zscoreData[self.timeStep:, 1:2]
         self.ratio = rateNormData[self.timeStep:, 1:2]
+        # self.target = zscoreData[self.timeStep:, 0:1]
+        # self.ratio = rateNormData[self.timeStep:, 0:1]
         self.softmax = self.softmaxTarget(self.ratio)
         self.days = self.target.shape[0]
         self.trainData = self.buildSample(zscoreData)[:-1]

@@ -1,61 +1,173 @@
-Nov 21 2016 21:48:00 rnn_cell.py[line:280] WARNING <tensorflow.python.ops.rnn_cell.BasicLSTMCell object at 0x7f4b1c06f0b8>: Using a concatenated state is slower and will soon be deprecated.  Use state_is_tuple=True.
-Nov 21 2016 21:48:02 lstm-model-v11-20.py[line:101] INFO epoch-epoch-epoch-epoch
-Nov 21 2016 21:48:02 lstm-model-v11-20.py[line:104] INFO epoch == 0, time == 0
-Nov 21 2016 21:48:02 readmongodb.py[line:27] INFO stock code == 603999 index == 0
-Nov 21 2016 21:48:02 readmongodb.py[line:29] INFO stock code == 603999, stock count == 230
-Nov 21 2016 21:48:02 lstm-model-v11-20.py[line:107] INFO reuse time == 0
-Nov 21 2016 21:48:04 lstm-model-v11-20.py[line:123] INFO crossEntropy == 35.654736
-Nov 21 2016 21:48:04 lstm-model-v11-20.py[line:131] INFO test begin ......
-Nov 21 2016 21:48:04 lstm-model-v11-20.py[line:144] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.409091
-Nov 21 2016 21:48:04 lstm-model-v11-20.py[line:104] INFO epoch == 0, time == 1
-Nov 21 2016 21:48:04 readmongodb.py[line:27] INFO stock code == 603998 index == 1
-Nov 21 2016 21:48:04 readmongodb.py[line:29] INFO stock code == 603998, stock count == 454
-Nov 21 2016 21:48:04 lstm-model-v11-20.py[line:107] INFO reuse time == 0
-Nov 21 2016 21:48:08 lstm-model-v11-20.py[line:123] INFO crossEntropy == 40.420162
-Nov 21 2016 21:48:08 lstm-model-v11-20.py[line:131] INFO test begin ......
-Nov 21 2016 21:48:08 lstm-model-v11-20.py[line:144] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.531915
-Nov 21 2016 21:48:10 lstm-model-v11-20.py[line:127] INFO save file 0
-Nov 21 2016 21:48:10 lstm-model-v11-20.py[line:101] INFO epoch-epoch-epoch-epoch
-Nov 21 2016 21:48:10 lstm-model-v11-20.py[line:104] INFO epoch == 1, time == 0
-Nov 21 2016 21:48:10 readmongodb.py[line:27] INFO stock code == 603999 index == 0
-Nov 21 2016 21:48:10 readmongodb.py[line:29] INFO stock code == 603999, stock count == 230
-Nov 21 2016 21:48:10 lstm-model-v11-20.py[line:107] INFO reuse time == 0
-Nov 21 2016 21:48:11 lstm-model-v11-20.py[line:123] INFO crossEntropy == 34.385120
-Nov 21 2016 21:48:11 lstm-model-v11-20.py[line:131] INFO test begin ......
-Nov 21 2016 21:48:12 lstm-model-v11-20.py[line:144] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.545455
-Nov 21 2016 21:48:12 lstm-model-v11-20.py[line:104] INFO epoch == 1, time == 1
-Nov 21 2016 21:48:12 readmongodb.py[line:27] INFO stock code == 603998 index == 1
-Nov 21 2016 21:48:12 readmongodb.py[line:29] INFO stock code == 603998, stock count == 454
-Nov 21 2016 21:48:12 lstm-model-v11-20.py[line:107] INFO reuse time == 0
-Nov 21 2016 21:48:16 lstm-model-v11-20.py[line:123] INFO crossEntropy == 36.785118
-Nov 21 2016 21:48:16 lstm-model-v11-20.py[line:131] INFO test begin ......
-Nov 21 2016 21:48:17 lstm-model-v11-20.py[line:144] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.531915
-Nov 21 2016 21:48:18 lstm-model-v11-20.py[line:127] INFO save file 1
-Nov 21 2016 21:48:18 lstm-model-v11-20.py[line:101] INFO epoch-epoch-epoch-epoch
-Nov 21 2016 21:48:18 lstm-model-v11-20.py[line:104] INFO epoch == 2, time == 0
-Nov 21 2016 21:48:18 readmongodb.py[line:27] INFO stock code == 603999 index == 0
-Nov 21 2016 21:48:18 readmongodb.py[line:29] INFO stock code == 603999, stock count == 230
-Nov 21 2016 21:48:18 lstm-model-v11-20.py[line:107] INFO reuse time == 0
-Nov 21 2016 21:48:19 lstm-model-v11-20.py[line:123] INFO crossEntropy == 34.667969
-Nov 21 2016 21:48:19 lstm-model-v11-20.py[line:131] INFO test begin ......
-Nov 21 2016 21:48:20 lstm-model-v11-20.py[line:144] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.454545
-Nov 21 2016 21:48:20 lstm-model-v11-20.py[line:104] INFO epoch == 2, time == 1
-Nov 21 2016 21:48:20 readmongodb.py[line:27] INFO stock code == 603998 index == 1
-Nov 21 2016 21:48:20 readmongodb.py[line:29] INFO stock code == 603998, stock count == 454
-Nov 21 2016 21:48:20 lstm-model-v11-20.py[line:107] INFO reuse time == 0
-Nov 21 2016 21:48:24 lstm-model-v11-20.py[line:123] INFO crossEntropy == 35.533237
-Nov 21 2016 21:48:24 lstm-model-v11-20.py[line:131] INFO test begin ......
-Nov 21 2016 21:48:25 lstm-model-v11-20.py[line:144] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.531915
-Nov 21 2016 21:48:26 lstm-model-v11-20.py[line:127] INFO save file 2
-Nov 21 2016 21:48:26 lstm-model-v11-20.py[line:101] INFO epoch-epoch-epoch-epoch
-Nov 21 2016 21:48:26 lstm-model-v11-20.py[line:104] INFO epoch == 3, time == 0
-Nov 21 2016 21:48:26 readmongodb.py[line:27] INFO stock code == 603999 index == 0
-Nov 21 2016 21:48:26 readmongodb.py[line:29] INFO stock code == 603999, stock count == 230
-Nov 21 2016 21:48:26 lstm-model-v11-20.py[line:107] INFO reuse time == 0
-Nov 21 2016 21:48:27 lstm-model-v11-20.py[line:123] INFO crossEntropy == 34.252193
-Nov 21 2016 21:48:27 lstm-model-v11-20.py[line:131] INFO test begin ......
-Nov 21 2016 21:48:28 lstm-model-v11-20.py[line:144] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.363636
-Nov 21 2016 21:48:28 lstm-model-v11-20.py[line:104] INFO epoch == 3, time == 1
-Nov 21 2016 21:48:28 readmongodb.py[line:27] INFO stock code == 603998 index == 1
-Nov 21 2016 21:48:28 readmongodb.py[line:29] INFO stock code == 603998, stock count == 454
-Nov 21 2016 21:48:28 lstm-model-v11-20.py[line:107] INFO reuse time == 0
+Nov 24 2016 16:58:16 rnn_cell.py[line:280] WARNING <tensorflow.python.ops.rnn_cell.BasicLSTMCell object at 0x7f9a2403c080>: Using a concatenated state is slower and will soon be deprecated.  Use state_is_tuple=True.
+Nov 24 2016 16:58:18 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:18 lstm-model-v11-20.py[line:113] INFO epoch == 0, time == 0
+Nov 24 2016 16:58:18 readmongodb.py[line:27] INFO stock code == 603999 index == 0
+Nov 24 2016 16:58:18 readmongodb.py[line:29] INFO stock code == 603999, stock count == 230
+Nov 24 2016 16:58:18 lstm-model-v11-20.py[line:117] INFO reuse time == 0
+Nov 24 2016 16:58:20 lstm-model-v11-20.py[line:133] INFO crossEntropy == 2.199023
+Nov 24 2016 16:58:20 lstm-model-v11-20.py[line:159] INFO test begin ......
+Nov 24 2016 16:58:21 lstm-model-v11-20.py[line:173] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.454545
+Nov 24 2016 16:58:21 lstm-model-v11-20.py[line:113] INFO epoch == 0, time == 0
+Nov 24 2016 16:58:21 readmongodb.py[line:27] INFO stock code == 603998 index == 1
+Nov 24 2016 16:58:21 readmongodb.py[line:29] INFO stock code == 603998, stock count == 454
+Nov 24 2016 16:58:21 lstm-model-v11-20.py[line:117] INFO reuse time == 0
+Nov 24 2016 16:58:25 lstm-model-v11-20.py[line:133] INFO crossEntropy == 0.716227
+Nov 24 2016 16:58:25 lstm-model-v11-20.py[line:159] INFO test begin ......
+Nov 24 2016 16:58:26 lstm-model-v11-20.py[line:173] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.468085
+Nov 24 2016 16:58:26 lstm-model-v11-20.py[line:113] INFO epoch == 0, time == 0
+Nov 24 2016 16:58:26 readmongodb.py[line:27] INFO stock code == 603997 index == 2
+Nov 24 2016 16:58:26 readmongodb.py[line:29] INFO stock code == 603997, stock count == 423
+Nov 24 2016 16:58:26 lstm-model-v11-20.py[line:117] INFO reuse time == 0
+Nov 24 2016 16:58:32 lstm-model-v11-20.py[line:133] INFO crossEntropy == 0.859939
+Nov 24 2016 16:58:32 lstm-model-v11-20.py[line:159] INFO test begin ......
+Nov 24 2016 16:58:32 lstm-model-v11-20.py[line:173] INFO test right ratio >>>>>>>>>>>>>>>>>>>>>>>> 0.488372
+Nov 24 2016 16:58:34 lstm-model-v11-20.py[line:137] INFO save file 0
+Nov 24 2016 16:58:34 lstm-model-v11-20.py[line:143] INFO counter == 
+{'603998': 0.46808510638297873, '603999': 0.45454545454545453, '603997': 0.4883720930232558}
+Nov 24 2016 16:58:34 lstm-model-v11-20.py[line:144] INFO 3
+Nov 24 2016 16:58:34 lstm-model-v11-20.py[line:149] INFO remove stock code 603999
+Nov 24 2016 16:58:34 lstm-model-v11-20.py[line:149] INFO remove stock code 603998
+Nov 24 2016 16:58:34 lstm-model-v11-20.py[line:149] INFO remove stock code 603997
+Nov 24 2016 16:58:34 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:34 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:36 lstm-model-v11-20.py[line:137] INFO save file 1
+Nov 24 2016 16:58:36 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:36 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:36 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:36 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:37 lstm-model-v11-20.py[line:137] INFO save file 2
+Nov 24 2016 16:58:37 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:37 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:37 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:37 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:38 lstm-model-v11-20.py[line:137] INFO save file 3
+Nov 24 2016 16:58:38 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:38 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:38 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:38 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:40 lstm-model-v11-20.py[line:137] INFO save file 4
+Nov 24 2016 16:58:40 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:40 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:40 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:40 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:41 lstm-model-v11-20.py[line:137] INFO save file 5
+Nov 24 2016 16:58:41 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:41 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:41 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:41 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:43 lstm-model-v11-20.py[line:137] INFO save file 6
+Nov 24 2016 16:58:43 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:43 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:43 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:43 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:44 lstm-model-v11-20.py[line:137] INFO save file 7
+Nov 24 2016 16:58:44 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:44 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:44 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:44 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:45 lstm-model-v11-20.py[line:137] INFO save file 8
+Nov 24 2016 16:58:45 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:45 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:45 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:45 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:47 lstm-model-v11-20.py[line:137] INFO save file 9
+Nov 24 2016 16:58:47 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:47 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:47 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:47 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:48 lstm-model-v11-20.py[line:137] INFO save file 10
+Nov 24 2016 16:58:48 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:48 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:48 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:48 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:49 lstm-model-v11-20.py[line:137] INFO save file 11
+Nov 24 2016 16:58:49 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:49 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:49 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:49 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:51 lstm-model-v11-20.py[line:137] INFO save file 12
+Nov 24 2016 16:58:51 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:51 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:51 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:51 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:52 lstm-model-v11-20.py[line:137] INFO save file 13
+Nov 24 2016 16:58:52 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:52 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:52 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:52 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:54 lstm-model-v11-20.py[line:137] INFO save file 14
+Nov 24 2016 16:58:54 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:54 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:54 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:54 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:55 lstm-model-v11-20.py[line:137] INFO save file 15
+Nov 24 2016 16:58:55 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:55 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:55 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:55 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:57 lstm-model-v11-20.py[line:137] INFO save file 16
+Nov 24 2016 16:58:57 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:57 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:57 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:57 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:58 lstm-model-v11-20.py[line:137] INFO save file 17
+Nov 24 2016 16:58:58 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:58 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:58 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:58 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:58:59 lstm-model-v11-20.py[line:137] INFO save file 18
+Nov 24 2016 16:58:59 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:58:59 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:58:59 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:58:59 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:59:01 lstm-model-v11-20.py[line:137] INFO save file 19
+Nov 24 2016 16:59:01 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:59:01 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:59:01 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:59:01 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch
+Nov 24 2016 16:59:02 lstm-model-v11-20.py[line:137] INFO save file 20
+Nov 24 2016 16:59:02 lstm-model-v11-20.py[line:143] INFO counter == 
+{}
+Nov 24 2016 16:59:02 lstm-model-v11-20.py[line:144] INFO 0
+Nov 24 2016 16:59:02 lstm-model-v11-20.py[line:154] INFO after remove the left stock code 
+ []
+Nov 24 2016 16:59:02 lstm-model-v11-20.py[line:110] INFO epoch-epoch-epoch-epoch

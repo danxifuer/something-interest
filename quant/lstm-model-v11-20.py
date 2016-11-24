@@ -7,6 +7,7 @@ from mongodb.readmongodb import ReadDB
 from mongodb.datahandle import DataHandle
 from mongodb.readallstockcode import readallcode
 import logging
+import collections
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -45,6 +46,9 @@ class LstmModel:
         self.reuseTime = 1
         self.isPlot = True
         self.batchSize = 50
+        self.counter = {}
+        # save current training stock
+        self.currentStockCode = ""
 
     def updateData(self):
         self.readDb.readOneStockData()
@@ -78,7 +82,7 @@ class LstmModel:
     def buildGraph(self):
         self.oneTrainData = tf.placeholder(tf.float32, [None, self.timeStep, 4])
         self.targetPrice = tf.placeholder(tf.float32, [None, 2])
-        cell = tf.nn.rnn_cell.BasicLSTMCell(self.hiddenNum)
+        cell = tf.nn.rnn_cell.BasicRNNCell(self.hiddenNum)
 
         cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * 2)
         val, self.states = tf.nn.dynamic_rnn(cell_2, self.oneTrainData, dtype=tf.float32)
@@ -86,12 +90,17 @@ class LstmModel:
         self.val = tf.transpose(val, [1, 0, 2])
         self.lastTime = tf.gather(self.val, self.val.get_shape()[0] - 1)
 
-        self.weight = tf.Variable(tf.truncated_normal([self.hiddenNum, 2], dtype=tf.float32), name='weight')
-        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]), name='bias')
-        self.predictPrice = tf.matmul(self.lastTime, self.weight) + self.bias
+        self.weight = tf.Variable(tf.truncated_normal([self.hiddenNum, 100], dtype=tf.float32), name='weight')
+        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 100]), name='bias')
 
-        self.cross_entropy = tf.nn.softmax_cross_entropy_with_logits(self.predictPrice, self.targetPrice)
+        self.medianValue = tf.matmul(self.lastTime, self.weight) + self.bias
 
+        self.weight_2 = tf.Variable(tf.truncated_normal([100, 2], dtype=tf.float32), name='weight_2')
+        self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]), name='bias_2')
+
+        self.predictPrice = tf.matmul(self.medianValue, self.weight_2) + self.bias_2
+
+        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predictPrice, self.targetPrice))
         self.minimize = tf.train.AdamOptimizer().minimize(self.cross_entropy)
         self._session.run(tf.initialize_all_variables())
         self.saver = tf.train.Saver()
@@ -99,10 +108,11 @@ class LstmModel:
     def trainModel(self):
         for epoch in range(self.epochs):
             logger.info("epoch-epoch-epoch-epoch")
-
-            for i in range(len(self.allStockCode)):
-                logger.info("epoch == %d, time == %d", epoch, i)
+            time = 0
+            for stockCode in self.allStockCode:
+                logger.info("epoch == %d, time == %d", epoch, time)
                 self.updateData()
+                self.currentStockCode = stockCode
                 for useTime in range(self.reuseTime):
                     logger.info("reuse time == %d", useTime)
                     batchData = batch(self.batchSize,
@@ -126,6 +136,24 @@ class LstmModel:
             self.saver.save(self._session, "/home/daiab/ckpt/model-%s.ckpt" % epoch)
             logger.info("save file %s", epoch)
 
+            self.removeBadStock()
+            self.counter = {}
+
+    def removeBadStock(self):
+        logger.info("counter == \n%s" % self.counter)
+        logger.info(len(self.allStockCode))
+        stockRank = sorted(self.counter.items(), key = lambda x: x[1])
+        removeNum = 20
+        index = 0
+        for stockCode, _ in stockRank:
+            logger.info("remove stock code %s" % stockCode)
+            if index > removeNum:
+                break
+            self.allStockCode.remove(stockCode)
+            index += 1
+        logger.info("after remove the left stock code \n %s" % self.allStockCode)
+
+
     def test(self):
         count, right = 0, 0
         logger.info("test begin ......")
@@ -141,7 +169,9 @@ class LstmModel:
             count += 1
 
         count = 1 if count == 0 else count
-        logger.info("test right ratio >>>>>>>>>>>>>>>>>>>>>>>> %f", (right / count))
+        rightRatio = right / count
+        logger.info("test right ratio >>>>>>>>>>>>>>>>>>>>>>>> %f", rightRatio)
+        self.counter[self.currentStockCode] = rightRatio
 
 
 
