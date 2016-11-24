@@ -7,12 +7,11 @@ from mongodb.readmongodb import ReadDB
 from mongodb.datahandle import DataHandle
 from mongodb.readallstockcode import readallcode
 import logging
-import collections
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                 datefmt='%b %d %Y %H:%M:%S',
-                filename='quantlog.log',
+                filename='/home/daiab/log/quantlog.log',
                 filemode='w')
 logger = logging.getLogger(__name__)
 

@@ -4,7 +4,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                 datefmt='%b %d %Y %H:%M:%S',
-                filename='quantlog.log',
+                filename='/home/daiab/log/quantlog.log',
                 filemode='w')
 logger = logging.getLogger(__name__)
 
