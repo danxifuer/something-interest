@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                 datefmt='%b %d %Y %H:%M:%S',
-                filename='quantlog.log',
+                filename='/home/daiab/log/quantlog.log',
                 filemode='w')
 logger = logging.getLogger(__name__)
 
@@ -18,6 +18,10 @@ class ReadDB:
         self.collection = self.client.quant.day_price
         self.threshold = threshold
         self.datahandle = datahandle
+
+    def updateStockCode(self, stockCodeList):
+        self.stockCodeList = stockCodeList
+        self.totalNum = len(stockCodeList)
 
 
     def readOneStockData(self):

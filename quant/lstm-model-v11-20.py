@@ -151,6 +151,7 @@ class LstmModel:
             self.allStockCode.remove(stockCode)
             index += 1
         logger.info("after remove the left stock code \n %s" % self.allStockCode)
+        self.readDb.updateStockCode(self.allStockCode)
 
 
     def test(self):
