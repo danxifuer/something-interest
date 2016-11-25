@@ -33,7 +33,7 @@ def batch(batch_size, data=None, target=None, ratio=None, softmax=None, shuffle=
 
 class LstmModel:
     def __init__(self, session):
-        self.timeStep = 20
+        self.timeStep = 15
         self.hiddenNum = 400
         self.epochs = 200
         self._session = session
@@ -146,7 +146,7 @@ class LstmModel:
         index = 0
         for stockCode, _ in stockRank:
             logger.info("remove stock code %s" % stockCode)
-            if index > removeNum:
+            if index >= removeNum:
                 break
             self.allStockCode.remove(stockCode)
             index += 1
