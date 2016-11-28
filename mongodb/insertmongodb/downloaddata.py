@@ -19,20 +19,30 @@ def downloadOneStock(stock_code):
     price['date'] = pd.Series(price.index.values, index=price.index)
     collection.insert(json.loads(price.to_json(orient='records')))
 
-allStock = ts.get_today_all()
-# allStock['code'].to_csv("allstockcode.csv")
-stockCodes = allStock['code'].values
-# index = 0
-# for i in stockCodes:
-#     if i == '300253':
-#         break
-#     index += 1
+def insertByAPI():
+    allStock = ts.get_today_all()
+    # allStock['code'].to_csv("allstockcode.csv")
+    stockCodes = allStock['code'].values
+    print(stockCodes)
 
-print(stockCodes)
+    for code in stockCodes:
+        print("download %s" % code)
+        downloadOneStock(code)
+        time.sleep(0.1)
 
-for code in stockCodes:
-    print("download %s" % code)
-    downloadOneStock(code)
-    time.sleep(0.1)
+def insertByCsv():
+    path = "/home/daiab/code/ml/something-interest/datasource/000001.csv"
+    data = pd.read_csv(path, index_col=0)
+    rows = data.shape[0]
+    print("rows >>>> %d" % rows)
+    data['stock_code'] = pd.Series([stock_code] * rows, index=data.index)
+    data['date'] = pd.Series(data.index.values, index=data.index)
+    print(data[1:4])
+    # print(json.loads(data.to_json(orient='records')))
+    collection.insert(json.loads(data.to_json(orient='records')))
 
+
+# insertByAPI()
+insertByCsv()
 client.close()
+
