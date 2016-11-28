@@ -42,7 +42,7 @@ class LstmModel:
         self.dataHandle = DataHandle(self.timeStep)
         self.readDb = ReadDB(stockCodeList=self.allStockCode, threshold=4 * self.timeStep, datahandle=self.dataHandle)
         # 从数据库取出一次数据后，重复利用几次
-        self.reuseTime = 500
+        self.reuseTime = 1000
         self.batchSize = 50
         self.counter = {}
         # save current training stock
@@ -131,7 +131,8 @@ class LstmModel:
                         crossEntropy = self._session.run(self.cross_entropy, feed_dict=dict).sum()
                         logger.info("crossEntropy == %f", crossEntropy)
 
-                self.test()
+                    self.test()
+
             self.saver.save(self._session, "/home/daiab/ckpt/model-%s.ckpt" % epoch)
             logger.info("save file %s", epoch)
 
