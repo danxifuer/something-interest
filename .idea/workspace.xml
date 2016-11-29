@@ -2,20 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09880e29-17ed-40fa-a0f2-822d5b6503f5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mongodb/datadownload/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mongodb/datadownload/read_from_csv.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mongodb/datadownload/read_from_uqer.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mongodb/util/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/quant/lstm-model-v11-29.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mongodb/allstockcode.csv" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mongodb/datahandle.py" afterPath="$PROJECT_DIR$/mongodb/util/datahandle.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mongodb/insertmongodb/downloaddata.py" afterPath="$PROJECT_DIR$/mongodb/datadownload/read_from_tushare.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mongodb/readallstockcode.py" afterPath="$PROJECT_DIR$/mongodb/util/readallstockcode.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mongodb/readmongodb.py" afterPath="$PROJECT_DIR$/mongodb/util/readmongodb.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mongodb/test/dbtest.py" afterPath="$PROJECT_DIR$/test/mongodb/dbtest.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/datasource/.~lock.000001.csv#" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/quant/good-model/lstm-model-v11-20.py" afterPath="$PROJECT_DIR$/quant/good-model/lstm-model-v11-20.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/quant/lstm-model-v11-28.py" afterPath="$PROJECT_DIR$/quant/lstm-model-v11-28.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongodb/util/datahandle.py" afterPath="$PROJECT_DIR$/mongodb/util/datahandle.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongodb/util/readmongodb.py" afterPath="$PROJECT_DIR$/mongodb/util/readmongodb.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/quant/lstm-model-v11-29.py" afterPath="$PROJECT_DIR$/quant/lstm-model-v11-29.py" />
     </list>
     <ignored path="something-interest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="readmongodb.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="readmongodb.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongodb/util/readmongodb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="38" column="43" selection-start-line="38" selection-start-column="43" selection-end-line="38" selection-end-column="43" />
+            <state relative-caret-position="388">
+              <caret line="40" column="46" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -57,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lstm-model-v11-29.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="lstm-model-v11-29.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-29.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="65" column="37" selection-start-line="65" selection-start-column="37" selection-end-line="65" selection-end-column="37" />
+            <state relative-caret-position="-715">
+              <caret line="79" column="64" selection-start-line="79" selection-start-column="64" selection-end-line="79" selection-end-column="64" />
               <folding>
                 <element signature="e#58#72#0" expanded="true" />
               </folding>
@@ -72,8 +63,8 @@
       <file leaf-file-name="datahandle.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongodb/util/datahandle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="18" column="53" selection-start-line="18" selection-start-column="53" selection-end-line="18" selection-end-column="53" />
+            <state relative-caret-position="244">
+              <caret line="23" column="41" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -137,11 +128,11 @@
         <option value="$PROJECT_DIR$/mongodb/datadownload/read_from_uqer.py" />
         <option value="$PROJECT_DIR$/mongodb/util/readallstockcode.py" />
         <option value="$PROJECT_DIR$/quant/lstm-model-v11-28.py" />
-        <option value="$PROJECT_DIR$/mongodb/util/readmongodb.py" />
-        <option value="$PROJECT_DIR$/quant/lstm-model-v11-29.py" />
         <option value="$PROJECT_DIR$/mongodb/datadownload/read_from_csv.py" />
         <option value="$PROJECT_DIR$/mongodb/datadownload/read_from_tushare.py" />
         <option value="$PROJECT_DIR$/mongodb/util/datahandle.py" />
+        <option value="$PROJECT_DIR$/mongodb/util/readmongodb.py" />
+        <option value="$PROJECT_DIR$/quant/lstm-model-v11-29.py" />
       </list>
     </option>
   </component>
@@ -465,7 +456,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32647815" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5488432" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5488432" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24064925" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -829,24 +820,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-28.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="120" column="66" selection-start-line="120" selection-start-column="66" selection-end-line="120" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-29.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="65" column="37" selection-start-line="65" selection-start-column="37" selection-end-line="65" selection-end-column="37" />
-          <folding>
-            <element signature="e#58#72#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongodb/datadownload/read_from_csv.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -867,20 +840,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongodb/util/datahandle.py">
+    <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-28.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="18" column="53" selection-start-line="18" selection-start-column="53" selection-end-line="18" selection-end-column="53" />
+        <state relative-caret-position="558">
+          <caret line="120" column="66" selection-start-line="120" selection-start-column="66" selection-end-line="120" selection-end-column="66" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mongodb/util/readmongodb.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="38" column="43" selection-start-line="38" selection-start-column="43" selection-end-line="38" selection-end-column="43" />
+        <state relative-caret-position="388">
+          <caret line="40" column="46" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongodb/util/datahandle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="23" column="41" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quant/lstm-model-v11-29.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-715">
+          <caret line="79" column="64" selection-start-line="79" selection-start-column="64" selection-end-line="79" selection-end-column="64" />
+          <folding>
+            <element signature="e#58#72#0" expanded="true" />
           </folding>
         </state>
       </provider>

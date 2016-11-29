@@ -35,10 +35,13 @@ class ReadDB:
                 continue
             if dataDict["lowestPrice"] < 0.001:
                 continue
+            if dataDict["actPreClosePrice"] < 0.001:
+                continue
             tmp.append(dataDict["openPrice"])
             tmp.append(dataDict["closePrice"])
             tmp.append(dataDict["highestPrice"])
             tmp.append(dataDict["lowestPrice"])
+            tmp.append(dataDict["actPreClosePrice"])
             data.append(tmp)
             # print(tmp)
         count = len(data)

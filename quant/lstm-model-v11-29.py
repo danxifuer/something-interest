@@ -76,7 +76,7 @@ class LstmModel:
         return softmax
 
     def buildGraph(self):
-        self.oneTrainData = tf.placeholder(tf.float32, [None, self.timeStep, 4])
+        self.oneTrainData = tf.placeholder(tf.float32, [None, self.timeStep, 5])
         self.targetPrice = tf.placeholder(tf.float32, [None, 2])
         cell = tf.nn.rnn_cell.BasicRNNCell(self.hiddenNum)
         cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=0.8)
