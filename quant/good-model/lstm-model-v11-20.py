@@ -1,12 +1,14 @@
 """
 use softmax regression and read data from mongodb
 """
-import tensorflow as tf
-import numpy as np
-from mongodb.readmongodb import ReadDB
-from mongodb.datahandle import DataHandle
-from mongodb.readallstockcode import readallcode
 import logging
+
+import numpy as np
+import tensorflow as tf
+
+from mongodb import DataHandle
+from mongodb import ReadDB
+from mongodb import readallcode
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',

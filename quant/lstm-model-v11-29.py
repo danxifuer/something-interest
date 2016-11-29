@@ -6,8 +6,9 @@ import logging
 import numpy as np
 import tensorflow as tf
 
-from mongodb import DataHandle
-from mongodb import ReadDB
+from mongodb.util.datahandle import DataHandle
+from mongodb.util.readmongodb import ReadDB
+from mongodb.util.readallstockcode import readallcode
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -34,23 +35,19 @@ def batch(batch_size, data=None, target=None, ratio=None, softmax=None, shuffle=
 
 class LstmModel:
     def __init__(self, session):
-        self.timeStep = 15
+        self.timeStep = 20
         self.hiddenNum = 400
         self.epochs = 200
+        self.batchSize = 50
         self._session = session
 
-        self.allStockCode = ['000001']
+        self.allStockCode = [1]#readallcode()
         self.dataHandle = DataHandle(self.timeStep)
-        self.readDb = ReadDB(stockCodeList=self.allStockCode, datahandle=self.dataHandle)
+        self.readDb = ReadDB(datahandle=self.dataHandle)
         # 从数据库取出一次数据后，重复利用几次
-        self.reuseTime = 1000
-        self.batchSize = 50
-        self.counter = {}
-        # save current training stock
-        self.currentStockCode = ""
 
-    def updateData(self):
-        self.readDb.readOneStockData()
+    def updateData(self, code):
+        self.readDb.readOneStockData(code)
         self.trainData = self.dataHandle.trainData
         self.target = self.dataHandle.target
         self.ratio = self.dataHandle.ratio
@@ -84,7 +81,7 @@ class LstmModel:
         cell = tf.nn.rnn_cell.BasicRNNCell(self.hiddenNum)
         cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=0.8)
 
-        cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * 5)
+        cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * 2)
         val, self.states = tf.nn.dynamic_rnn(cell_2, self.oneTrainData, dtype=tf.float32)
 
         self.val = tf.transpose(val, [1, 0, 2])
@@ -106,60 +103,36 @@ class LstmModel:
         self.saver = tf.train.Saver()
 
     def trainModel(self):
-        for epoch in range(self.epochs):
-            logger.info("epoch-epoch-epoch-epoch")
-            time = 0
-            for stockCode in self.allStockCode:
-                logger.info("epoch == %d, time == %d", epoch, time)
-                self.updateData()
-                self.currentStockCode = stockCode
-                for useTime in range(self.reuseTime):
-                    logger.info("reuse time == %d", useTime)
-                    batchData = batch(self.batchSize,
-                                      self.trainData[:self.trainDays],
-                                      self.target[:self.trainDays],
-                                      self.ratio[:self.trainDays],
-                                      self.softmax[:self.trainDays], shuffle=False)
+        for i in range(len(self.allStockCode)):
+            code = self.allStockCode.pop(0)
+            self.updateData(code)
+            """每次进入新的code时，重新init所有参数，开始全新一轮"""
+            # self._session.run(tf.initialize_all_variables())
+            # self.saver = tf.train.Saver()
 
-                    dict = {}
-                    for oneEpochTrainData, _, _, softmax in batchData:
-                        dict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: softmax}
-                        # logger.info("dict == %s", dict)
+            for epoch in range(self.epochs):
+                logger.info("stockCode == %d, epoch == %d", code, epoch)
+                batchData = batch(self.batchSize,
+                                  self.trainData[:self.trainDays],
+                                  self.target[:self.trainDays],
+                                  self.ratio[:self.trainDays],
+                                  self.softmax[:self.trainDays], shuffle=False)
+                feedDict = {}
+                for oneEpochTrainData, _, _, softmax in batchData:
+                    feedDict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: softmax}
+                    self._session.run(self.minimize, feed_dict=feedDict)
 
-                        self._session.run(self.minimize, feed_dict=dict)
+                if len(feedDict) != 0:
+                    crossEntropy = self._session.run(self.cross_entropy, feed_dict=feedDict).sum()
+                    logger.info("crossEntropy == %f", crossEntropy)
+                self.test()
 
-                    if len(dict) != 0:
-                        crossEntropy = self._session.run(self.cross_entropy, feed_dict=dict).sum()
-                        logger.info("crossEntropy == %f", crossEntropy)
-
-                    self.test()
-
-            self.saver.save(self._session, "/home/daiab/ckpt/model-%s.ckpt" % epoch)
-            logger.info("save file %s", epoch)
-
-            self.removeBadStock()
-            self.counter = {}
-
-    def removeBadStock(self):
-        logger.info("counter == \n%s" % self.counter)
-        logger.info(len(self.allStockCode))
-        stockRank = sorted(self.counter.items(), key = lambda x: x[1])
-        removeNum = 20
-        index = 0
-        for stockCode, _ in stockRank:
-            logger.info("remove stock code %s" % stockCode)
-            if index >= removeNum:
-                break
-            self.allStockCode.remove(stockCode)
-            index += 1
-        logger.info("after remove the left stock code \n %s" % self.allStockCode)
-        self.readDb.updateStockCode(self.allStockCode)
-
+            self.saver.save(self._session, "/home/daiab/ckpt/code-%s.ckpt" % code)
+            logger.info("save file code-%s", code)
 
     def test(self):
         count, right = 0, 0
         logger.info("test begin ......")
-
         for day in range(self.trainDays, self.days - 1):
             trainData = [self.getOneEpochTrainData(day)]
             predictPrice = self._session.run(self.predictPrice,
@@ -167,13 +140,13 @@ class LstmModel:
 
             realPrice = self.getOneEpochSoftmax(day)
 
-            if np.argmax(predictPrice) == np.argmax(realPrice): right += 1
+            if np.argmax(predictPrice) == np.argmax(realPrice):
+                right += 1
             count += 1
 
         count = 1 if count == 0 else count
         rightRatio = right / count
         logger.info("test right ratio >>>>>>>>>>>>>>>>>>>>>>>> %f", rightRatio)
-        self.counter[self.currentStockCode] = rightRatio
 
 
 

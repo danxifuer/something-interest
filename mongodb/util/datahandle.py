@@ -15,8 +15,8 @@ class DataHandle:
     def formatDataDim(self, data):
         zscoreData = self.zscore(data)
         rateNormData = self.rateNorm(data)
-        self.target = zscoreData[self.timeStep:, 1:2]
-        self.ratio = rateNormData[self.timeStep:, 1:2]
+        self.target = zscoreData[self.timeStep:, 3:4]
+        self.ratio = rateNormData[self.timeStep:, 3:4]
         # self.target = zscoreData[self.timeStep:, 0:1]
         # self.ratio = rateNormData[self.timeStep:, 0:1]
         self.softmax = self.softmaxTarget(self.ratio)
