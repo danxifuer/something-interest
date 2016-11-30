@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger(__name__)
 
 
-def batch(batch_size, data=None, target=None, ratio=None, softmax=None, shuffle=False):
+def batch(batch_size, data=None, target=None, rate=None, softmax=None, shuffle=False):
     assert len(data) == len(target)
     if shuffle:
         indices = np.arange(len(data), dtype=np.int32)
@@ -30,7 +30,7 @@ def batch(batch_size, data=None, target=None, ratio=None, softmax=None, shuffle=
             excerpt = indices[start_idx:start_idx + batch_size]
         else:
             excerpt = slice(start_idx, start_idx + batch_size)
-        yield data[excerpt], target[excerpt], ratio[excerpt], softmax[excerpt]
+        yield data[excerpt], target[excerpt], rate[excerpt], softmax[excerpt]
 
 
 
@@ -52,7 +52,7 @@ class LstmModel:
         self.readDb.readOneStockData(code)
         self.trainData = self.dataHandle.trainData
         self.target = self.dataHandle.target
-        self.ratio = self.dataHandle.ratio
+        self.rate = self.dataHandle.rate
         self.softmax = self.dataHandle.softmax
         self.days = self.target.shape[0]
         self.testDays = (int)(self.days / 9)
@@ -70,8 +70,8 @@ class LstmModel:
         return np.reshape(target, [1, 1])
 
     def getOneEpochRatio(self, day):
-        ratio = self.ratio[day:day + 1, :]
-        return np.reshape(ratio, [1, 1])
+        rate = self.rate[day:day + 1, :]
+        return np.reshape(rate, [1, 1])
 
     def getOneEpochSoftmax(self, day):
         softmax = self.softmax[day:day + 1, :]
@@ -128,7 +128,7 @@ class LstmModel:
                 batchData = batch(option.batchSize,
                                   self.trainData[:self.trainDays],
                                   self.target[:self.trainDays],
-                                  self.ratio[:self.trainDays],
+                                  self.rate[:self.trainDays],
                                   self.softmax[:self.trainDays], shuffle=False)
                 feedDict = {}
                 for oneEpochTrainData, targetPrice, _, softmax in batchData:

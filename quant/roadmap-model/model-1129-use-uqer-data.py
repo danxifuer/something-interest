@@ -52,7 +52,7 @@ class LstmModel:
         self.readDb.readOneStockData(code)
         self.trainData = self.dataHandle.trainData
         self.target = self.dataHandle.target
-        self.ratio = self.dataHandle.ratio
+        self.rate = self.dataHandle.rate
         self.softmax = self.dataHandle.softmax
         self.days = self.target.shape[0]
         self.testDays = (int)(self.days / 9)
@@ -70,7 +70,7 @@ class LstmModel:
         return np.reshape(target, [1, 1])
 
     def getOneEpochRatio(self, day):
-        ratio = self.ratio[day:day + 1, :]
+        ratio = self.rate[day:day + 1, :]
         return np.reshape(ratio, [1, 1])
 
     def getOneEpochSoftmax(self, day):
@@ -119,7 +119,7 @@ class LstmModel:
                 batchData = batch(option.batchSize,
                                   self.trainData[:self.trainDays],
                                   self.target[:self.trainDays],
-                                  self.ratio[:self.trainDays],
+                                  self.rate[:self.trainDays],
                                   self.softmax[:self.trainDays], shuffle=False)
                 feedDict = {}
                 for oneEpochTrainData, _, _, softmax in batchData:

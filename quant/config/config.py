@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 class Option:
     def __init__(self):
-        self.timeStep = 100
+        self.timeStep = 15
         self.hiddenCellNum = 200
         self.epochs = 200
         self.batchSize = 50
@@ -17,6 +17,7 @@ class Option:
         self.keepProp = 1
         self.learningRate = 0.001
         self.outputCellNum = 512
+        self.predict_type = "close"  # could be one of ["open", "close", "high", "low"]
         logger.info("options:::::\n%s", self)
 
     def __str__(self):
@@ -27,4 +28,5 @@ class Option:
                 "hiddenLayerNum: " + str(self.hiddenLayerNum) + "\n" \
                 "keepProp: " + str(self.keepProp) + "\n" \
                 "learningRate: " + str(self.learningRate) + "\n" \
-                "outputCellNum: " + str(self.outputCellNum)
+                "outputCellNum: " + str(self.outputCellNum) + "\n" \
+                "predict_type: " + self.predict_type

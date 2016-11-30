@@ -24,29 +24,30 @@ class ReadDB:
     def readOneStockData(self, code):
         dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING)
         data = []
-        for dataDict in list(dbData):
+        for dataDict in dbData:
             tmp = []
             """过滤掉异常数据"""
-            if dataDict["openPrice"] < 0.001:
+            if float(dataDict["openPrice"]) < 0.001:
                 continue
-            if dataDict["closePrice"] < 0.001:
+            if float(dataDict["closePrice"]) < 0.001:
                 continue
-            if dataDict["highestPrice"] < 0.001:
+            if float(dataDict["highestPrice"]) < 0.001:
                 continue
-            if dataDict["lowestPrice"] < 0.001:
+            if float(dataDict["lowestPrice"]) < 0.001:
                 continue
-            if dataDict["actPreClosePrice"] < 0.001:
+            if float(dataDict["actPreClosePrice"]) < 0.001:
                 continue
             tmp.append(dataDict["openPrice"])
             tmp.append(dataDict["closePrice"])
             tmp.append(dataDict["highestPrice"])
             tmp.append(dataDict["lowestPrice"])
             tmp.append(dataDict["actPreClosePrice"])
+            print(dataDict["tradeDate"])
             data.append(tmp)
             # print(tmp)
         count = len(data)
         logger.info("stock code == %s, count == %d", code, count)
-        self.datahandle.formatDataDim(np.array(data))
+        self.datahandle.handle(np.array(data))
 
 
     def destory(self):
