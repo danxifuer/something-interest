@@ -80,7 +80,8 @@ class LstmModel:
     def buildGraph(self):
         option = self._option
         self.oneTrainData = tf.placeholder(tf.float32, [None, option.timeStep, 5])
-        self.targetPrice = tf.placeholder(tf.float32, [None, 2])
+        self.targetSoftmax = tf.placeholder(tf.float32, [None, 2])
+        self.targetPrice = tf.placeholder(tf.float32, [None, 1])
         cell = tf.nn.rnn_cell.BasicRNNCell(option.hiddenCellNum)
         cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=option.keepProp)
 
@@ -99,10 +100,17 @@ class LstmModel:
         self.weight_2 = tf.Variable(tf.truncated_normal([option.outputCellNum, 2], dtype=tf.float32), name='weight_2')
         self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]), name='bias_2')
 
-        self.predictPrice = tf.matmul(self.medianValue, self.weight_2) + self.bias_2
+        self.predictLogits = tf.matmul(self.medianValue, self.weight_2) + self.bias_2
 
-        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predictPrice, self.targetPrice))
-        self.minimize = tf.train.AdamOptimizer(learning_rate=option.learningRate).minimize(self.cross_entropy)
+        weight_price = tf.Variable(tf.truncated_normal([dim, 1]), dtype=tf.float32)
+        bias_price = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 1]))
+        self.predictPrice = tf.matmul(self.val, weight_price) + bias_price
+
+        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predictLogits, self.targetSoftmax))
+        self.mse = tf.sqrt(tf.reduce_mean(tf.squared_difference(self.predictPrice, self.targetPrice)))
+
+        self.minimize_mse = tf.train.AdamOptimizer(learning_rate=option.learningRate).minimize(self.mse)
+        self.minimize_cross_ent = tf.train.AdamOptimizer(learning_rate=option.learningRate).minimize(self.cross_entropy)
         self._session.run(tf.initialize_all_variables())
         self.saver = tf.train.Saver()
 
@@ -123,14 +131,16 @@ class LstmModel:
                                   self.ratio[:self.trainDays],
                                   self.softmax[:self.trainDays], shuffle=False)
                 feedDict = {}
-                for oneEpochTrainData, _, _, softmax in batchData:
-                    feedDict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: softmax}
-                    self._session.run(self.minimize, feed_dict=feedDict)
-                    # print(self._session.run(self.val, feed_dict=feedDict).shape)
+                for oneEpochTrainData, targetPrice, _, softmax in batchData:
+                    feedDict = {self.oneTrainData: oneEpochTrainData, self.targetSoftmax: softmax, self.targetPrice: targetPrice}
+                    self._session.run(self.minimize_mse, feed_dict=feedDict)
+                    self._session.run(self.minimize_cross_ent, feed_dict=feedDict)
 
                 if len(feedDict) != 0:
                     crossEntropy = self._session.run(self.cross_entropy, feed_dict=feedDict)
+                    mse = self._session.run(self.mse, feed_dict=feedDict)
                     logger.info("crossEntropy == %f", crossEntropy)
+                    logger.info("mse == %f", mse)
                 self.test()
 
             self.saver.save(self._session, "/home/daiab/ckpt/code-%s.ckpt" % code)
@@ -141,12 +151,12 @@ class LstmModel:
         logger.info("test begin ......")
         for day in range(self.trainDays, self.days - 1):
             trainData = [self.getOneEpochTrainData(day)]
-            predictPrice = self._session.run(self.predictPrice,
+            predictLogits = self._session.run(self.predictLogits,
                                              {self.oneTrainData: trainData})
 
             realPrice = self.getOneEpochSoftmax(day)
 
-            if np.argmax(predictPrice) == np.argmax(realPrice):
+            if np.argmax(predictLogits) == np.argmax(realPrice):
                 right += 1
             count += 1
 
