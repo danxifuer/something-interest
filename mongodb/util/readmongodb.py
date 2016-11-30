@@ -24,7 +24,7 @@ class ReadDB:
     def readOneStockData(self, code):
         dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING)
         data = []
-        for dataDict in list(dbData)[-4960:]:
+        for dataDict in list(dbData):
             tmp = []
             """过滤掉异常数据"""
             if dataDict["openPrice"] < 0.001:
