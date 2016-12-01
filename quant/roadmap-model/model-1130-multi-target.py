@@ -55,7 +55,7 @@ class LstmModel:
         self.rate = self.dataHandle.rate
         self.softmax = self.dataHandle.softmax
         self.days = self.target.shape[0]
-        self.testDays = (int)(self.days / 9)
+        self.testDays = (int)(self.days / 100)
         self.trainDays = self.days - self.testDays
 
 

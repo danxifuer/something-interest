@@ -22,8 +22,14 @@ class DataHandle:
     input: numpy type array, shape like [sample_size, variable_size]
     """
     def handle(self, origin_data):
-        """shape [sample_size - length, sample_size, variable_size]"""
-        self.trainData = self.BuildSerial.generate_serial(origin_data)[:-1, :, :]
+        if self._option.train_data_type == "zscore":
+            self.trainData = self.BuildSerial.generate_zscore_serial(origin_data)[:-1, :, :]
+        elif self._option.train_data_type == "rate":
+            self.trainData = self.BuildSerial.generate_rate_serial(origin_data)[:-1, :, :]
+            # print(self.trainData[:3])
+        else:
+            raise Exception("train data type error")
+
         if self._option.predict_type == "open":
             origin_target_data = origin_data[:, 0:1]
         elif self._option.predict_type == "close":
@@ -221,8 +227,18 @@ class BuildSerial:
              [[3, 4],
               [4, 5]]]
     """
-    def generate_serial(self, data):
+    def generate_zscore_serial(self, data):
         data = ZScore().convert_to_zscore(data)
+        sample_size = data.shape[0]
+        result = []
+        for row in range(sample_size - self.length + 1):
+            result.append(data[row: row + self.length])
+        assert len(result) == sample_size - self.length + 1
+        return np.array(result)
+
+    """like generate_zscore_serial"""
+    def generate_rate_serial(self, data):
+        data = RateNorm().convert_to_rate(data)
         sample_size = data.shape[0]
         result = []
         for row in range(sample_size - self.length + 1):

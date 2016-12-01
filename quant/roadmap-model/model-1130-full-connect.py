@@ -55,7 +55,7 @@ class LstmModel:
         self.rate = self.dataHandle.rate
         self.softmax = self.dataHandle.softmax
         self.days = self.target.shape[0]
-        self.testDays = (int)(self.days / 9)
+        self.testDays = (int)(self.days / 200)
         self.trainDays = self.days - self.testDays
 
 
@@ -81,7 +81,10 @@ class LstmModel:
         option = self._option
         self.oneTrainData = tf.placeholder(tf.float32, [None, option.timeStep, 5])
         self.targetPrice = tf.placeholder(tf.float32, [None, 2])
-        cell = tf.nn.rnn_cell.BasicRNNCell(option.hiddenCellNum)
+        cell = tf.nn.rnn_cell.BasicLSTMCell(option.hiddenCellNum, forget_bias=option.forget_bias,
+                                           input_size=[option.batchSize, option.timeStep, option.hiddenCellNum])
+        # cell = tf.nn.rnn_cell.BasicLSTMCell(option.hiddenCellNum,
+        #                                    input_size=[option.batchSize, option.timeStep, option.hiddenCellNum])
         cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=option.keepProp)
 
         cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hiddenLayerNum)
@@ -135,6 +138,10 @@ class LstmModel:
 
             self.saver.save(self._session, "/home/daiab/ckpt/code-%s.ckpt" % code)
             logger.info("save file code-%s", code)
+        if option.loop_time > 1:
+            option.loop_time -= 1
+            self.allStockCode = readallcode()
+            self.trainModel()
 
     def test(self):
         count, right = 0, 0
@@ -148,6 +155,12 @@ class LstmModel:
 
             if np.argmax(predictPrice) == np.argmax(realPrice):
                 right += 1
+            #     print("predict price right %s" % predictPrice)
+            #     print("softmax %s", realPrice)
+            # else:
+            #     print("predict price error %s" % predictPrice)
+            #     print("softmax %s", realPrice)
+
             count += 1
 
         count = 1 if count == 0 else count
