@@ -3,7 +3,7 @@ import tushare as ts
 import json
 import pandas as pd
 
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('db://localhost:27017/')
 db = client.quant
 collection = db.day_price
 

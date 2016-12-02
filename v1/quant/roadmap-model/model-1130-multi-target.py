@@ -5,8 +5,8 @@ import logging
 
 import numpy as np
 import tensorflow as tf
-from mongodb.util.datahandle import DataHandle
-from mongodb.util.readmongodb import ReadDB
+from db.util.datahandle import DataHandle
+from db.util.readmongodb import ReadDB
 from quant.config.config import Option
 
 logging.basicConfig(level=logging.DEBUG,
@@ -47,7 +47,7 @@ class LstmModel:
         # 从数据库取出一次数据后，重复利用几次
 
     def updateData(self, code):
-        self.readDb.readOneStockData(code)
+        self.readDb.read_one_stock_data(code)
         self.trainData = self.dataHandle.trainData
         self.target = self.dataHandle.target
         self.rate = self.dataHandle.rate

@@ -10,7 +10,8 @@ logging.basicConfig(level=logging.DEBUG,
                 filemode='w')
 logger = logging.getLogger(__name__)
 
-class DataHandle:
+
+class DataPreprocess:
     def __init__(self, timeStep):
         self.timeStep = timeStep
         self.ZScore = ZScore()
@@ -22,7 +23,7 @@ class DataHandle:
     """
     input: numpy type array, shape like [sample_size, variable_size]
     """
-    def handle(self, origin_data):
+    def process(self, origin_data):
         if self._option.train_data_type == "zscore":
             self.trainData = self.BuildSerial.generate_zscore_serial(origin_data)[:-1, :, :]
         elif self._option.train_data_type == "rate":
@@ -83,56 +84,11 @@ class DataHandle:
                               [[-1, -1],
                                [1, 1]]])[:-1]
         self._option.predict_type = "open"
-        self.handle(origin_data)
+        self.process(origin_data)
         print("trainData: real:\n%s \n calculate:\n%s" % (train_data, datahandle.trainData))
         print("target: real:\n%s \n calculate:\n%s" % (z_score_data, datahandle.target))
         print("rate: real:\n%s \n calculate:\n%s" % (rate, datahandle.rate))
         print("softmax: real:\n%s \n calculate:\n%s" % (softmax, datahandle.softmax))
-
-    """
-    def handle(self, data):
-        zscoreData = self.zscore(data)
-        rateNormData = self.rateNorm(data)
-        self.target = zscoreData[self.timeStep:, 1:2]
-        self.rate = rateNormData[self.timeStep:, 1:2]
-        # self.target = zscoreData[self.timeStep:, 0:1]
-        # self.ratio = rateNormData[self.timeStep:, 0:1]
-        self.softmax = self.softmaxTarget(self.rate)
-        self.days = self.target.shape[0]
-        self.trainData = self.buildSample(zscoreData)[:-1]
-        # logger.info("zscore data %s", zscoreData[:30])
-        # logger.info("target %s", self.target[:30])
-        # logger.info("ratio %s", self.ratio[:30])
-        # logger.info("softmax %s", self.softmax[:30])
-        # logger.info("trainData %s", self.trainData[:30])
-        assert self.rate.shape[0] == self.softmax.shape[0]
-        assert self.rate.shape[0] == self.trainData.shape[0]
-        assert self.rate.shape[0] == self.target.shape[0]
-
-    def zscore(self, data):
-        norm = (data - data.mean(axis=0)) / data.var(axis=0)
-        return norm
-
-    def rateNorm(self, data):
-        norm = np.zeros_like(data)
-        for i in range(data.shape[0] - 1, 0, -1):
-            norm[i] = (data[i] / data[i - 1]) - 1
-        norm[0] = 0
-        return norm
-
-    def softmaxTarget(self, ratio):
-        softmax = np.zeros(shape=[ratio.shape[0], 2])
-        softmax[np.where(ratio[:, 0] >= 0), 0] = 1
-        softmax[np.where(ratio[:, 0] < 0), 1] = 1
-        return softmax
-
-    def buildSample(self, data):
-        result = []
-        rows = data.shape[0]
-        for i in range(self.timeStep, rows + 1):
-            result.append(np.array(data[i - self.timeStep: i, :]))
-        return np.array(result)
-    """
 
 
 class ZScore:
@@ -252,7 +208,7 @@ class BuildSerial:
 
 
 if __name__ == "__main__":
-    datahandle = DataHandle(2)
+    datahandle = DataPreprocess(2)
     datahandle.validate()
 
 

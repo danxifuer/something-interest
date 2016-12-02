@@ -32,13 +32,13 @@ class LstmModel:
 
     def get_data(self):
         data = ts.get_hist_data('000001', '2016-11-01', '2016-11-07')
-        print("tushare datasource==========>")
+        print("tushare csv_data==========>")
         print(data)
         result, origin_data = self.format_data_dim(data)
         self.origin_data = origin_data
         self.all_data_num = len(result)
         self.all_data = result
-        print("result datasource==========>")
+        print("result csv_data==========>")
         print(result)
 
 
@@ -54,7 +54,7 @@ class LstmModel:
 
     def reverse_data(self, data):
         data = data.reindex(index=data.index[::-1])
-        print("reverse_data datasource==========>")
+        print("reverse_data csv_data==========>")
         print(data)
         return data
 
@@ -64,14 +64,14 @@ class LstmModel:
              data.close.values[:, np.newaxis],
              data.high.values[:, np.newaxis],
              data.low.values[:, np.newaxis]], 1)
-        print("concat datasource==========>")
+        print("concat csv_data==========>")
         print(data)
         return data
 
     def normalization(self, data):
         rows = data.shape[0]
         minus = np.concatenate([[data[0, :]], data[0:rows - 1, :]], 0)
-        print("normalization datasource==========>")
+        print("normalization csv_data==========>")
         print(data / minus - 1)
         return data / minus - 1
 

@@ -3,13 +3,13 @@ import pandas as pd
 # 2500阀值过滤后大约还剩1318个code
 THRESHOLD = 2500
 
-def readallcode():
-    filePath = "/home/daiab/code/ml/something-interest/mongodb/meta_csv/allcode.csv"
+def load_all_code():
+    filePath = "/home/daiab/code/ml/something-interest/v2/csv_data/all_code.csv"
     csv = pd.read_csv(filepath_or_buffer=filePath, index_col=0, dtype=str)
     # return fiterCode(csv['code'].values[:3])
-    return fiterCode(csv)
+    return fiter_code(csv)
 
-def fiterCode(csv):
+def fiter_code(csv):
     filter_result = []
     for index in range(csv.shape[0]):
         if int(csv.iloc()[index][1]) > THRESHOLD:
@@ -19,4 +19,4 @@ def fiterCode(csv):
 
 
 if __name__ == '__main__':
-    print(len(readallcode()))
+    print(len(load_all_code()))

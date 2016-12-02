@@ -51,7 +51,7 @@ class Client:
         self.token=token
     def getData(self, path):
         result = None
-        path='/datasource/v1' + path
+        path='/csv_data/v1' + path
         print(path)
         path=self.encodepath(path)
         for i in range(self.reconnectTimes):

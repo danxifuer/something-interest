@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class ReadDB:
     def __init__(self, datahandle):
-        self.client = MongoClient('mongodb://localhost:27017/')
+        self.client = MongoClient('db://localhost:27017/')
         self.collection = self.client.quant.uqer
         self.datahandle = datahandle
 
@@ -47,7 +47,7 @@ class ReadDB:
             # print(tmp)
         count = len(data)
         logger.info("stock code == %s, count == %d", code, count)
-        self.datahandle.handle(np.array(data))
+        self.datahandle.process(np.array(data))
 
 
     def destory(self):

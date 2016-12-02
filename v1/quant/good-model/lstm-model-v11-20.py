@@ -5,9 +5,9 @@ import logging
 
 import numpy as np
 import tensorflow as tf
-from mongodb import DataHandle
-from mongodb import ReadDB
-from mongodb import readallcode
+from db import DataHandle
+from db import ReadDB
+from db import readallcode
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -51,7 +51,7 @@ class LstmModel:
         self.currentStockCode = ""
 
     def updateData(self):
-        self.readDb.readOneStockData()
+        self.readDb.read_one_stock_data()
         self.trainData = self.dataHandle.trainData
         self.target = self.dataHandle.target
         self.ratio = self.dataHandle.ratio

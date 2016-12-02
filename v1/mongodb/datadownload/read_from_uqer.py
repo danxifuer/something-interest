@@ -3,7 +3,7 @@ import pandas as pd
 import json
 from pymongo import MongoClient
 
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('db://localhost:27017/')
 db = client.quant
 collection = db.uqer
 
@@ -13,7 +13,7 @@ days = []
 for dirpath, dirnames, filenames in os.walk(dir):
     for filename in filenames:
         data = pd.read_csv(os.path.join(dirpath, filename), index_col=0)
-        # if data is null, then mongodb will throw exception
+        # if data is null, then db will throw exception
         rows = data.shape[0]
         if rows > 0:
             allcode.append(int(filename.split(".")[0]))
@@ -25,6 +25,6 @@ for dirpath, dirnames, filenames in os.walk(dir):
 
 allcode = pd.Series(allcode, name="code", dtype=str).to_frame()
 allcode['days'] = pd.Series(days, name="days", dtype=int)
-allcode.to_csv("allcode.csv")
+allcode.to_csv("all_code.csv")
 print("over")
 client.close()

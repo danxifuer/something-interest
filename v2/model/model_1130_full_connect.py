@@ -5,9 +5,11 @@ import logging
 
 import numpy as np
 import tensorflow as tf
-from v2.mongodb.util.datahandle import DataHandle
-from v2.mongodb.util.readmongodb import ReadDB
+
 from v2.config.config import Option
+from v2.db.db_service.read_mongodb import ReadDB
+from v2.service.data_preprocess import DataPreprocess
+from v2.service.load_all_code import load_all_code
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -21,7 +23,7 @@ def batch(batch_size, data=None, target=None, rate=None, softmax=None, shuffle=F
     assert len(data) == len(target)
     if shuffle:
         indices = np.arange(len(data), dtype=np.int32)
-        # indices = range(len(datasource))
+        # indices = range(len(csv_data))
         np.random.shuffle(indices)
     for start_idx in range(0, len(data) - batch_size + 1, batch_size):
         if shuffle:
@@ -38,11 +40,11 @@ class LstmModel:
         self._option = Option()
 
         self.allStockCode = [1] #readallcode()
-        self.dataHandle = DataHandle(self._option.timeStep)
-        self.readDb = ReadDB(datahandle=self.dataHandle)
+        self.dataHandle = DataPreprocess(self._option.timeStep)
+        self.readDb = ReadDB(data_preprocess=self.dataHandle)
 
     def updateData(self, code):
-        self.readDb.readOneStockData(code)
+        self.readDb.read_one_stock_data(code)
         self.trainData = self.dataHandle.trainData
         self.target = self.dataHandle.target
         self.rate = self.dataHandle.rate
@@ -134,7 +136,7 @@ class LstmModel:
                 logger.info("save file code-%s", code)
         if option.loop_time > 1:
             option.loop_time -= 1
-            self.allStockCode = readallcode()
+            self.allStockCode = load_all_code()
             self.trainModel()
 
     def test(self):

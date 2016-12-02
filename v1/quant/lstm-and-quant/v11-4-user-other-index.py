@@ -202,7 +202,7 @@ def before_trading(context, bar_dict):
     # 这里只截取了最后TIME STEP时间的数据
     context.data_yesterday = ts.get_hist_data(context.s1.split(".")[0], start=start_date, end=now_date).open.values[-(context.TIME_STEP):]
     context.data_yesterday_yesterday = ts.get_hist_data(context.s1.split(".")[0], start=start_date, end=now_date).open.values[-(context.TIME_STEP + 1): -1]
-    # context.datasource = handle_data_format(np.array(datasource))
+    # context.csv_data = handle_data_format(np.array(csv_data))
     context.predict_price_today = context.lstm_model.predict(context.data_yesterday)
     context.predict_price_yesterday = context.lstm_model.predict(context.data_yesterday_yesterday)
 

@@ -10,18 +10,18 @@ logging.basicConfig(level=logging.DEBUG,
                 filemode='w')
 logger = logging.getLogger(__name__)
 
+
 class ReadDB:
-    def __init__(self, datahandle):
+    def __init__(self, data_preprocess):
         self.client = MongoClient('mongodb://localhost:27017/')
         self.collection = self.client.quant.uqer
-        self.datahandle = datahandle
+        self.data_preprocess = data_preprocess
 
-    def updateStockCode(self, stockCodeList):
-        self.stockCodeList = stockCodeList
-        self.totalNum = len(stockCodeList)
+    # def updateStockCode(self, stockCodeList):
+    #     self.stockCodeList = stockCodeList
+    #     self.totalNum = len(stockCodeList)
 
-
-    def readOneStockData(self, code):
+    def read_one_stock_data(self, code):
         dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING)
         data = []
         for dataDict in dbData:
@@ -47,8 +47,7 @@ class ReadDB:
             # print(tmp)
         count = len(data)
         logger.info("stock code == %s, count == %d", code, count)
-        self.datahandle.handle(np.array(data))
-
+        self.data_preprocess.process(np.array(data))
 
     def destory(self):
         self.client.close()

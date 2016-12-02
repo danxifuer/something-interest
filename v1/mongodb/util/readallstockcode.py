@@ -4,7 +4,7 @@ import pandas as pd
 THRESHOLD = 2500
 
 def readallcode():
-    filePath = "/home/daiab/code/ml/something-interest/mongodb/meta_csv/allcode.csv"
+    filePath = "/home/daiab/code/ml/something-interest/db/meta_csv/all_code.csv"
     csv = pd.read_csv(filepath_or_buffer=filePath, index_col=0, dtype=str)
     # return fiterCode(csv['code'].values[:3])
     return fiterCode(csv)

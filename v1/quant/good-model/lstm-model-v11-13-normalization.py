@@ -37,7 +37,7 @@ class DataHandle:
 
     def normalization(self, data):
         # rows = datasource.shape[0]
-        # norm = (datasource - datasource.min(axis=0)) / (datasource.max(axis=0) - datasource.min(axis=0))
+        # norm = (csv_data - csv_data.min(axis=0)) / (csv_data.max(axis=0) - csv_data.min(axis=0))
         norm = (data - data.mean(axis=0)) / data.var(axis=0)
         return norm
 
@@ -54,7 +54,7 @@ class DataHandle:
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/datasource/SMA.csv'
+        filePath = '/home/daiab/code/ml/something-interest/csv_data/SMA.csv'
         self.TIME_STEP = 20
         self.NUM_HIDDEN = 50
         self.epochs = 200

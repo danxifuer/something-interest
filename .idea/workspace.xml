@@ -2,76 +2,48 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09880e29-17ed-40fa-a0f2-822d5b6503f5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/datasource/000001-SMA.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/datasource/000001-minute.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/datasource/000001-multi-index.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/datasource/000068.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/datasource/2016-copy.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/datasource/601901.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/datasource/601988.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/datasource/CsvData.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/datasource/SMA.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/mongodb/datadownload/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/.idea/quant.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/config/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/good-model/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/good-model/lstm-model-v11-13-normalization.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/good-model/lstm-model-v11-14-predict-future-days.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/good-model/lstm-model-v11-20.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/lstm-and-quant/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/lstm-and-quant/result.pkl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/lstm-and-quant/v11-10.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/lstm-and-quant/v11-2.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/lstm-and-quant/v11-4-user-other-index.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/check_curve.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/checkpoint" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-test.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-10.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-11-multi-layer.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-11.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-12-multi-index.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-12-single-index.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-12.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-13.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-14.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-18.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-19.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-2.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-28.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-4-use-other-index.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-4.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-5.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model-v11-7.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/lstm-model.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/result.pkl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/rqalpha-test.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/model/tushare-test.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/roadmap-model/model-1129-use-uqer-data.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/roadmap-model/model-1130-multi-target.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/quant/util/read_csv.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/test/check_curve.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/test/dataapiclient.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/test/juheapi.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/test/mongodb/dbtest.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/test/thefile.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/test/thefile.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/test/tonglianAPI.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/test/zip_csv.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/datadownload/read_from_csv.py" afterPath="$PROJECT_DIR$/v2/mongodb/data_download/read_from_csv.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/datadownload/read_from_tushare.py" afterPath="$PROJECT_DIR$/v2/mongodb/data_download/read_from_tushare.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/datadownload/read_from_uqer.py" afterPath="$PROJECT_DIR$/v2/mongodb/data_download/read_from_uqer.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/quant/config/config.py" afterPath="$PROJECT_DIR$/v2/config/config.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/quant/model/__init__.py" afterPath="$PROJECT_DIR$/v2/util/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/quant/roadmap-model/__init__.py" afterPath="$PROJECT_DIR$/v2/mongodb/data_download/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/quant/roadmap-model/model-1130-full-connect.py" afterPath="$PROJECT_DIR$/v2/model/model-1130-full-connect.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/quant/util/__init__.py" afterPath="$PROJECT_DIR$/v2/model/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/test/mongodb/__init__.py" afterPath="$PROJECT_DIR$/v2/config/__init__.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/mongodb/data_download/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/v2/mongodb/util/readmongodb.py" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/datasource/000001.csv" afterPath="$PROJECT_DIR$/v2/csv_data/000001.csv" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/model/model-1130-full-connect.py" afterPath="$PROJECT_DIR$/v2/model/model_1130_full_connect.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/__init__.py" afterPath="$PROJECT_DIR$/v2/db/__init__.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/data_download/read_from_csv.py" afterPath="$PROJECT_DIR$/v2/db/download_data/load_from_csv.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/data_download/read_from_tushare.py" afterPath="$PROJECT_DIR$/v2/db/download_data/load_from_tushare.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/data_download/read_from_uqer.py" afterPath="$PROJECT_DIR$/v2/db/download_data/load_from_uqer.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/meta_csv/allcode.csv" afterPath="$PROJECT_DIR$/v2/csv_data/all_code.csv" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/util/__init__.py" afterPath="$PROJECT_DIR$/v2/service/__init__.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/util/datahandle.py" afterPath="$PROJECT_DIR$/v2/service/data_preprocess.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/mongodb/util/readallstockcode.py" afterPath="$PROJECT_DIR$/v2/service/load_all_code.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/v2/util/__init__.py" afterPath="$PROJECT_DIR$/v2/db/download_data/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/something-interest.iml" afterPath="$PROJECT_DIR$/.idea/something-interest.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v2/mongodb/util/datahandle.py" afterPath="$PROJECT_DIR$/v2/mongodb/util/datahandle.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/mongodb/datadownload/read_from_csv.py" afterPath="$PROJECT_DIR$/v1/mongodb/datadownload/read_from_csv.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/mongodb/datadownload/read_from_tushare.py" afterPath="$PROJECT_DIR$/v1/mongodb/datadownload/read_from_tushare.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/mongodb/datadownload/read_from_uqer.py" afterPath="$PROJECT_DIR$/v1/mongodb/datadownload/read_from_uqer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/mongodb/util/readallstockcode.py" afterPath="$PROJECT_DIR$/v1/mongodb/util/readallstockcode.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/mongodb/util/readmongodb.py" afterPath="$PROJECT_DIR$/v1/mongodb/util/readmongodb.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/good-model/lstm-model-v11-13-normalization.py" afterPath="$PROJECT_DIR$/v1/quant/good-model/lstm-model-v11-13-normalization.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/good-model/lstm-model-v11-14-predict-future-days.py" afterPath="$PROJECT_DIR$/v1/quant/good-model/lstm-model-v11-14-predict-future-days.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/good-model/lstm-model-v11-20.py" afterPath="$PROJECT_DIR$/v1/quant/good-model/lstm-model-v11-20.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/lstm-and-quant/v11-2.py" afterPath="$PROJECT_DIR$/v1/quant/lstm-and-quant/v11-2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/lstm-and-quant/v11-4-user-other-index.py" afterPath="$PROJECT_DIR$/v1/quant/lstm-and-quant/v11-4-user-other-index.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-test.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-11-multi-layer.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-11-multi-layer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-11.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-11.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-12-multi-index.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-12-multi-index.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-12-single-index.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-12-single-index.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-12.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-12.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-13.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-13.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-14.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-14.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-18.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-18.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-19.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-19.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-28.py" afterPath="$PROJECT_DIR$/v1/quant/model/lstm-model-v11-28.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/roadmap-model/model-1129-use-uqer-data.py" afterPath="$PROJECT_DIR$/v1/quant/roadmap-model/model-1129-use-uqer-data.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/roadmap-model/model-1130-multi-target.py" afterPath="$PROJECT_DIR$/v1/quant/roadmap-model/model-1130-multi-target.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/quant/util/read_csv.py" afterPath="$PROJECT_DIR$/v1/quant/util/read_csv.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/test/dataapiclient.py" afterPath="$PROJECT_DIR$/v1/test/dataapiclient.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v1/test/mongodb/dbtest.py" afterPath="$PROJECT_DIR$/v1/test/mongodb/dbtest.py" />
     </list>
     <ignored path="something-interest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -91,11 +63,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="model-1130-full-connect.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/v2/model/model-1130-full-connect.py">
+      <file leaf-file-name="model_1130_full_connect.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/v2/model/model_1130_full_connect.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+            <state relative-caret-position="194">
+              <caret line="145" column="42" selection-start-line="145" selection-start-column="42" selection-end-line="145" selection-end-column="42" />
               <folding>
                 <element signature="e#58#72#0" expanded="true" />
               </folding>
@@ -103,13 +75,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="read_from_csv.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/v2/mongodb/data_download/read_from_csv.py">
+      <file leaf-file-name="read_mongodb.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/v2/db/db_service/read_mongodb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+            <state relative-caret-position="144">
+              <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="data_preprocess.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/v2/service/data_preprocess.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -130,13 +114,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/quant/util/read_csv.py" />
-        <option value="$PROJECT_DIR$/test/tf_test.py" />
-        <option value="$PROJECT_DIR$/quant/check_curve.py" />
-        <option value="$PROJECT_DIR$/test/check_curve.py" />
-        <option value="$PROJECT_DIR$/quant/lstm-model-v11-14-predict-future-days.py" />
-        <option value="$PROJECT_DIR$/quant/lstm-model-v11-19.py" />
-        <option value="$PROJECT_DIR$/quant/lstm-model-v11-18.py" />
         <option value="$PROJECT_DIR$/test/tonglian.py" />
         <option value="$PROJECT_DIR$/test/tonglianAPI.py" />
         <option value="$PROJECT_DIR$/test/dataapiclient.py" />
@@ -179,8 +156,15 @@
         <option value="$PROJECT_DIR$/__init__.py" />
         <option value="$PROJECT_DIR$/v1/quant/roadmap-model/model-1130-full-connect.py" />
         <option value="$PROJECT_DIR$/v1/mongodb/util/datahandle.py" />
-        <option value="$PROJECT_DIR$/v2/model/model-1130-full-connect.py" />
         <option value="$PROJECT_DIR$/v2/mongodb/util/datahandle.py" />
+        <option value="$PROJECT_DIR$/v2/util/read_all_code.py" />
+        <option value="$PROJECT_DIR$/v2/model/model-1130-full-connect.py" />
+        <option value="$PROJECT_DIR$/v2/service/read_all_code.py" />
+        <option value="$PROJECT_DIR$/v2/service/data_preprocessing.py" />
+        <option value="$PROJECT_DIR$/v2/service/data_preprocess.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/v2/db/db_service/read_mongodb.py" />
+        <option value="$PROJECT_DIR$/v2/model/model_1130_full_connect.py" />
       </list>
     </option>
   </component>
@@ -296,11 +280,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/v2/csv_origin_data" />
+      <recent name="$PROJECT_DIR$/v2/util" />
       <recent name="$PROJECT_DIR$/v2/model" />
       <recent name="$PROJECT_DIR$/v2" />
       <recent name="$PROJECT_DIR$/v1.0" />
-      <recent name="$PROJECT_DIR$/quant/model" />
-      <recent name="$PROJECT_DIR$/quant/roadmap" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/" />
@@ -310,20 +294,20 @@
       <recent name="$PROJECT_DIR$/quant" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.model-1130-full-connect">
-    <configuration default="false" name="model-1130-full-connect" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.model_1130_full_connect">
+    <configuration default="false" name="model_1130_full_connect" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/v1/quant/roadmap-model" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/v2/model" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="something-interest" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/v1/quant/roadmap-model/model-1130-full-connect.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/v2/model/model_1130_full_connect.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -463,11 +447,11 @@
       <method />
     </configuration>
     <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Python.model-1130-full-connect" />
+      <item index="0" class="java.lang.String" itemvalue="Python.model_1130_full_connect" />
     </list>
     <recent_temporary>
       <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python.model-1130-full-connect" />
+        <item index="0" class="java.lang.String" itemvalue="Python.model_1130_full_connect" />
       </list>
     </recent_temporary>
   </component>
@@ -489,9 +473,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1440" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24558927" sideWeight="0.49485862" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24558927" sideWeight="0.49485862" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32647815" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -564,20 +548,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/pandas/io/json.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1188">
-          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/pandas/core/generic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17262">
-          <caret line="988" column="40" selection-start-line="988" selection-start-column="40" selection-end-line="988" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/pandas/io/parsers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9180">
@@ -786,7 +756,7 @@
         <state relative-caret-position="406">
           <caret line="47" column="25" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -823,7 +793,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v2/mongodb/data_download/__init__.py">
+    <entry file="file://$PROJECT_DIR$/v2/db/download_data/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -836,7 +806,7 @@
         <state relative-caret-position="432">
           <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -881,68 +851,84 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v2/model/model-1130-full-connect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="e#58#72#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/v2/mongodb/data_download/read_from_uqer.py">
+    <entry file="file://$PROJECT_DIR$/v2/db/download_data/load_from_tushare.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v2/mongodb/data_download/read_from_tushare.py">
+    <entry file="file://$PROJECT_DIR$/v2/db/download_data/load_from_uqer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v2/mongodb/util/datahandle.py">
+    <entry file="file://$PROJECT_DIR$/v2/service/load_all_code.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="32" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v2/db/download_data/load_from_csv.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#31#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="25" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v2/service/data_preprocess.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v2/mongodb/util/readmongodb.py">
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/pymongo/mongo_client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/v2/mongodb/util/readallstockcode.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="85">
+          <caret line="342" column="0" selection-start-line="342" selection-start-column="0" selection-end-line="342" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v2/mongodb/data_download/read_from_csv.py">
+    <entry file="file://$PROJECT_DIR$/v2/model/model_1130_full_connect.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+        <state relative-caret-position="194">
+          <caret line="145" column="42" selection-start-line="145" selection-start-column="42" selection-end-line="145" selection-end-column="42" />
+          <folding>
+            <element signature="e#58#72#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v2/db/db_service/read_mongodb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

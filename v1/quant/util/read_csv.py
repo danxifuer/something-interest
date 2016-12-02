@@ -35,7 +35,7 @@ class DataHandle:
 
     def normalization(self, data):
         # rows = datasource.shape[0]
-        # norm = (datasource - datasource.min(axis=0)) / (datasource.max(axis=0) - datasource.min(axis=0))
+        # norm = (csv_data - csv_data.min(axis=0)) / (csv_data.max(axis=0) - csv_data.min(axis=0))
         norm = (data - data.mean(axis=0)) / data.var(axis=0)
         return norm
 
@@ -49,7 +49,7 @@ class DataHandle:
         return result
 
 if __name__ == '__main__':
-    dataHandle = DataHandle("/home/daiab/code/ml/something-interest/datasource/000001-minute.csv", 20)
+    dataHandle = DataHandle("/home/daiab/code/ml/something-interest/csv_data/000001-minute.csv", 20)
     # print(dataHandle.originData)
     print(dataHandle.data[-200:])
     print(dataHandle.target[-200:])

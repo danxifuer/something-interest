@@ -43,7 +43,7 @@ class DataHandle:
 
     def zscore(self, data):
         # rows = datasource.shape[0]
-        # norm = (datasource - datasource.min(axis=0)) / (datasource.max(axis=0) - datasource.min(axis=0))
+        # norm = (csv_data - csv_data.min(axis=0)) / (csv_data.max(axis=0) - csv_data.min(axis=0))
         norm = (data - data.mean(axis=0)) / data.var(axis=0)
         return norm
 
@@ -73,7 +73,7 @@ def batch(batch_size, data=None, target=None, shuffle=False):
 
 class LstmModel:
     def __init__(self):
-        filePath = '/home/daiab/code/ml/something-interest/datasource/601901.csv'
+        filePath = '/home/daiab/code/ml/something-interest/csv_data/601901.csv'
         # filePath = '/home/daiab/code/ml/something-interest/datasource/601988.csv'
         # filePath = '/home/daiab/code/ml/something-interest/datasource/000068.csv'
         self.timeStep = 19
@@ -82,7 +82,7 @@ class LstmModel:
         self._session = tf.Session()
         # self.predictFutureDay = 1
         dataHandle = DataHandle(filePath, self.timeStep)
-        # self.datasource = dataHandle.datasource
+        # self.csv_data = dataHandle.csv_data
         self.trainData = dataHandle.trainData
         self.target = dataHandle.target
         self.days = self.target.shape[0]
