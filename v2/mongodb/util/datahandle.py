@@ -1,7 +1,7 @@
 import logging
 
 import numpy as np
-from v1.quant.config.config import Option
+from v2.config.config import Option
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',

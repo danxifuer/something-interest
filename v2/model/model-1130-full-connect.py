@@ -5,9 +5,9 @@ import logging
 
 import numpy as np
 import tensorflow as tf
-from mongodb.util.datahandle import DataHandle
-from mongodb.util.readmongodb import ReadDB
-from quant.config.config import Option
+from v2.mongodb.util.datahandle import DataHandle
+from v2.mongodb.util.readmongodb import ReadDB
+from v2.config.config import Option
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -34,17 +34,12 @@ def batch(batch_size, data=None, target=None, rate=None, softmax=None, shuffle=F
 
 class LstmModel:
     def __init__(self, session):
-        # self.timeStep = 20
-        # self.hiddenNum = 400
-        # self.epochs = 200
-        # self.batchSize = 50
         self._session = session
         self._option = Option()
 
         self.allStockCode = [1] #readallcode()
         self.dataHandle = DataHandle(self._option.timeStep)
         self.readDb = ReadDB(datahandle=self.dataHandle)
-        # 从数据库取出一次数据后，重复利用几次
 
     def updateData(self, code):
         self.readDb.readOneStockData(code)
@@ -53,7 +48,7 @@ class LstmModel:
         self.rate = self.dataHandle.rate
         self.softmax = self.dataHandle.softmax
         self.days = self.target.shape[0]
-        self.testDays = (int)(self.days / 100)
+        self.testDays = (int)(self.days / 200)
         self.trainDays = self.days - self.testDays
 
 
@@ -78,9 +73,11 @@ class LstmModel:
     def buildGraph(self):
         option = self._option
         self.oneTrainData = tf.placeholder(tf.float32, [None, option.timeStep, 5])
-        self.targetSoftmax = tf.placeholder(tf.float32, [None, 2])
-        self.targetPrice = tf.placeholder(tf.float32, [None, 1])
-        cell = tf.nn.rnn_cell.BasicRNNCell(option.hiddenCellNum)
+        self.targetPrice = tf.placeholder(tf.float32, [None, 2])
+        cell = tf.nn.rnn_cell.BasicLSTMCell(option.hiddenCellNum, forget_bias=option.forget_bias,
+                                           input_size=[option.batchSize, option.timeStep, option.hiddenCellNum])
+        # cell = tf.nn.rnn_cell.BasicLSTMCell(option.hiddenCellNum,
+        #                                    input_size=[option.batchSize, option.timeStep, option.hiddenCellNum])
         cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=option.keepProp)
 
         cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hiddenLayerNum)
@@ -98,17 +95,10 @@ class LstmModel:
         self.weight_2 = tf.Variable(tf.truncated_normal([option.outputCellNum, 2], dtype=tf.float32), name='weight_2')
         self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]), name='bias_2')
 
-        self.predictLogits = tf.matmul(self.medianValue, self.weight_2) + self.bias_2
+        self.predictPrice = tf.matmul(self.medianValue, self.weight_2) + self.bias_2
 
-        weight_price = tf.Variable(tf.truncated_normal([dim, 1]), dtype=tf.float32)
-        bias_price = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 1]))
-        self.predictPrice = tf.matmul(self.val, weight_price) + bias_price
-
-        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predictLogits, self.targetSoftmax))
-        self.mse = tf.sqrt(tf.reduce_mean(tf.squared_difference(self.predictPrice, self.targetPrice)))
-
-        self.minimize_mse = tf.train.AdamOptimizer(learning_rate=option.learningRate).minimize(self.mse)
-        self.minimize_cross_ent = tf.train.AdamOptimizer(learning_rate=option.learningRate).minimize(self.cross_entropy)
+        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predictPrice, self.targetPrice))
+        self.minimize = tf.train.AdamOptimizer(learning_rate=option.learningRate).minimize(self.cross_entropy)
         self._session.run(tf.initialize_all_variables())
         self.saver = tf.train.Saver()
 
@@ -127,35 +117,44 @@ class LstmModel:
                                   self.trainData[:self.trainDays],
                                   self.target[:self.trainDays],
                                   self.rate[:self.trainDays],
-                                  self.softmax[:self.trainDays], shuffle=False)
+                                  self.softmax[:self.trainDays], shuffle=True)
                 feedDict = {}
-                for oneEpochTrainData, targetPrice, _, softmax in batchData:
-                    feedDict = {self.oneTrainData: oneEpochTrainData, self.targetSoftmax: softmax, self.targetPrice: targetPrice}
-                    self._session.run(self.minimize_mse, feed_dict=feedDict)
-                    self._session.run(self.minimize_cross_ent, feed_dict=feedDict)
+                for oneEpochTrainData, _, _, softmax in batchData:
+                    feedDict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: softmax}
+                    self._session.run(self.minimize, feed_dict=feedDict)
+                    # print(self._session.run(self.val, feed_dict=feedDict).shape)
 
                 if len(feedDict) != 0:
                     crossEntropy = self._session.run(self.cross_entropy, feed_dict=feedDict)
-                    mse = self._session.run(self.mse, feed_dict=feedDict)
                     logger.info("crossEntropy == %f", crossEntropy)
-                    logger.info("mse == %f", mse)
                 self.test()
 
-            self.saver.save(self._session, "/home/daiab/ckpt/code-%s.ckpt" % code)
-            logger.info("save file code-%s", code)
+            if option.is_save_file:
+                self.saver.save(self._session, "/home/daiab/ckpt/code-%s.ckpt" % code)
+                logger.info("save file code-%s", code)
+        if option.loop_time > 1:
+            option.loop_time -= 1
+            self.allStockCode = readallcode()
+            self.trainModel()
 
     def test(self):
         count, right = 0, 0
         logger.info("test begin ......")
         for day in range(self.trainDays, self.days - 1):
             trainData = [self.getOneEpochTrainData(day)]
-            predictLogits = self._session.run(self.predictLogits,
+            predictPrice = self._session.run(self.predictPrice,
                                              {self.oneTrainData: trainData})
 
             realPrice = self.getOneEpochSoftmax(day)
 
-            if np.argmax(predictLogits) == np.argmax(realPrice):
+            if np.argmax(predictPrice) == np.argmax(realPrice):
                 right += 1
+            #     print("predict price right %s" % predictPrice)
+            #     print("softmax %s", realPrice)
+            # else:
+            #     print("predict price error %s" % predictPrice)
+            #     print("softmax %s", realPrice)
+
             count += 1
 
         count = 1 if count == 0 else count
