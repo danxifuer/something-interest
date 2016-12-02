@@ -21,6 +21,7 @@ class Option:
         self.forget_bias = 0.8
         self.loop_time = 50
         self.train_data_type = "rate"  # could be ["zscore", "rate"]
+        self.is_save_file = False
         logger.info("options:::::\n%s", self)
 
     def __str__(self):
@@ -35,4 +36,5 @@ class Option:
                 "predict_type: " + self.predict_type + "\n" \
                 "forget_bias: " + str(self.forget_bias) + "\n" \
                 "loop_time: " + str(self.loop_time) + "\n" \
-                "train_data_type: " + self.train_data_type
+                "train_data_type: " + self.train_data_type + "\n" \
+                "is_save_file: " + str(self.is_save_file)

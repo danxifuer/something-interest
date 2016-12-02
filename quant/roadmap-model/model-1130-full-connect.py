@@ -36,17 +36,12 @@ def batch(batch_size, data=None, target=None, rate=None, softmax=None, shuffle=F
 
 class LstmModel:
     def __init__(self, session):
-        # self.timeStep = 20
-        # self.hiddenNum = 400
-        # self.epochs = 200
-        # self.batchSize = 50
         self._session = session
         self._option = Option()
 
         self.allStockCode = [1] #readallcode()
         self.dataHandle = DataHandle(self._option.timeStep)
         self.readDb = ReadDB(datahandle=self.dataHandle)
-        # 从数据库取出一次数据后，重复利用几次
 
     def updateData(self, code):
         self.readDb.readOneStockData(code)
@@ -124,7 +119,7 @@ class LstmModel:
                                   self.trainData[:self.trainDays],
                                   self.target[:self.trainDays],
                                   self.rate[:self.trainDays],
-                                  self.softmax[:self.trainDays], shuffle=False)
+                                  self.softmax[:self.trainDays], shuffle=True)
                 feedDict = {}
                 for oneEpochTrainData, _, _, softmax in batchData:
                     feedDict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: softmax}
@@ -136,8 +131,9 @@ class LstmModel:
                     logger.info("crossEntropy == %f", crossEntropy)
                 self.test()
 
-            self.saver.save(self._session, "/home/daiab/ckpt/code-%s.ckpt" % code)
-            logger.info("save file code-%s", code)
+            if option.is_save_file:
+                self.saver.save(self._session, "/home/daiab/ckpt/code-%s.ckpt" % code)
+                logger.info("save file code-%s", code)
         if option.loop_time > 1:
             option.loop_time -= 1
             self.allStockCode = readallcode()
