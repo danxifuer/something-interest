@@ -9,14 +9,15 @@ logger = logging.getLogger(__name__)
 
 class Option:
     def __init__(self):
-        self.timeStep = 100
-        self.hiddenCellNum = 200
+        self.time_step = 100
+        self.hidden_cell_num = 200
         self.epochs = 200
-        self.batchSize = 50
-        self.hiddenLayerNum = 1
-        self.keepProp = 1
-        self.learningRate = 0.001
-        self.outputCellNum = 512
+        self.batch_size = 50
+        self.hidden_layer_num = 1
+        self.rnn_keep_prop = 1
+        self.hidden_layer_keep_prop = 0.9
+        self.learning_rate = 0.001
+        self.output_cell_num = 512
         self.predict_type = "closePrice"  # could be one of ["open", "close", "high", "low"]
         self.forget_bias = 0.8
         self.loop_time = 50
@@ -25,14 +26,15 @@ class Option:
         logger.info("options:::::\n%s", self)
 
     def __str__(self):
-        return "timeStep: " + str(self.timeStep) + "\n" \
-                "hiddenCellNum: " + str(self.hiddenCellNum) + "\n" \
+        return "time_step: " + str(self.time_step) + "\n" \
+                "hidden_cell_num: " + str(self.hidden_cell_num) + "\n" \
                 "epochs: " + str(self.epochs) + "\n" \
-                "batchSize: " + str(self.batchSize) + "\n" \
-                "hiddenLayerNum: " + str(self.hiddenLayerNum) + "\n" \
-                "keepProp: " + str(self.keepProp) + "\n" \
-                "learningRate: " + str(self.learningRate) + "\n" \
-                "outputCellNum: " + str(self.outputCellNum) + "\n" \
+                "batch_size: " + str(self.batch_size) + "\n" \
+                "hidden_layer_num: " + str(self.hidden_layer_num) + "\n" \
+                "rnn_keep_prop: " + str(self.rnn_keep_prop) + "\n" \
+                "hidden_layer_keep_prop: " + str(self.hidden_layer_keep_prop) + "\n" \
+                "learning_rate: " + str(self.learning_rate) + "\n" \
+                "output_cell_num: " + str(self.output_cell_num) + "\n" \
                 "predict_type: " + self.predict_type + "\n" \
                 "forget_bias: " + str(self.forget_bias) + "\n" \
                 "loop_time: " + str(self.loop_time) + "\n" \

@@ -10,6 +10,7 @@ from v3.config.config import Option
 from v3.db.db_service.read_mongodb import ReadDB
 from v3.service.data_preprocess import DataPreprocess
 from v3.service.load_all_code import load_all_code
+from v3.service.mini_batch import batch
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -19,115 +20,88 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger(__name__)
 
 
-def batch(batch_size, data=None, target=None, rate=None, softmax=None, shuffle=False):
-    assert len(data) == len(target)
-    if shuffle:
-        indices = np.arange(len(data), dtype=np.int32)
-        # indices = range(len(csv_data))
-        np.random.shuffle(indices)
-    for start_idx in range(0, len(data) - batch_size + 1, batch_size):
-        if shuffle:
-            excerpt = indices[start_idx:start_idx + batch_size]
-        else:
-            excerpt = slice(start_idx, start_idx + batch_size)
-        yield data[excerpt], target[excerpt], rate[excerpt], softmax[excerpt]
-
-
-
 class LstmModel:
     def __init__(self, session):
         self._session = session
         self._option = Option()
 
-        self.allStockCode = [1] #readallcode()
-        self.dataHandle = DataPreprocess(self._option.timeStep)
-        self.readDb = ReadDB(data_preprocess=self.dataHandle)
+        self.all_stock_code = [1] #readallcode()
+        # self.dataHandle = DataPreprocess(self._option.timeStep)
+        self.read_db = ReadDB(data_preprocess=DataPreprocess(self._option.time_step))
 
-    def updateData(self, code):
-        self.readDb.read_one_stock_data(code)
-        self.trainData = self.dataHandle.trainData
-        self.target = self.dataHandle.target
-        self.rate = self.dataHandle.rate
-        self.softmax = self.dataHandle.softmax
-        self.days = self.target.shape[0]
-        self.testDays = (int)(self.days / 200)
-        self.trainDays = self.days - self.testDays
+    def update_data(self, code):
+        self.read_db.read_one_stock_data(code)
+        self.train_data = self.read_db.data_preprocess.train_data
+        self.target = self.read_db.data_preprocess.target
+        self.rate = self.read_db.data_preprocess.rate
+        self.softmax = self.read_db.data_preprocess.softmax
+        total_days = self.read_db.data_preprocess.date_time_range.shape[0]
+        test_days = (int)(total_days / 200)
+        self.train_date_range = self.read_db.data_preprocess.date_time_range[:(total_days - test_days)]
+        self.test_date_range = self.read_db.data_preprocess.date_time_range[(total_days - test_days):]
+        self.test_date_range = self.read_db.data_preprocess.date_time_range[100:400]
 
+    def get_one_epoch_train_data(self, day):
+        return self.train_data.loc[day].values
 
-    # 当前天前timeStep天的数据，包含当前天
-    def getOneEpochTrainData(self, day):
-        assert day >= 0
-        return self.trainData[day]
-
-    # 当前天后一天的数据
-    def getOneEpochTarget(self, day):
-        target = self.target[day:day + 1, :]
-        return np.reshape(target, [1, 1])
-
-    def getOneEpochRatio(self, day):
-        rate = self.rate[day:day + 1, :]
-        return np.reshape(rate, [1, 1])
-
-    def getOneEpochSoftmax(self, day):
-        softmax = self.softmax[day:day + 1, :]
-        return softmax
+    def get_one_epoch_softmax(self, day):
+        return self.softmax.loc[day].values
 
     def buildGraph(self):
         option = self._option
-        self.oneTrainData = tf.placeholder(tf.float32, [None, option.timeStep, 5])
-        self.targetPrice = tf.placeholder(tf.float32, [None, 2])
-        cell = tf.nn.rnn_cell.BasicLSTMCell(option.hiddenCellNum, forget_bias=option.forget_bias,
-                                           input_size=[option.batchSize, option.timeStep, option.hiddenCellNum])
-        # cell = tf.nn.rnn_cell.BasicLSTMCell(option.hiddenCellNum,
-        #                                    input_size=[option.batchSize, option.timeStep, option.hiddenCellNum])
-        cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=option.keepProp)
+        self.one_train_data = tf.placeholder(tf.float32, [None, option.time_step, 5])
+        self.target_data = tf.placeholder(tf.float32, [None, 2])
+        cell = tf.nn.rnn_cell.BasicLSTMCell(option.hidden_cell_num, forget_bias=option.forget_bias,
+                                            input_size=[option.batch_size, option.time_step, option.hidden_cell_num])
+        cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=option.rnn_keep_prop)
 
-        cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hiddenLayerNum)
-        val, self.states = tf.nn.dynamic_rnn(cell_2, self.oneTrainData, dtype=tf.float32)
+        cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hidden_layer_num)
+        val, self.states = tf.nn.dynamic_rnn(cell_2, self.one_train_data, dtype=tf.float32)
 
         # self.val = tf.transpose(val, [1, 0, 2])
         # self.lastTime = tf.gather(self.val, self.val.get_shape()[0] - 1)
-        dim = option.timeStep * option.hiddenCellNum
+        dim = option.time_step * option.hidden_cell_num
         self.val = tf.reshape(val, [-1, dim])
 
-        self.weight = tf.Variable(tf.truncated_normal([dim, option.outputCellNum], dtype=tf.float32), name='weight')
-        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, option.outputCellNum]), name='bias')
+        self.weight = tf.Variable(tf.truncated_normal([dim, option.output_cell_num], dtype=tf.float32), name='weight')
+        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, option.output_cell_num]), name='bias')
 
-        self.medianValue = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias)
-        self.weight_2 = tf.Variable(tf.truncated_normal([option.outputCellNum, 2], dtype=tf.float32), name='weight_2')
+        tmp_value = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias)
+        tmp_value = tf.nn.dropout(tmp_value, keep_prob=option.hidden_layer_keep_prop)
+        self.weight_2 = tf.Variable(tf.truncated_normal([option.output_cell_num, 2], dtype=tf.float32), name='weight_2')
         self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]), name='bias_2')
 
-        self.predictPrice = tf.matmul(self.medianValue, self.weight_2) + self.bias_2
+        self.predict_target = tf.matmul(tmp_value, self.weight_2) + self.bias_2
 
-        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predictPrice, self.targetPrice))
-        self.minimize = tf.train.AdamOptimizer(learning_rate=option.learningRate).minimize(self.cross_entropy)
+        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predict_target, self.target_data))
+        self.minimize = tf.train.AdamOptimizer(learning_rate=option.learning_rate).minimize(self.cross_entropy)
         self._session.run(tf.initialize_all_variables())
         self.saver = tf.train.Saver()
 
     def trainModel(self):
         option = self._option
-        for i in range(len(self.allStockCode)):
-            code = self.allStockCode.pop(0)
-            self.updateData(code)
+        for i in range(len(self.all_stock_code)):
+            code = self.all_stock_code.pop(0)
+            self.update_data(code)
             """每次进入新的code时，重新init所有参数，开始全新一轮"""
             # self._session.run(tf.initialize_all_variables())
             # self.saver = tf.train.Saver()
 
             for epoch in range(option.epochs):
                 logger.info("stockCode == %d, epoch == %d", code, epoch)
-                batchData = batch(option.batchSize,
-                                  self.trainData[:self.trainDays],
-                                  self.target[:self.trainDays],
-                                  self.rate[:self.trainDays],
-                                  self.softmax[:self.trainDays], shuffle=True)
-                feedDict = {}
-                for oneEpochTrainData, _, _, softmax in batchData:
-                    feedDict = {self.oneTrainData: oneEpochTrainData, self.targetPrice: softmax}
-                    self._session.run(self.minimize, feed_dict=feedDict)
+                batch_data = batch(option.batch_size,
+                                   self.train_data.loc[self.train_date_range].values,
+                                   self.target.loc[self.train_date_range].values,
+                                   self.rate.loc[self.train_date_range].values,
+                                   self.softmax.loc[self.train_date_range].values, shuffle=True)
+                feed_dict = {}
+                for one_train_data, _, _, softmax in batch_data:
+                    feed_dict = {self.one_train_data: one_train_data, self.target_data: softmax}
+                    self._session.run(self.minimize, feed_dict=feed_dict)
                     # print(self._session.run(self.val, feed_dict=feedDict).shape)
 
-                if len(feedDict) != 0:
-                    crossEntropy = self._session.run(self.cross_entropy, feed_dict=feedDict)
+                if len(feed_dict) != 0:
+                    crossEntropy = self._session.run(self.cross_entropy, feed_dict=feed_dict)
                     logger.info("crossEntropy == %f", crossEntropy)
                 self.test()
 
@@ -136,20 +110,20 @@ class LstmModel:
                 logger.info("save file code-%s", code)
         if option.loop_time > 1:
             option.loop_time -= 1
-            self.allStockCode = load_all_code()
+            self.all_stock_code = load_all_code()
             self.trainModel()
 
     def test(self):
         count, right = 0, 0
         logger.info("test begin ......")
-        for day in range(self.trainDays, self.days - 1):
-            trainData = [self.getOneEpochTrainData(day)]
-            predictPrice = self._session.run(self.predictPrice,
-                                             {self.oneTrainData: trainData})
+        for day in self.test_date_range:
+            train = [self.get_one_epoch_train_data(day)]
+            predict = self._session.run(self.predict_target,
+                                             {self.one_train_data: train})
 
-            realPrice = self.getOneEpochSoftmax(day)
+            real = self.get_one_epoch_softmax(day)
 
-            if np.argmax(predictPrice) == np.argmax(realPrice):
+            if np.argmax(predict) == np.argmax(real):
                 right += 1
             #     print("predict price right %s" % predictPrice)
             #     print("softmax %s", realPrice)
@@ -171,7 +145,7 @@ def run():
         lstmModel.buildGraph()
         lstmModel.trainModel()
         session.close()
-        lstmModel.readDb.destory()
+        lstmModel.read_db.destory()
 
 if __name__ == '__main__':
     run()

@@ -65,9 +65,9 @@ if __name__=='__main__':
     readData = ReadDB(data_process)
     readData.read_one_stock_data(1)
     print("train data>>>>>>")
-    for date in data_process.trainData.loc['2016-11-11':'2016-11-17']:
+    for date in data_process.train_data.loc['2016-11-11':'2016-11-17']:
         print("date time == %s" % date)
-        print(data_process.trainData[date])
+        print(data_process.train_data[date])
     print("target data>>>>>>")
     print(data_process.target.loc['2016-11-11':'2016-11-17'])
     print("rate data>>>>>>")

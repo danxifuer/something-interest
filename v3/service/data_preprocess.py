@@ -34,13 +34,13 @@ class DataPreprocess:
         option = self.option
 
         date_time = origin_data.index.values
-        date_time_range = date_time[self.time_step:-1]
+        self.date_time_range = date_time_range = date_time[self.time_step:-1]
 
         if option.data_norm_type == "zscore":
-            self.trainData = \
+            self.train_data = \
                 self.BuildSerial.generate_train_serial(origin_data, norm_type="zscore")[date_time_range]
         elif option.data_norm_type == "rate":
-            self.trainData = \
+            self.train_data = \
                 self.BuildSerial.generate_train_serial(origin_data, norm_type="rate")[date_time_range]
         else:
             raise Exception("norm data type error")
@@ -52,6 +52,9 @@ class DataPreprocess:
         self.rate = self.RateNorm.norm_to_rate(origin_target_data).shift(-1).loc[date_time_range]
         self.softmax = self.SoftmaxHandle.generate_softmax_target(origin_target_data).shift(-1).loc[date_time_range]
         self.days = self.target.shape[0]
+
+    def index_to_date_time(self, index):
+        return self.date_time_range[index]
 
 
 
@@ -65,8 +68,6 @@ class ZScore:
     output: [sample_size, variable_size], but the output is shifted by -1, so the last row is [NaN, ..., NaN]
     """
     def norm_to_zscore(self, data_frame):
-        print("=======")
-        print(((data_frame - data_frame.mean(axis=0)) / data_frame.std(axis=0)).loc['2016-11-10':'2016-11-18'])
         return (data_frame - data_frame.mean(axis=0)) / data_frame.std(axis=0)
 
 
