@@ -1,15 +1,13 @@
 import os
 import pandas as pd
 import json
-from pymongo import MongoClient
-
-client = MongoClient('db://localhost:27017/')
-db = client.quant
-collection = db.uqer
+from v3.db.db_connect import DBConnectManage
 
 dir = '/home/daiab/Public/zip/data'
 allcode = []
 days = []
+connect = DBConnectManage()
+collection = connect.get_collection()
 for dirpath, dirnames, filenames in os.walk(dir):
     for filename in filenames:
         data = pd.read_csv(os.path.join(dirpath, filename), index_col=0)
@@ -27,4 +25,5 @@ allcode = pd.Series(allcode, name="code", dtype=str).to_frame()
 allcode['days'] = pd.Series(days, name="days", dtype=int)
 allcode.to_csv("all_code.csv")
 print("over")
-client.close()
+
+connect.close()

@@ -1,6 +1,6 @@
 import numpy as np
 
-def batch(batch_size, data=None, target=None, rate=None, softmax=None, shuffle=False):
+def batch(batch_size, data=None, target=None, softmax=None, shuffle=False):
     assert len(data) == len(target)
     if shuffle:
         indices = np.arange(len(data), dtype=np.int32)
@@ -11,4 +11,4 @@ def batch(batch_size, data=None, target=None, rate=None, softmax=None, shuffle=F
             excerpt = indices[start_idx:start_idx + batch_size]
         else:
             excerpt = slice(start_idx, start_idx + batch_size)
-        yield data[excerpt], target[excerpt], rate[excerpt], softmax[excerpt]
+        yield data[excerpt], target[excerpt], softmax[excerpt]

@@ -36,20 +36,26 @@ class DataPreprocess:
         date_time = origin_data.index.values
         self.date_time_range = date_time_range = date_time[self.time_step:-1]
 
-        if option.data_norm_type == "zscore":
+        if option.train_data_norm_type == "zscore":
             self.train_data = \
                 self.BuildSerial.generate_train_serial(origin_data, norm_type="zscore")[date_time_range]
-        elif option.data_norm_type == "rate":
+        elif option.train_data_norm_type == "rate":
             self.train_data = \
                 self.BuildSerial.generate_train_serial(origin_data, norm_type="rate")[date_time_range]
         else:
             raise Exception("norm data type error")
 
-        origin_target_data = origin_data.loc[:, option.predict_type]
+        origin_target_data = origin_data.loc[:, option.predict_index_type]
 
         """notification: here shifted by -1"""
-        self.target = self.ZScore.norm_to_zscore(origin_target_data).shift(-1).loc[date_time_range]
-        self.rate = self.RateNorm.norm_to_rate(origin_target_data).shift(-1).loc[date_time_range]
+        if option.target_data_norm_type == "zscore":
+            self.target = self.ZScore.norm_to_zscore(origin_target_data).shift(-1).loc[date_time_range]
+        elif option.target_data_norm_type == "rate":
+            self.target = self.RateNorm.norm_to_rate(origin_target_data).shift(-1).loc[date_time_range]
+        else:
+            raise Exception("norm data type error")
+
+        # self.rate = self.RateNorm.norm_to_rate(origin_target_data).shift(-1).loc[date_time_range]
         self.softmax = self.SoftmaxHandle.generate_softmax_target(origin_target_data).shift(-1).loc[date_time_range]
         self.days = self.target.shape[0]
 
@@ -177,5 +183,5 @@ class BuildSerial:
 
 if __name__ == "__main__":
     datahandle = DataPreprocess(2)
-    datahandle.option.predict_type = "openPrice"
+    datahandle.option.predict_index_type = "openPrice"
 

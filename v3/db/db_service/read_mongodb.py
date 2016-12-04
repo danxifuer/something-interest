@@ -17,12 +17,15 @@ class ReadDB:
         self.client = MongoClient('mongodb://localhost:27017/')
         self.collection = self.client.quant.uqer
         self.data_preprocess = data_preprocess
+        self.read_count = 0
 
     # def updateStockCode(self, stockCodeList):
     #     self.stockCodeList = stockCodeList
     #     self.totalNum = len(stockCodeList)
 
     def read_one_stock_data(self, code):
+        logger.info("read count == %d", self.read_count)
+        self.read_count += 1
         dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING)
         data = []
         for dataDict in dbData:

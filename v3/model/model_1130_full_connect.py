@@ -26,20 +26,21 @@ class LstmModel:
         self._option = Option()
 
         self.all_stock_code = [1] #readallcode()
-        # self.dataHandle = DataPreprocess(self._option.timeStep)
         self.read_db = ReadDB(data_preprocess=DataPreprocess(self._option.time_step))
 
     def update_data(self, code):
         self.read_db.read_one_stock_data(code)
         self.train_data = self.read_db.data_preprocess.train_data
         self.target = self.read_db.data_preprocess.target
-        self.rate = self.read_db.data_preprocess.rate
         self.softmax = self.read_db.data_preprocess.softmax
         total_days = self.read_db.data_preprocess.date_time_range.shape[0]
-        test_days = (int)(total_days / 200)
-        self.train_date_range = self.read_db.data_preprocess.date_time_range[:(total_days - test_days)]
-        self.test_date_range = self.read_db.data_preprocess.date_time_range[(total_days - test_days):]
-        self.test_date_range = self.read_db.data_preprocess.date_time_range[100:400]
+        test_days = (int)(total_days / 50)
+
+        date_time_range = self.read_db.data_preprocess.date_time_range
+        np.random.shuffle(date_time_range)
+
+        self.train_date_range = date_time_range[:(total_days - test_days)]
+        self.test_date_range = date_time_range[(total_days - test_days):]
 
     def get_one_epoch_train_data(self, day):
         return self.train_data.loc[day].values
@@ -58,12 +59,12 @@ class LstmModel:
         cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hidden_layer_num)
         val, self.states = tf.nn.dynamic_rnn(cell_2, self.one_train_data, dtype=tf.float32)
 
-        # self.val = tf.transpose(val, [1, 0, 2])
-        # self.lastTime = tf.gather(self.val, self.val.get_shape()[0] - 1)
-        dim = option.time_step * option.hidden_cell_num
-        self.val = tf.reshape(val, [-1, dim])
+        val = tf.transpose(val, [1, 0, 2])
+        self.val = tf.gather(val, val.get_shape()[0] - 1)
+        # dim = option.time_step * option.hidden_cell_num
+        # self.val = tf.reshape(val, [-1, dim])
 
-        self.weight = tf.Variable(tf.truncated_normal([dim, option.output_cell_num], dtype=tf.float32), name='weight')
+        self.weight = tf.Variable(tf.truncated_normal([option.hidden_cell_num, option.output_cell_num], dtype=tf.float32), name='weight')
         self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, option.output_cell_num]), name='bias')
 
         tmp_value = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias)
@@ -89,13 +90,12 @@ class LstmModel:
 
             for epoch in range(option.epochs):
                 logger.info("stockCode == %d, epoch == %d", code, epoch)
-                batch_data = batch(option.batch_size,
-                                   self.train_data.loc[self.train_date_range].values,
-                                   self.target.loc[self.train_date_range].values,
-                                   self.rate.loc[self.train_date_range].values,
-                                   self.softmax.loc[self.train_date_range].values, shuffle=True)
+                batch_data = batch(batch_size=option.batch_size,
+                                   data=self.train_data.loc[self.train_date_range].values,
+                                   target=self.target.loc[self.train_date_range].values,
+                                   softmax=self.softmax.loc[self.train_date_range].values, shuffle=True)
                 feed_dict = {}
-                for one_train_data, _, _, softmax in batch_data:
+                for one_train_data, _, softmax in batch_data:
                     feed_dict = {self.one_train_data: one_train_data, self.target_data: softmax}
                     self._session.run(self.minimize, feed_dict=feed_dict)
                     # print(self._session.run(self.val, feed_dict=feedDict).shape)
@@ -118,10 +118,9 @@ class LstmModel:
         logger.info("test begin ......")
         for day in self.test_date_range:
             train = [self.get_one_epoch_train_data(day)]
-            predict = self._session.run(self.predict_target,
-                                             {self.one_train_data: train})
-
             real = self.get_one_epoch_softmax(day)
+
+            predict = self._session.run(self.predict_target, feed_dict={self.one_train_data: train})
 
             if np.argmax(predict) == np.argmax(real):
                 right += 1
