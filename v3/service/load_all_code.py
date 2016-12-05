@@ -12,9 +12,11 @@ def load_all_code():
 def fiter_code(csv):
     filter_result = []
     for index in range(csv.shape[0]):
-        if int(csv.iloc()[index][1]) > THRESHOLD:
+        code = int(csv.iloc[index, 0])
+        days = int(csv.iloc[index, 1])
+        if code < 100000 and days > THRESHOLD:
             # if code.startswith("3"):continue
-            filter_result.append(int(csv.iloc()[index][0]))
+            filter_result.append(code)
     return filter_result
 
 

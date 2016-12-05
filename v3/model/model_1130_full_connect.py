@@ -25,7 +25,7 @@ class LstmModel:
         self._session = session
         self._option = Option()
 
-        self.all_stock_code = [1] #readallcode()
+        self.all_stock_code = load_all_code()
         self.read_db = ReadDB(data_preprocess=DataPreprocess(self._option.time_step))
 
     def update_data(self, code):
@@ -48,9 +48,9 @@ class LstmModel:
     def get_one_epoch_softmax(self, day):
         return self.softmax.loc[day].values
 
-    def buildGraph(self):
+    def build_graph(self):
         option = self._option
-        self.one_train_data = tf.placeholder(tf.float32, [None, option.time_step, 5])
+        self.one_train_data = tf.placeholder(tf.float32, [None, option.time_step, 4])
         self.target_data = tf.placeholder(tf.float32, [None, 2])
         cell = tf.nn.rnn_cell.BasicLSTMCell(option.hidden_cell_num, forget_bias=option.forget_bias,
                                             input_size=[option.batch_size, option.time_step, option.hidden_cell_num])
@@ -59,12 +59,12 @@ class LstmModel:
         cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hidden_layer_num)
         val, self.states = tf.nn.dynamic_rnn(cell_2, self.one_train_data, dtype=tf.float32)
 
-        val = tf.transpose(val, [1, 0, 2])
-        self.val = tf.gather(val, val.get_shape()[0] - 1)
-        # dim = option.time_step * option.hidden_cell_num
-        # self.val = tf.reshape(val, [-1, dim])
+        # val = tf.transpose(val, [1, 0, 2])
+        # self.val = tf.gather(val, val.get_shape()[0] - 1)
+        dim = option.time_step * option.hidden_cell_num
+        self.val = tf.reshape(val, [-1, dim])
 
-        self.weight = tf.Variable(tf.truncated_normal([option.hidden_cell_num, option.output_cell_num], dtype=tf.float32), name='weight')
+        self.weight = tf.Variable(tf.truncated_normal([dim, option.output_cell_num], dtype=tf.float32), name='weight')
         self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, option.output_cell_num]), name='bias')
 
         tmp_value = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias)
@@ -73,13 +73,14 @@ class LstmModel:
         self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]), name='bias_2')
 
         self.predict_target = tf.matmul(tmp_value, self.weight_2) + self.bias_2
+        # self.predict_target = tf.nn.relu(tf.matmul(tmp_value, self.weight_2) + self.bias_2)
 
         self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predict_target, self.target_data))
         self.minimize = tf.train.AdamOptimizer(learning_rate=option.learning_rate).minimize(self.cross_entropy)
         self._session.run(tf.initialize_all_variables())
         self.saver = tf.train.Saver()
 
-    def trainModel(self):
+    def train_model(self):
         option = self._option
         for i in range(len(self.all_stock_code)):
             code = self.all_stock_code.pop(0)
@@ -111,7 +112,7 @@ class LstmModel:
         if option.loop_time > 1:
             option.loop_time -= 1
             self.all_stock_code = load_all_code()
-            self.trainModel()
+            self.train_model()
 
     def test(self):
         count, right = 0, 0
@@ -121,16 +122,16 @@ class LstmModel:
             real = self.get_one_epoch_softmax(day)
 
             predict = self._session.run(self.predict_target, feed_dict={self.one_train_data: train})
+            predict = np.exp(predict)
+            probability = predict / predict.sum()
 
-            if np.argmax(predict) == np.argmax(real):
-                right += 1
-            #     print("predict price right %s" % predictPrice)
-            #     print("softmax %s", realPrice)
-            # else:
-            #     print("predict price error %s" % predictPrice)
-            #     print("softmax %s", realPrice)
-
-            count += 1
+            max = probability[0][0] if probability[0][0] > probability[0][1] else probability[0][1]
+            if max > 0.8:
+                count += 1
+                if np.argmax(predict) == np.argmax(real):
+                    # logger.info("probability == %s", probability)
+                    # logger.info("real softmax == %s", real)
+                    right += 1
 
         count = 1 if count == 0 else count
         rightRatio = right / count
@@ -141,8 +142,8 @@ class LstmModel:
 def run():
     with tf.Graph().as_default(), tf.Session() as session:
         lstmModel = LstmModel(session)
-        lstmModel.buildGraph()
-        lstmModel.trainModel()
+        lstmModel.build_graph()
+        lstmModel.train_model()
         session.close()
         lstmModel.read_db.destory()
 

@@ -9,20 +9,35 @@ logger = logging.getLogger(__name__)
 
 class Option:
     def __init__(self):
+        """时间跨度"""
         self.time_step = 20
+        """RNN每层个数"""
         self.hidden_cell_num = 100
+        """每个code的迭代次数"""
         self.epochs = 500
+        """批处理大小"""
         self.batch_size = 50
+        """RNN输出之后的隐藏层大小"""
         self.hidden_layer_num = 1
-        self.rnn_keep_prop = 1
+        """RNN每层dropout保留比例"""
+        self.rnn_keep_prop = 0.9
+        """RNN输出之后的隐藏层dropout保留比例"""
         self.hidden_layer_keep_prop = 1
+        """学习率"""
         self.learning_rate = 0.001
+        """RNN输出之后的隐藏层单元个数"""
         self.output_cell_num = 200
-        self.predict_index_type = "lowestPrice"  # could be one of ["open", "close", "high", "low"]
+        """预测指标"""
+        self.predict_index_type = "closePrice"  # could be one of ["open", "close", "high", "low"]
+        """LSTM forget gate forget bias"""
         self.forget_bias = 0.8
+        """所有的code迭代多少轮"""
         self.loop_time = 50
+        """训练数据的norm类型"""
         self.train_data_norm_type = "rate"  # could be ["zscore", "rate"]
+        """预测数据的norm类型"""
         self.target_data_norm_type = "rate"  # could be ["zscore", "rate"]
+        """是否checkpoint保存文件"""
         self.is_save_file = False
         logger.info("options:::::\n%s", self)
 

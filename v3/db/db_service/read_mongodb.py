@@ -19,10 +19,6 @@ class ReadDB:
         self.data_preprocess = data_preprocess
         self.read_count = 0
 
-    # def updateStockCode(self, stockCodeList):
-    #     self.stockCodeList = stockCodeList
-    #     self.totalNum = len(stockCodeList)
-
     def read_one_stock_data(self, code):
         logger.info("read count == %d", self.read_count)
         self.read_count += 1
@@ -39,13 +35,13 @@ class ReadDB:
                 continue
             if float(dataDict["lowestPrice"]) < 0.001:
                 continue
-            if float(dataDict["actPreClosePrice"]) < 0.001:
-                continue
+            # if float(dataDict["actPreClosePrice"]) < 0.001:
+            #     continue
             tmp.append(dataDict["openPrice"])
             tmp.append(dataDict["closePrice"])
             tmp.append(dataDict["highestPrice"])
             tmp.append(dataDict["lowestPrice"])
-            tmp.append(dataDict["actPreClosePrice"])
+            # tmp.append(dataDict["actPreClosePrice"])
             tmp.append(dataDict["tradeDate"])
             # print(dataDict["tradeDate"])
             data.append(tmp)
@@ -53,7 +49,7 @@ class ReadDB:
         count = len(data)
         logger.info("stock code == %s, count == %d", code, count)
         data = pd.DataFrame(
-            data, columns=["openPrice", "closePrice", "highestPrice", "lowestPrice", "actPreClosePrice", "tradeDate"]).\
+            data, columns=["openPrice", "closePrice", "highestPrice", "lowestPrice", "tradeDate"]).\
             set_index("tradeDate", append=False)
 
         # print("origin mongodb data>>>>>>")
