@@ -11,6 +11,8 @@ from v3.db.db_service.read_mongodb import ReadDB
 from v3.service.data_preprocess import DataPreprocess
 from v3.service.load_all_code import load_all_code
 from v3.service.mini_batch import batch
+import datetime
+import time
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -27,6 +29,7 @@ class LstmModel:
 
         self.all_stock_code = load_all_code()
         self.read_db = ReadDB(data_preprocess=DataPreprocess(self._option.time_step))
+        self.loop_code_time = 0
 
     def update_data(self, code):
         self.read_db.read_one_stock_data(code)
@@ -83,6 +86,7 @@ class LstmModel:
     def train_model(self):
         option = self._option
         for i in range(len(self.all_stock_code)):
+            self.loop_code_time += 1
             code = self.all_stock_code.pop(0)
             self.update_data(code)
             """每次进入新的code时，重新init所有参数，开始全新一轮"""
@@ -106,9 +110,11 @@ class LstmModel:
                     logger.info("crossEntropy == %f", crossEntropy)
                 self.test()
 
-            if option.is_save_file:
-                self.saver.save(self._session, "/home/daiab/ckpt/code-%s.ckpt" % code)
-                logger.info("save file code-%s", code)
+            if option.is_save_file and self.loop_code_time % 100 == 0:
+                save_time = time.strftime("%Y-%m-%d-%h-%m", time.localtime())
+                self.saver.save(self._session, "/home/daiab/ckpt/%s.ckpt" % save_time)
+                logger.info("save file time: %s", save_time)
+
         if option.loop_time > 1:
             logger.info("loop time == %d" % option.loop_time)
             option.loop_time -= 1
@@ -132,7 +138,7 @@ class LstmModel:
             if np.argmax(predict) == np.argmax(real):
                 right_arr[tmp_bool_index] = right_arr[tmp_bool_index] + 1
 
-        logger.info("test ratio >>>>> %s", right_arr/count_arr)
+        logger.info("test ratio>>%s", right_arr/count_arr)
 
 
 

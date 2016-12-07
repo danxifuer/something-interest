@@ -38,7 +38,7 @@ class Option:
         """预测数据的norm类型"""
         self.target_data_norm_type = "zscore"  # could be ["zscore", "rate"]
         """是否checkpoint保存文件"""
-        self.is_save_file = False
+        self.is_save_file = True
         logger.info("options:::::\n%s", self)
 
     def __str__(self):
