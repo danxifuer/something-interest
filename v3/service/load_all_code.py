@@ -17,6 +17,7 @@ def fiter_code(csv):
         if code < 100000 and days > THRESHOLD:
             # if code.startswith("3"):continue
             filter_result.append(code)
+    print("all code number == %d" % len(filter_result))
     return filter_result
 
 

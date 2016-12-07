@@ -3,6 +3,7 @@ import pymongo
 from v3.service.data_preprocess import DataPreprocess
 import logging
 import pandas as pd
+from db.db_connect import DBConnectManage
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -14,8 +15,8 @@ logger = logging.getLogger(__name__)
 
 class ReadDB:
     def __init__(self, data_preprocess):
-        self.client = MongoClient('mongodb://localhost:27017/')
-        self.collection = self.client.quant.uqer
+        self.client = DBConnectManage()
+        self.collection = self.client.get_collection()
         self.data_preprocess = data_preprocess
         self.read_count = 0
 
@@ -35,6 +36,12 @@ class ReadDB:
                 continue
             if float(dataDict["lowestPrice"]) < 0.001:
                 continue
+            # if float(dataDict["turnoverVol"]) < 0.001:
+            #     continue
+            # if float(dataDict["turnoverValue"]) < 0.001:
+            #     continue
+            # if float(dataDict["turnoverRate"]) < 0.001:
+            #     continue
             # if float(dataDict["actPreClosePrice"]) < 0.001:
             #     continue
             tmp.append(dataDict["openPrice"])
@@ -43,6 +50,9 @@ class ReadDB:
             tmp.append(dataDict["lowestPrice"])
             # tmp.append(dataDict["actPreClosePrice"])
             tmp.append(dataDict["tradeDate"])
+            # tmp.append(dataDict["turnoverVol"])
+            # tmp.append(dataDict["turnoverValue"])
+            # tmp.append(dataDict["turnoverRate"])
             # print(dataDict["tradeDate"])
             data.append(tmp)
             # print(tmp)
@@ -51,6 +61,8 @@ class ReadDB:
         data = pd.DataFrame(
             data, columns=["openPrice", "closePrice", "highestPrice", "lowestPrice", "tradeDate"]).\
             set_index("tradeDate", append=False)
+            # data, columns=["openPrice", "closePrice", "highestPrice", "lowestPrice", "tradeDate", "turnoverVol", "turnoverValue", "turnoverRate"])
+
 
         # print("origin mongodb data>>>>>>")
         # print(data.loc['2016-11-10':'2016-11-18'])

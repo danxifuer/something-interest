@@ -12,15 +12,15 @@ class Option:
         """时间跨度"""
         self.time_step = 20
         """RNN每层个数"""
-        self.hidden_cell_num = 100
+        self.hidden_cell_num = 20
         """每个code的迭代次数"""
-        self.epochs = 500
+        self.epochs = 1
         """批处理大小"""
-        self.batch_size = 50
+        self.batch_size = 400
         """RNN输出之后的隐藏层大小"""
         self.hidden_layer_num = 1
         """RNN每层dropout保留比例"""
-        self.rnn_keep_prop = 0.9
+        self.rnn_keep_prop = 1
         """RNN输出之后的隐藏层dropout保留比例"""
         self.hidden_layer_keep_prop = 1
         """学习率"""
@@ -30,13 +30,13 @@ class Option:
         """预测指标"""
         self.predict_index_type = "closePrice"  # could be one of ["open", "close", "high", "low"]
         """LSTM forget gate forget bias"""
-        self.forget_bias = 0.8
+        self.forget_bias = 1
         """所有的code迭代多少轮"""
         self.loop_time = 50
         """训练数据的norm类型"""
         self.train_data_norm_type = "rate"  # could be ["zscore", "rate"]
         """预测数据的norm类型"""
-        self.target_data_norm_type = "rate"  # could be ["zscore", "rate"]
+        self.target_data_norm_type = "zscore"  # could be ["zscore", "rate"]
         """是否checkpoint保存文件"""
         self.is_save_file = False
         logger.info("options:::::\n%s", self)

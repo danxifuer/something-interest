@@ -25,7 +25,7 @@ class LstmModel:
         self._session = session
         self._option = Option()
 
-        self.all_stock_code = load_all_code()
+        self.all_stock_code = [1] # load_all_code()
         self.read_db = ReadDB(data_preprocess=DataPreprocess(self._option.time_step))
 
     def update_data(self, code):
@@ -50,8 +50,8 @@ class LstmModel:
 
     def build_graph(self):
         option = self._option
-        self.one_train_data = tf.placeholder(tf.float32, [None, option.time_step, 4])
-        self.target_data = tf.placeholder(tf.float32, [None, 2])
+        self.one_train_data = tf.placeholder(tf.float32, [None, option.time_step, 7])
+        self.target_data = tf.placeholder(tf.float32, [None, option.time_step])
         cell = tf.nn.rnn_cell.BasicLSTMCell(option.hidden_cell_num, forget_bias=option.forget_bias,
                                             input_size=[option.batch_size, option.time_step, option.hidden_cell_num])
         cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=option.rnn_keep_prop)
@@ -61,8 +61,9 @@ class LstmModel:
 
         # val = tf.transpose(val, [1, 0, 2])
         # self.val = tf.gather(val, val.get_shape()[0] - 1)
-        dim = option.time_step * option.hidden_cell_num
-        self.val = tf.reshape(val, [-1, dim])
+        # dim = option.time_step * option.hidden_cell_num
+        # self.val = tf.reshape(val, [-1, dim])
+
 
         self.weight = tf.Variable(tf.truncated_normal([dim, option.output_cell_num], dtype=tf.float32), name='weight')
         self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, option.output_cell_num]), name='bias')
@@ -116,7 +117,7 @@ class LstmModel:
             self.train_model()
 
     def test(self):
-        count_arr, right_arr, prop_step_arr = np.zeros(6), np.zeros(6), np.array([0.5, 0.6, 0.7, 0.8, 0.9, 0.95])
+        count, right = 0, 0
         logger.info("test begin ......")
         for day in self.test_date_range:
             train = [self.get_one_epoch_train_data(day)]
@@ -127,12 +128,16 @@ class LstmModel:
             probability = predict / predict.sum()
 
             max = probability[0][0] if probability[0][0] > probability[0][1] else probability[0][1]
-            tmp_bool_index = prop_step_arr <= max
-            count_arr[tmp_bool_index] = count_arr[tmp_bool_index] + 1
-            if np.argmax(predict) == np.argmax(real):
-                right_arr[tmp_bool_index] = right_arr[tmp_bool_index] + 1
+            if max > 0.7:
+                count += 1
+                if np.argmax(predict) == np.argmax(real):
+                    # logger.info("probability == %s", probability)
+                    # logger.info("real softmax == %s", real)
+                    right += 1
 
-        logger.info("test ratio >>>>> %s", right_arr/count_arr)
+        count = 1 if count == 0 else count
+        rightRatio = right / count
+        logger.info("test right ratio >>>>>>>>>>>>>>>>>>>>>>>> %f", rightRatio)
 
 
 

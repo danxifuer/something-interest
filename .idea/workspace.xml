@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09880e29-17ed-40fa-a0f2-822d5b6503f5" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/v3/model/model_1205.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/v3/model/model_1206.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v3/config/config.py" afterPath="$PROJECT_DIR$/v3/config/config.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v3/db/db_service/read_mongodb.py" afterPath="$PROJECT_DIR$/v3/db/db_service/read_mongodb.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py" afterPath="$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v3/model/model_1130_full_connect.py" afterPath="$PROJECT_DIR$/v3/model/model_1130_full_connect.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v3/service/load_all_code.py" afterPath="$PROJECT_DIR$/v3/service/load_all_code.py" />
     </list>
@@ -29,8 +32,8 @@
       <file leaf-file-name="read_mongodb.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v3/db/db_service/read_mongodb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="51" column="83" selection-start-line="51" selection-start-column="83" selection-end-line="51" selection-end-column="83" />
+            <state relative-caret-position="0">
+              <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -41,8 +44,8 @@
       <file leaf-file-name="data_preprocess.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v3/service/data_preprocess.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="53" column="52" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="52" />
+            <state relative-caret-position="702">
+              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -50,23 +53,51 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="model_1130_full_connect.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/v3/model/model_1130_full_connect.py">
+      <file leaf-file-name="model_1205.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/v3/model/model_1205.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="489">
-              <caret line="63" column="55" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="55" />
-              <folding>
-                <element signature="e#58#72#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="792">
+              <caret line="53" column="83" selection-start-line="53" selection-start-column="83" selection-end-line="53" selection-end-column="83" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/v3/config/config.py">
+      <file leaf-file-name="model_1130_full_connect.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/v3/model/model_1130_full_connect.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+            <state relative-caret-position="2358">
+              <caret line="140" column="38" selection-start-line="140" selection-start-column="38" selection-end-line="140" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="model_1206.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/v3/model/model_1206.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="234">
+              <caret line="58" column="44" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="db_connect.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/v3/db/db_connect.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rnn_cell.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/tensorflow/python/ops/rnn_cell.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="18">
+              <caret line="264" column="6" selection-start-line="264" selection-start-column="6" selection-end-line="264" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -87,8 +118,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/mongodb/__init__.py" />
-        <option value="$PROJECT_DIR$/mongodb/test/readallstockcode.py" />
         <option value="$PROJECT_DIR$/mongodb/allstockcode.csv" />
         <option value="$PROJECT_DIR$/quant/quantlog.log" />
         <option value="$PROJECT_DIR$/quant/good-model/lstm-model-v11-14-predict-future-days.py" />
@@ -129,14 +158,16 @@
         <option value="$PROJECT_DIR$/v2/model/model_1130_full_connect.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/v3/entity/train_data_frame.py" />
-        <option value="$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py" />
-        <option value="$PROJECT_DIR$/v3/db/db_connect.py" />
         <option value="$PROJECT_DIR$/v3/db/download_data/update_date_from_uqer.py" />
         <option value="$PROJECT_DIR$/v3/service/data_preprocess.py" />
         <option value="$PROJECT_DIR$/v3/service/mini_batch.py" />
-        <option value="$PROJECT_DIR$/v3/db/db_service/read_mongodb.py" />
-        <option value="$PROJECT_DIR$/v3/config/config.py" />
         <option value="$PROJECT_DIR$/v3/service/load_all_code.py" />
+        <option value="$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py" />
+        <option value="$PROJECT_DIR$/v3/model/model_1205.py" />
+        <option value="$PROJECT_DIR$/v3/model/model_1206.py" />
+        <option value="$PROJECT_DIR$/v3/db/db_service/read_mongodb.py" />
+        <option value="$PROJECT_DIR$/v3/db/db_connect.py" />
+        <option value="$PROJECT_DIR$/v3/config/config.py" />
         <option value="$PROJECT_DIR$/v3/model/model_1130_full_connect.py" />
       </list>
     </option>
@@ -211,8 +242,8 @@
       <pane id="ProjectPane">
         <subPane />
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -229,11 +260,11 @@
       <recent name="$PROJECT_DIR$/v1.0" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/v3/model" />
       <recent name="$PROJECT_DIR$/" />
       <recent name="$PROJECT_DIR$/v1.0" />
       <recent name="$PROJECT_DIR$/quant/roadmap-model" />
       <recent name="$PROJECT_DIR$/quant/roadmap" />
-      <recent name="$PROJECT_DIR$/quant" />
     </key>
   </component>
   <component name="RunManager" selected="Python.model_1130_full_connect">
@@ -250,57 +281,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="something-interest" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/v3/model/model_1130_full_connect.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="data_preprocess" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/v3/service" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="something-interest" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/v3/service/data_preprocess.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="read_mongodb" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/v3/db/db_service" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="something-interest" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/v3/db/db_service/read_mongodb.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="update_date_from_uqer" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/v3/db/download_data" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="something-interest" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/v3/db/download_data/update_date_from_uqer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -439,18 +419,12 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="4">
+    <list size="1">
       <item index="0" class="java.lang.String" itemvalue="Python.model_1130_full_connect" />
-      <item index="1" class="java.lang.String" itemvalue="Python.data_preprocess" />
-      <item index="2" class="java.lang.String" itemvalue="Python.read_mongodb" />
-      <item index="3" class="java.lang.String" itemvalue="Python.update_date_from_uqer" />
     </list>
     <recent_temporary>
-      <list size="4">
+      <list size="1">
         <item index="0" class="java.lang.String" itemvalue="Python.model_1130_full_connect" />
-        <item index="1" class="java.lang.String" itemvalue="Python.update_date_from_uqer" />
-        <item index="2" class="java.lang.String" itemvalue="Python.read_mongodb" />
-        <item index="3" class="java.lang.String" itemvalue="Python.data_preprocess" />
       </list>
     </recent_temporary>
   </component>
@@ -474,13 +448,12 @@
     <frame x="0" y="24" width="1440" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24497394" sideWeight="0.49485862" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24348474" sideWeight="0.49485862" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32262212" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32647815" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44473007" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24064925" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24629499" sideWeight="0.5051414" order="2" side_tool="true" content_ui="tabs" />
@@ -490,6 +463,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32262212" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -547,27 +521,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/v1/quant/util/read_csv.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-36">
-          <caret line="16" column="32" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/v1/mongodb/datadownload/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/v1/mongodb/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/v1/quant/config/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -767,7 +720,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="5333" column="0" selection-start-line="5333" selection-start-column="0" selection-end-line="5334" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -789,7 +741,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="223">
           <caret line="43" column="27" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -797,20 +748,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
           <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="28" column="7" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/v3/db/db_connect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -825,7 +762,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7722">
           <caret line="447" column="4" selection-start-line="447" selection-start-column="4" selection-end-line="447" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -833,61 +769,95 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/db/db_service/read_mongodb.py">
+    <entry file="file://$PROJECT_DIR$/v3/service/load_all_code.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="51" column="83" selection-start-line="51" selection-start-column="83" selection-end-line="51" selection-end-column="83" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="324">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v1/mongodb/datadownload/read_from_uqer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="7" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/v3/service/data_preprocess.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="53" column="52" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="52" />
+        <state relative-caret-position="702">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/service/load_all_code.py">
+    <entry file="file://$PROJECT_DIR$/v3/db/db_service/read_mongodb.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/model/model_1205.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="792">
+          <caret line="53" column="83" selection-start-line="53" selection-start-column="83" selection-end-line="53" selection-end-column="83" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/tensorflow/python/ops/rnn_cell.py">
+    <entry file="file://$PROJECT_DIR$/v3/db/db_connect.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="264" column="6" selection-start-line="264" selection-start-column="6" selection-end-line="264" selection-end-column="6" />
+        <state relative-caret-position="126">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/model/model_1206.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="58" column="44" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/v3/config/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+        <state relative-caret-position="396">
+          <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/tensorflow/python/ops/rnn_cell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="264" column="6" selection-start-line="264" selection-start-column="6" selection-end-line="264" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/v3/model/model_1130_full_connect.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="489">
-          <caret line="63" column="55" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="55" />
-          <folding>
-            <element signature="e#58#72#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2358">
+          <caret line="140" column="38" selection-start-line="140" selection-start-column="38" selection-end-line="140" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
