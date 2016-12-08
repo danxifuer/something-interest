@@ -139,6 +139,7 @@ class LstmModel:
                 right_arr[tmp_bool_index] = right_arr[tmp_bool_index] + 1
 
         logger.info("test ratio>>%s", right_arr/count_arr)
+        logger.info("test count>>%s", count_arr)
 
 
 

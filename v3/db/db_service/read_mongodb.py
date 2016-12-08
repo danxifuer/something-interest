@@ -14,11 +14,16 @@ logger = logging.getLogger(__name__)
 
 
 class ReadDB:
-    def __init__(self, data_preprocess):
+    """field中的数据，日期默认会进行获取，不用额外放入fields中"""
+    def __init__(self, data_preprocess, fields=["openPrice", "closePrice", "highestPrice", "lowestPrice"]):
         self.client = DBConnectManage()
         self.collection = self.client.get_collection()
         self.data_preprocess = data_preprocess
         self.read_count = 0
+        self.fields = fields
+        # warn: 这里一定要copy一份，而且需要用临时变量先存下来，否则append之后是None， 因为append成功之后返回的是none
+        self.columns = fields.copy()
+        self.columns.append("tradeDate")
 
     def read_one_stock_data(self, code):
         logger.info("read count == %d", self.read_count)
@@ -27,43 +32,21 @@ class ReadDB:
         data = []
         for dataDict in dbData:
             tmp = []
-            """过滤掉异常数据"""
-            if float(dataDict["openPrice"]) < 0.001:
-                continue
-            if float(dataDict["closePrice"]) < 0.001:
-                continue
-            if float(dataDict["highestPrice"]) < 0.001:
-                continue
-            if float(dataDict["lowestPrice"]) < 0.001:
-                continue
-            # if float(dataDict["turnoverVol"]) < 0.001:
-            #     continue
-            # if float(dataDict["turnoverValue"]) < 0.001:
-            #     continue
-            # if float(dataDict["turnoverRate"]) < 0.001:
-            #     continue
-            # if float(dataDict["actPreClosePrice"]) < 0.001:
-            #     continue
-            tmp.append(dataDict["openPrice"])
-            tmp.append(dataDict["closePrice"])
-            tmp.append(dataDict["highestPrice"])
-            tmp.append(dataDict["lowestPrice"])
-            # tmp.append(dataDict["actPreClosePrice"])
-            tmp.append(dataDict["tradeDate"])
-            # tmp.append(dataDict["turnoverVol"])
-            # tmp.append(dataDict["turnoverValue"])
-            # tmp.append(dataDict["turnoverRate"])
-            # print(dataDict["tradeDate"])
-            data.append(tmp)
-            # print(tmp)
+            """过滤掉异常数据,日期默认就会获取，且需放在最后一个"""
+            flag = True
+            for field in self.fields:
+                value = float(dataDict[field])
+                if value < 0.001:
+                    flag = False
+                    break
+                tmp.append(value)
+            if flag:
+                tmp.append(dataDict["tradeDate"])
+                data.append(tmp)
+
         count = len(data)
         logger.info("stock code == %s, count == %d", code, count)
-        data = pd.DataFrame(
-            data, columns=["openPrice", "closePrice", "highestPrice", "lowestPrice", "tradeDate"]).\
-            set_index("tradeDate", append=False)
-            # data, columns=["openPrice", "closePrice", "highestPrice", "lowestPrice", "tradeDate", "turnoverVol", "turnoverValue", "turnoverRate"])
-
-
+        data = pd.DataFrame(data, columns=self.columns).set_index("tradeDate", append=False)
         # print("origin mongodb data>>>>>>")
         # print(data.loc['2016-11-10':'2016-11-18'])
         self.data_preprocess.process(data)

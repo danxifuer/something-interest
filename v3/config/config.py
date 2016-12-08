@@ -10,23 +10,23 @@ logger = logging.getLogger(__name__)
 class Option:
     def __init__(self):
         """时间跨度"""
-        self.time_step = 20
+        self.time_step = 30
         """RNN每层个数"""
-        self.hidden_cell_num = 20
+        self.hidden_cell_num = 200
         """每个code的迭代次数"""
         self.epochs = 1
         """批处理大小"""
-        self.batch_size = 400
-        """RNN输出之后的隐藏层大小"""
+        self.batch_size = 500
+        """RNN输出之后的隐藏层层数"""
         self.hidden_layer_num = 1
         """RNN每层dropout保留比例"""
-        self.rnn_keep_prop = 1
+        self.rnn_keep_prop = 0.95
         """RNN输出之后的隐藏层dropout保留比例"""
         self.hidden_layer_keep_prop = 1
         """学习率"""
         self.learning_rate = 0.001
         """RNN输出之后的隐藏层单元个数"""
-        self.output_cell_num = 200
+        self.output_cell_num = 400
         """预测指标"""
         self.predict_index_type = "closePrice"  # could be one of ["open", "close", "high", "low"]
         """LSTM forget gate forget bias"""
