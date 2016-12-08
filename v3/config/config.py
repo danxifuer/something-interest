@@ -22,7 +22,7 @@ class Option:
         """RNN每层dropout保留比例"""
         self.rnn_keep_prop = 0.95
         """RNN输出之后的隐藏层dropout保留比例"""
-        self.hidden_layer_keep_prop = 1
+        self.hidden_layer_keep_prop = 0.95
         """学习率"""
         self.learning_rate = 0.001
         """RNN输出之后的隐藏层单元个数"""
@@ -30,7 +30,7 @@ class Option:
         """预测指标"""
         self.predict_index_type = "closePrice"  # could be one of ["open", "close", "high", "low"]
         """LSTM forget gate forget bias"""
-        self.forget_bias = 1
+        self.forget_bias = 1  # 最好不要动
         """所有的code迭代多少轮"""
         self.loop_time = 50
         """训练数据的norm类型"""

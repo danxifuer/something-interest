@@ -11,7 +11,6 @@ from v3.db.db_service.read_mongodb import ReadDB
 from v3.service.data_preprocess import DataPreprocess
 from v3.service.load_all_code import load_all_code
 from v3.service.mini_batch import batch
-import datetime
 import time
 
 logging.basicConfig(level=logging.DEBUG,
@@ -53,34 +52,48 @@ class LstmModel:
 
     def build_graph(self):
         option = self._option
+        """placeholder: drop keep prop"""
+        self.rnn_keep_prop = tf.placeholder(tf.float32)
+        self.hidden_layer_keep_prop = tf.placeholder(tf.float32)
+
+
+        """placeholder: train data"""
         self.one_train_data = tf.placeholder(tf.float32, [None, option.time_step, 4])
         self.target_data = tf.placeholder(tf.float32, [None, 2])
-        cell = tf.nn.rnn_cell.BasicLSTMCell(option.hidden_cell_num, forget_bias=option.forget_bias,
+
+        """RNN architecture"""
+        cell = tf.nn.rnn_cell.BasicLSTMCell(option.hidden_cell_num, forget_bias=1.0,
                                             input_size=[option.batch_size, option.time_step, option.hidden_cell_num])
-        cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=option.rnn_keep_prop)
+        cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=self.rnn_keep_prop)
 
-        cell_2 = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hidden_layer_num)
-        val, self.states = tf.nn.dynamic_rnn(cell_2, self.one_train_data, dtype=tf.float32)
+        multi_cell = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hidden_layer_num)
+        val, self.states = tf.nn.dynamic_rnn(multi_cell, self.one_train_data, dtype=tf.float32)
 
+        """reshape the RNN output"""
         # val = tf.transpose(val, [1, 0, 2])
         # self.val = tf.gather(val, val.get_shape()[0] - 1)
         dim = option.time_step * option.hidden_cell_num
         self.val = tf.reshape(val, [-1, dim])
 
+        """softmax layer 1"""
         self.weight = tf.Variable(tf.truncated_normal([dim, option.output_cell_num], dtype=tf.float32), name='weight')
         self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, option.output_cell_num]), name='bias')
 
         tmp_value = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias)
-        tmp_value = tf.nn.dropout(tmp_value, keep_prob=option.hidden_layer_keep_prop)
+        """softmax layer 1 drop out"""
+        tmp_value = tf.nn.dropout(tmp_value, keep_prob=self.hidden_layer_keep_prop)
+
+        """softmax layer 2"""
         self.weight_2 = tf.Variable(tf.truncated_normal([option.output_cell_num, 2], dtype=tf.float32), name='weight_2')
         self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]), name='bias_2')
-
         self.predict_target = tf.matmul(tmp_value, self.weight_2) + self.bias_2
-        # self.predict_target = tf.nn.relu(tf.matmul(tmp_value, self.weight_2) + self.bias_2)
 
+        """Loss function and Optimizer"""
         self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predict_target, self.target_data))
         self.minimize = tf.train.AdamOptimizer(learning_rate=option.learning_rate).minimize(self.cross_entropy)
         self._session.run(tf.initialize_all_variables())
+
+        """saver"""
         self.saver = tf.train.Saver()
 
     def train_model(self):
@@ -101,7 +114,10 @@ class LstmModel:
                                    softmax=self.softmax.loc[self.train_date_range].values, shuffle=True)
                 feed_dict = {}
                 for one_train_data, _, softmax in batch_data:
-                    feed_dict = {self.one_train_data: one_train_data, self.target_data: softmax}
+                    feed_dict = {self.one_train_data: one_train_data,
+                                 self.target_data: softmax,
+                                 self.rnn_keep_prop: option.rnn_keep_prop,
+                                 self.hidden_layer_keep_prop : option.hidden_layer_keep_prop}
                     self._session.run(self.minimize, feed_dict=feed_dict)
                     # print(self._session.run(self.val, feed_dict=feedDict).shape)
 
@@ -128,7 +144,9 @@ class LstmModel:
             train = [self.get_one_epoch_train_data(day)]
             real = self.get_one_epoch_softmax(day)
 
-            predict = self._session.run(self.predict_target, feed_dict={self.one_train_data: train})
+            predict = self._session.run(self.predict_target, feed_dict={self.one_train_data: train,
+                                                                        self.rnn_keep_prop: 1.0,
+                                                                        self.hidden_layer_keep_prop: 1.0})
             predict = np.exp(predict)
             probability = predict / predict.sum()
 
