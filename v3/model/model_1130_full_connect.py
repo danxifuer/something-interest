@@ -30,6 +30,12 @@ class LstmModel:
         self.read_db = ReadDB(data_preprocess=DataPreprocess(self._option.time_step))
         self.loop_code_time = 0
 
+    def matmul_on_gpu(n):
+        if n.type == "MatMul":
+            return "/gpu:0"
+        else:
+            return "/cpu:0"
+
     def update_data(self, code):
         self.read_db.read_one_stock_data(code)
         self.train_data = self.read_db.data_preprocess.train_data
@@ -47,54 +53,57 @@ class LstmModel:
     def get_one_epoch_train_data(self, day):
         return self.train_data.loc[day].values
 
+    def get_one_epoch_target_data(self, day):
+        return self.target.loc[day].values
+
     def get_one_epoch_softmax(self, day):
         return self.softmax.loc[day].values
 
-    def build_graph(self):
-        option = self._option
-        """placeholder: drop keep prop"""
-        self.rnn_keep_prop = tf.placeholder(tf.float32)
-        self.hidden_layer_keep_prop = tf.placeholder(tf.float32)
+    with tf.device(matmul_on_gpu):
+        def build_graph(self):
+            option = self._option
+            """placeholder: drop keep prop"""
+            self.rnn_keep_prop = tf.placeholder(tf.float32)
+            self.hidden_layer_keep_prop = tf.placeholder(tf.float32)
 
 
-        """placeholder: train data"""
-        self.one_train_data = tf.placeholder(tf.float32, [None, option.time_step, 4])
-        self.target_data = tf.placeholder(tf.float32, [None, 2])
+            """placeholder: train data"""
+            self.one_train_data = tf.placeholder(tf.float32, [None, option.time_step, 4])
+            self.target_data = tf.placeholder(tf.float32, [None, 2])
 
-        """RNN architecture"""
-        cell = tf.nn.rnn_cell.BasicLSTMCell(option.hidden_cell_num, forget_bias=1.0,
-                                            input_size=[option.batch_size, option.time_step, option.hidden_cell_num])
-        cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=self.rnn_keep_prop)
+            """RNN architecture"""
+            cell = tf.nn.rnn_cell.BasicRNNCell(option.hidden_cell_num, input_size=[option.batch_size, option.time_step, option.hidden_cell_num])
+            cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=self.rnn_keep_prop)
 
-        multi_cell = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hidden_layer_num)
-        val, self.states = tf.nn.dynamic_rnn(multi_cell, self.one_train_data, dtype=tf.float32)
+            multi_cell = tf.nn.rnn_cell.MultiRNNCell([cell] * option.hidden_layer_num)
+            val, self.states = tf.nn.dynamic_rnn(multi_cell, self.one_train_data, dtype=tf.float32)
 
-        """reshape the RNN output"""
-        # val = tf.transpose(val, [1, 0, 2])
-        # self.val = tf.gather(val, val.get_shape()[0] - 1)
-        dim = option.time_step * option.hidden_cell_num
-        self.val = tf.reshape(val, [-1, dim])
+            """reshape the RNN output"""
+            # val = tf.transpose(val, [1, 0, 2])
+            # self.val = tf.gather(val, val.get_shape()[0] - 1)
+            dim = option.time_step * option.hidden_cell_num
+            self.val = tf.reshape(val, [-1, dim])
 
-        """softmax layer 1"""
-        self.weight = tf.Variable(tf.truncated_normal([dim, option.output_cell_num], dtype=tf.float32), name='weight')
-        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, option.output_cell_num]), name='bias')
+            """softmax layer 1"""
+            self.weight = tf.Variable(tf.truncated_normal([dim, option.output_cell_num], dtype=tf.float32), name='weight')
+            self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, option.output_cell_num]), name='bias')
 
-        tmp_value = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias)
-        """softmax layer 1 drop out"""
-        tmp_value = tf.nn.dropout(tmp_value, keep_prob=self.hidden_layer_keep_prop)
+            tmp_value = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias)
+            """softmax layer 1 drop out"""
+            tmp_value = tf.nn.dropout(tmp_value, keep_prob=self.hidden_layer_keep_prop)
 
-        """softmax layer 2"""
-        self.weight_2 = tf.Variable(tf.truncated_normal([option.output_cell_num, 2], dtype=tf.float32), name='weight_2')
-        self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]), name='bias_2')
-        self.predict_target = tf.matmul(tmp_value, self.weight_2) + self.bias_2
+            """softmax layer 2"""
+            self.weight_2 = tf.Variable(tf.truncated_normal([option.output_cell_num, 2], dtype=tf.float32), name='weight_2')
+            self.bias_2 = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, 2]), name='bias_2')
+            self.predict_target = tf.matmul(tmp_value, self.weight_2) + self.bias_2
 
-        """Loss function and Optimizer"""
-        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predict_target, self.target_data))
-        self.minimize = tf.train.AdamOptimizer(learning_rate=option.learning_rate).minimize(self.cross_entropy)
-        self._session.run(tf.initialize_all_variables())
+            """Loss function and Optimizer"""
+            self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.predict_target, self.target_data))
+            self.minimize = tf.train.AdamOptimizer(learning_rate=option.learning_rate).minimize(self.cross_entropy)
+            self._session.run(tf.initialize_all_variables())
 
-        """saver"""
-        self.saver = tf.train.Saver()
+            """saver"""
+            self.saver = tf.train.Saver()
 
     def train_model(self):
         option = self._option
@@ -127,7 +136,7 @@ class LstmModel:
                 self.test()
 
             if option.is_save_file and self.loop_code_time % 100 == 0:
-                save_time = time.strftime("%Y-%m-%d-%h-%m", time.localtime())
+                save_time = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
                 self.saver.save(self._session, "/home/daiab/ckpt/%s.ckpt" % save_time)
                 logger.info("save file time: %s", save_time)
 
@@ -142,7 +151,8 @@ class LstmModel:
         logger.info("test begin ......")
         for day in self.test_date_range:
             train = [self.get_one_epoch_train_data(day)]
-            real = self.get_one_epoch_softmax(day)
+            softmax = self.get_one_epoch_softmax(day)
+            target = self.get_one_epoch_target_data(day)
 
             predict = self._session.run(self.predict_target, feed_dict={self.one_train_data: train,
                                                                         self.rnn_keep_prop: 1.0,
@@ -153,15 +163,17 @@ class LstmModel:
             max = probability[0][0] if probability[0][0] > probability[0][1] else probability[0][1]
             tmp_bool_index = prop_step_arr <= max
             count_arr[tmp_bool_index] = count_arr[tmp_bool_index] + 1
-            if np.argmax(predict) == np.argmax(real):
+            if np.argmax(predict) == np.argmax(softmax):
                 right_arr[tmp_bool_index] = right_arr[tmp_bool_index] + 1
 
         logger.info("test ratio>>%s", right_arr/count_arr)
         logger.info("test count>>%s", count_arr)
+        logger.info("test target == %s", target)
 
 
 
 def run():
+    # with tf.Graph().as_default(), tf.Session(config=tf.ConfigProto(log_device_placement=True)) as session:
     with tf.Graph().as_default(), tf.Session() as session:
         lstmModel = LstmModel(session)
         lstmModel.build_graph()
