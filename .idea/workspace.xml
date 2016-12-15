@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09880e29-17ed-40fa-a0f2-822d5b6503f5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v3/config/config.py" afterPath="$PROJECT_DIR$/v3/config/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v3/model/model_1130_full_connect.py" afterPath="$PROJECT_DIR$/v3/model/model_1130_full_connect.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py" afterPath="$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py" />
     </list>
     <ignored path="something-interest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,11 +59,21 @@
       <file leaf-file-name="model_1130_full_connect.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v3/model/model_1130_full_connect.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="169" column="47" selection-start-line="169" selection-start-column="38" selection-end-line="169" selection-end-column="47" />
+            <state relative-caret-position="266">
+              <caret line="147" column="0" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
               <folding>
                 <element signature="e#58#72#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="load_from_uqer.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -90,7 +98,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v3/config/config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="244">
@@ -159,13 +167,13 @@
         <option value="$PROJECT_DIR$/v3/service/data_preprocess.py" />
         <option value="$PROJECT_DIR$/v3/service/mini_batch.py" />
         <option value="$PROJECT_DIR$/v3/service/load_all_code.py" />
-        <option value="$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py" />
         <option value="$PROJECT_DIR$/v3/model/model_1205.py" />
         <option value="$PROJECT_DIR$/v3/model/model_1206.py" />
         <option value="$PROJECT_DIR$/v3/db/db_connect.py" />
         <option value="$PROJECT_DIR$/v3/db/db_service/read_mongodb.py" />
         <option value="$PROJECT_DIR$/v3/model/model_1130_full_connect.py" />
         <option value="$PROJECT_DIR$/v3/config/config.py" />
+        <option value="$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py" />
       </list>
     </option>
   </component>
@@ -285,6 +293,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="something-interest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="something-interest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="v3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="something-interest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="something-interest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="v3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="download_data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -836,13 +884,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/tensorflow/python/ops/rnn_cell.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -910,20 +951,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/v3/config/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/v3/model/model_1130_full_connect.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="169" column="47" selection-start-line="169" selection-start-column="38" selection-end-line="169" selection-end-column="47" />
+        <state relative-caret-position="266">
+          <caret line="147" column="0" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
           <folding>
             <element signature="e#58#72#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/config/config.py">
+    <entry file="file://$PROJECT_DIR$/v3/db/download_data/load_from_uqer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
+        <state relative-caret-position="360">
+          <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
           <folding />
         </state>
       </provider>

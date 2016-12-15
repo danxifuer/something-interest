@@ -35,5 +35,6 @@ def insert_info_db_single_csv():
     collection.insert(json_data)
     print("over")
 
-insert_info_db_single_csv()
+# insert_info_db_single_csv()
+insert_into_db()
 connect.close()
