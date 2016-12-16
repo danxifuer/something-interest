@@ -6,7 +6,7 @@ from v4.service.construct_train_data import GenTrainData
 import numpy as np
 import pandas as pd
 
-all_stock_code = [1] #load_all_code()
+all_stock_code = load_all_code()
 
 with tf.Graph().as_default(), tf.Session() as session:
     config.config_print()
@@ -24,15 +24,15 @@ with tf.Graph().as_default(), tf.Session() as session:
                   % (dd.code, dd.date_range[-1], last_transaction_date))
             continue
         predict = lstmModel.session.run(lstmModel.predict_target,
-                              feed_dict={lstmModel.one_train_data: dd.train_data[-1],
+                              feed_dict={lstmModel.one_train_data: [dd.train_data[-1]],
                                          lstmModel.rnn_keep_prop: 1.0,
                                          lstmModel.hidden_layer_keep_prop: 1.0})
 
         predict = np.exp(predict)
         prob = predict / np.sum(predict, axis=1)[:, np.newaxis]
         code_list.append(dd.code)
-        probability.append(prob)
-    series = pd.Series(probability, index=code_list)
+        probability.append(prob.max())
+    series = pd.Series(probability, index=code_list, name="probability")
     series.to_csv(config.export_excel_file_path)
     print("predict over..., export csv file path == %s" % config.export_excel_file_path)
 

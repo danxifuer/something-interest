@@ -12,7 +12,7 @@ logger = config.get_logger(__name__)
 class LstmModel:
     def __init__(self, session):
         self.session = session
-        self.all_stock_code = [1]  # load_all_code()
+        self.all_stock_code = load_all_code()
         self.loop_code_time = 0
 
     def load_data(self):

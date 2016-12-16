@@ -6,8 +6,10 @@ from v4.config import config
 
 logger = config.get_logger(__name__)
 
+
 class ReadDB:
     """field中的数据，日期默认会进行获取，不用额外放入fields中"""
+
     def __init__(self, fields=["openPrice", "closePrice", "highestPrice", "lowestPrice"]):
         self.client = DBConnectManage()
         self.collection = self.client.get_collection()
@@ -19,7 +21,9 @@ class ReadDB:
         logger.info("read count == %d", self.read_count)
         self.read_count += 1
         if limit is not None:
-            dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING).limit(limit)
+            total_count = self.collection.find({"ticker": code, "isOpen": 1}).count()
+            dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING) \
+                .limit(limit).skip(total_count - limit)
         else:
             dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING)
 
@@ -46,6 +50,6 @@ class ReadDB:
     def destory(self):
         self.client.close()
 
-if __name__=='__main__':
-    print("train data>>>>>>")
 
+if __name__ == '__main__':
+    print("train data>>>>>>")

@@ -1,12 +1,12 @@
 import pandas as pd
+from v4.config import config
 """过滤掉数据量没有满足要求的code， 没有对3打头的code过滤"""
 # 2500阀值过滤后大约还剩1318个code
 THRESHOLD = 2500
 
 
 def load_all_code():
-    filePath = "/home/daiab/code/ml/something-interest/v4/csv_data/all_code.csv"
-    csv = pd.read_csv(filepath_or_buffer=filePath, index_col=0, dtype=str)
+    csv = pd.read_csv(filepath_or_buffer=config.code_csv_file_path, index_col=0, dtype=str)
     return filter_code(csv)
 
 

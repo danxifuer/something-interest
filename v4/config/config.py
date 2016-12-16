@@ -12,6 +12,9 @@ def get_logger(file_name):
 
 logger = get_logger(__name__)
 
+# ------------some file path------------
+code_csv_file_path = "/home/daiab/code/ml/something-interest/v4/csv_data/all_code.csv"
+
 # ------------model parameter------------
 """时间跨度"""
 time_step = 40
@@ -49,7 +52,7 @@ ckpt_file_path = "/home/daiab/ckpt/2016-12-16-15-53.ckpt"
 """预测结果导出excel的路径"""
 export_excel_file_path = "/home/daiab/ckpt/predict-outcome.csv"
 """最邻近数据的日期(且这一天必须是交易日),格式必须： 1994-09-07 """
-last_transaction_date = '2016-12-12'
+last_transaction_date = '2016-12-02'
 
 
 def config_print():
