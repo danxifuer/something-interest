@@ -1,5 +1,6 @@
 class DD:
     def __init__(self, date_index, code="", train_data=None, softmax=None, target=None):
+        assert train_data.shape[0] == softmax.shape[0]
         self.date_index = date_index
         self.train_data = train_data
         self.softmax = softmax

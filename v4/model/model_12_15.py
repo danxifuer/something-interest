@@ -22,7 +22,7 @@ class LstmModel:
     def __init__(self, session):
         self._session = session
 
-        self.all_stock_code = load_all_code()
+        self.all_stock_code = [1] # load_all_code()
 
         self.loop_code_time = 0
 
@@ -108,7 +108,7 @@ class LstmModel:
                 self.test(dd)
                 count -= 1
 
-            if config.is_save_file == 0:
+            if config.is_save_file:
                 save_time = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
                 self.saver.save(self._session, "/home/daiab/ckpt/%s.ckpt" % save_time)
                 logger.info("save file time: %s", save_time)

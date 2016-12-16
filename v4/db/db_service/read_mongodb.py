@@ -45,6 +45,7 @@ class ReadDB:
 
         count = len(data)
         logger.info("stock code == %s, count == %d", code, count)
+        print(date_range)
         return np.array(data), date_range
 
     def destory(self):
