@@ -11,8 +11,8 @@ logger = config.get_logger(__name__)
 
 class LstmModel:
     def __init__(self, session):
-        self._session = session
-        self.all_stock_code = load_all_code()
+        self.session = session
+        self.all_stock_code = [1]  # load_all_code()
         self.loop_code_time = 0
 
     def load_data(self):
@@ -25,7 +25,7 @@ class LstmModel:
 
         """placeholder: train data"""
         self.one_train_data = tf.placeholder(tf.float32, [None, config.time_step, 4])
-        self.target_data = tf.placeholder(tf.float32, [None, 2])
+        self.one_target_data = tf.placeholder(tf.float32, [None, 2])
 
         """RNN architecture"""
         cell = tf.nn.rnn_cell.BasicLSTMCell(config.hidden_cell_num,
@@ -42,12 +42,12 @@ class LstmModel:
         self.val = tf.reshape(val, [-1, dim])
 
         """softmax layer 1"""
-        self.weight = tf.Variable(tf.truncated_normal([dim, config.output_cell_num], dtype=tf.float32), name='weight')
-        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, config.output_cell_num]), name='bias')
+        self.weight = tf.Variable(tf.truncated_normal([dim, config.output_cell_num], dtype=tf.float32), name='weight_1')
+        self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, config.output_cell_num]), name='bias_1')
 
-        tmp_value = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias)
+        tmp_value = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias, name="relu")
         """softmax layer 1 drop out"""
-        tmp_value = tf.nn.dropout(tmp_value, keep_prob=self.hidden_layer_keep_prop)
+        tmp_value = tf.nn.dropout(tmp_value, keep_prob=self.hidden_layer_keep_prop, name="softmax_dropout")
 
         """softmax layer 2"""
         self.weight_2 = tf.Variable(tf.truncated_normal([config.output_cell_num, 2], dtype=tf.float32), name='weight_2')
@@ -56,9 +56,9 @@ class LstmModel:
 
         """Loss function and Optimizer"""
         self.cross_entropy = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits(self.predict_target, self.target_data))
+            tf.nn.softmax_cross_entropy_with_logits(self.predict_target, self.one_target_data, name="cross_entropy"))
         self.minimize = tf.train.AdamOptimizer(learning_rate=config.learning_rate).minimize(self.cross_entropy)
-        self._session.run(tf.initialize_all_variables())
+        self.session.run(tf.initialize_all_variables())
 
         """saver"""
         self.saver = tf.train.Saver()
@@ -77,32 +77,31 @@ class LstmModel:
                 feed_dict = {}
                 for one_train_data, _, softmax in batch_data:
                     feed_dict = {self.one_train_data: one_train_data,
-                                 self.target_data: softmax,
+                                 self.one_target_data: softmax,
                                  self.rnn_keep_prop: config.rnn_keep_prop,
                                  self.hidden_layer_keep_prop: config.hidden_layer_keep_prop}
-                    self._session.run(self.minimize, feed_dict=feed_dict)
+                    self.session.run(self.minimize, feed_dict=feed_dict)
 
                 if len(feed_dict) != 0:
-                    cross_entropy = self._session.run(self.cross_entropy, feed_dict=feed_dict)
+                    cross_entropy = self.session.run(self.cross_entropy, feed_dict=feed_dict)
                     logger.info("cross_entropy == %f", cross_entropy)
                 self.test(dd)
                 count -= 1
 
             if config.is_save_file:
                 save_time = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-                self.saver.save(self._session, "/home/daiab/ckpt/%s.ckpt" % save_time)
+                self.saver.save(self.session, "/home/daiab/ckpt/%s.ckpt" % save_time)
                 logger.info("save file time: %s", save_time)
 
     def test(self, dd):
         count_arr, right_arr, prop_step_arr = np.zeros(6), np.zeros(6), np.array([0.5, 0.6, 0.7, 0.8, 0.9, 0.95])
         logger.info("test begin ......")
-        # for day in dd.test_index:
         train = dd.train_data[dd.test_index]
         softmax = dd.softmax[dd.test_index]
 
-        predict = self._session.run(self.predict_target, feed_dict={self.one_train_data: train,
-                                                                    self.rnn_keep_prop: 1.0,
-                                                                    self.hidden_layer_keep_prop: 1.0})
+        predict = self.session.run(self.predict_target, feed_dict={self.one_train_data: train,
+                                                                   self.rnn_keep_prop: 1.0,
+                                                                   self.hidden_layer_keep_prop: 1.0})
         predict = np.exp(predict)
         probability = predict / np.sum(predict, axis=1)[:, np.newaxis]
 

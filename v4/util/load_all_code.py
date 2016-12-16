@@ -7,7 +7,6 @@ THRESHOLD = 2500
 def load_all_code():
     filePath = "/home/daiab/code/ml/something-interest/v4/csv_data/all_code.csv"
     csv = pd.read_csv(filepath_or_buffer=filePath, index_col=0, dtype=str)
-    # return fiterCode(csv['code'].values[:3])
     return filter_code(csv)
 
 

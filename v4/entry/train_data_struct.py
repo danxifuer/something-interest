@@ -2,14 +2,16 @@ import numpy as np
 
 
 class DD:
-    def __init__(self, date_index, code="", train_data=None, softmax=None, target=None):
-        assert train_data.shape[0] == softmax.shape[0]
-        self.date_index = date_index
+    def __init__(self, date_range, code="", train_data=None, softmax=None, target=None):
+        if softmax is not None:
+            assert train_data.shape[0] == softmax.shape[0]
+        # assert len(date_range) == train_data.shape[0]
+        self.date_range = date_range
         self.train_data = train_data
         self.softmax = softmax
         self.target = target
         self.code = code
-        self.days = len(date_index)
+        self.days = len(date_range)
         train_days = self.days - 100
         index = list(range(self.days))
         np.random.shuffle(index)

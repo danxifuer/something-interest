@@ -15,10 +15,14 @@ class ReadDB:
         self.fields = fields
         # warn: 这里一定要copy一份，而且需要用临时变量先存下来，否则append之后是None， 因为append成功之后返回的是none
 
-    def read_one_stock_data(self, code):
+    def read_one_stock_data(self, code, limit=None):
         logger.info("read count == %d", self.read_count)
         self.read_count += 1
-        dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING)
+        if limit is not None:
+            dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING).limit(limit)
+        else:
+            dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING)
+
         data = []
         date_range = []
         for dataDict in dbData:

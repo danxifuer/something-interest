@@ -12,7 +12,7 @@ def get_logger(file_name):
 
 logger = get_logger(__name__)
 
-
+# ------------model parameter------------
 """时间跨度"""
 time_step = 40
 """RNN每层个数"""
@@ -41,10 +41,19 @@ train_data_norm_type = "rate"  # could be ["zscore", "rate"]
 target_data_norm_type = "none"  # could be ["zscore", "rate", "none"]
 """是否checkpoint保存文件"""
 is_save_file = True
+"""是否真实开始线上预测"""
+# -------------online parameter--------------
+is_online_predict = False
+"""训练文件的保存路径"""
+ckpt_file_path = "/home/daiab/ckpt/2016-12-16-15-53.ckpt"
+"""预测结果导出excel的路径"""
+export_excel_file_path = "/home/daiab/ckpt/predict-outcome.csv"
+"""最邻近数据的日期(且这一天必须是交易日),格式必须： 1994-09-07 """
+last_transaction_date = '2016-12-12'
 
 
 def config_print():
-    string = "time_step: " + str(time_step) + "\n" \
+    config_string = "time_step: " + str(time_step) + "\n" \
             "hidden_cell_num: " + str(hidden_cell_num) + "\n" \
             "epochs: " + str(epochs) + "\n" \
             "batch_size: " + str(batch_size) + "\n" \
@@ -57,6 +66,7 @@ def config_print():
             "forget_bias: " + str(forget_bias) + "\n" \
             "train_data_norm_type: " + train_data_norm_type + "\n" \
             "target_data_norm_type: " + target_data_norm_type + "\n" \
-            "is_save_file: " + str(is_save_file)
-    logger.info("config :\n %s", string)
+            "is_save_file: " + str(is_save_file) + "\n" \
+            "is_online_predict" + str(is_online_predict)
+    logger.info("config :\n %s", config_string)
 
