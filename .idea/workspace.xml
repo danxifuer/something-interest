@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09880e29-17ed-40fa-a0f2-822d5b6503f5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v4/config/config.py" afterPath="$PROJECT_DIR$/v4/config/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v4/db/db_service/read_mongodb.py" afterPath="$PROJECT_DIR$/v4/db/db_service/read_mongodb.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v4/entry/train_data_struct.py" afterPath="$PROJECT_DIR$/v4/entry/train_data_struct.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v4/model/model_12_15.py" afterPath="$PROJECT_DIR$/v4/model/model_12_15.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v4/util/load_all_code.py" afterPath="$PROJECT_DIR$/v4/util/load_all_code.py" />
     </list>
     <ignored path="something-interest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,7 +32,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="model_12_15.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="model_12_15.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v4/model/model_12_15.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="249">
@@ -83,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/v4/config/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="88" column="6" selection-start-line="88" selection-start-column="6" selection-end-line="88" selection-end-column="6" />
+            <state relative-caret-position="100">
+              <caret line="66" column="12" selection-start-line="66" selection-start-column="12" selection-end-line="66" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -179,8 +174,8 @@
         <option value="$PROJECT_DIR$/v4/util/load_all_code.py" />
         <option value="$PROJECT_DIR$/v4/db/db_service/read_mongodb.py" />
         <option value="$PROJECT_DIR$/v4/entry/train_data_struct.py" />
-        <option value="$PROJECT_DIR$/v4/config/config.py" />
         <option value="$PROJECT_DIR$/v4/model/model_12_15.py" />
+        <option value="$PROJECT_DIR$/v4/config/config.py" />
       </list>
     </option>
   </component>
@@ -887,14 +882,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v4/util/mini_batch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="37" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/v4/util/load_all_code.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
@@ -931,14 +918,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v4/config/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="88" column="6" selection-start-line="88" selection-start-column="6" selection-end-line="88" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/v4/model/model_12_15.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="249">
@@ -946,6 +925,22 @@
           <folding>
             <element signature="e#58#72#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v4/util/mini_batch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="37" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v4/config/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="66" column="12" selection-start-line="66" selection-start-column="12" selection-end-line="66" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -64,7 +64,7 @@ time_step = 50
 """RNN每层个数"""
 hidden_cell_num = 200
 """每个code的迭代次数"""
-epochs = 1
+epochs = 200
 """批处理大小"""
 batch_size = 500
 """RNN输出之后的隐藏层层数"""
