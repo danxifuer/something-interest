@@ -1,5 +1,4 @@
 import logging
-
 import numpy as np
 from v4.config import config
 from v4.entry.train_data_struct import DD
@@ -130,7 +129,7 @@ output: [[[1, 2],
 notification: 使用索引查询时，比如查询'2014-01-20', 时间跨度是5天，
 那么返回的是'2014-01-16至'2014-01-20'的数据
 """
-def generate_train_serial(origin_data, time_step, norm_type="zscore"):
+def generate_train_serial(origin_data, time_step, norm_type):
     if norm_type == "zscore":
         norm_data = norm_to_zscore(origin_data)
     elif norm_type == "rate":

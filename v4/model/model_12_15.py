@@ -1,7 +1,3 @@
-"""
-use softmax regression and read data from mongodb
-"""
-import logging
 import time
 import numpy as np
 import tensorflow as tf
@@ -10,32 +6,18 @@ from v4.util.load_all_code import load_all_code
 from v4.util.mini_batch import batch
 from v4.service.construct_train_data import GenTrainData
 
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                    datefmt='%b %d %Y %H:%M:%S',
-                    filename='/home/daiab/log/quantlog.log',
-                    filemode='w')
-logger = logging.getLogger(__name__)
+logger = config.get_logger(__name__)
 
 
 class LstmModel:
     def __init__(self, session):
         self._session = session
-
-        self.all_stock_code = [1] # load_all_code()
-
+        self.all_stock_code = load_all_code()
         self.loop_code_time = 0
-
-    # def matmul_on_gpu(n):
-    #     if n.type == "MatMul":
-    #         return "/gpu:0"
-    #     else:
-    #         return "/cpu:0"
 
     def load_data(self):
         self.dd_list = GenTrainData(self.all_stock_code, config.time_step).dd_list
 
-    # with tf.device(matmul_on_gpu):
     def build_graph(self):
         """placeholder: drop keep prop"""
         self.rnn_keep_prop = tf.placeholder(tf.float32)
@@ -87,8 +69,6 @@ class LstmModel:
             count = len(self.dd_list) - 1
             while count >= 0:
                 dd = self.dd_list[count]
-                # shuffle_range = list(range(dd.days))
-                # np.random.shuffle(shuffle_range)
 
                 logger.info("epoch == %d, count == %d, stockCode == %d", i, count, dd.code)
                 batch_data = batch(batch_size=config.batch_size,
@@ -116,21 +96,21 @@ class LstmModel:
     def test(self, dd):
         count_arr, right_arr, prop_step_arr = np.zeros(6), np.zeros(6), np.array([0.5, 0.6, 0.7, 0.8, 0.9, 0.95])
         logger.info("test begin ......")
-        for day in dd.test_index:
-            train = [dd.train_data[day]]
-            softmax = dd.softmax[day]
+        # for day in dd.test_index:
+        train = dd.train_data[dd.test_index]
+        softmax = dd.softmax[dd.test_index]
 
-            predict = self._session.run(self.predict_target, feed_dict={self.one_train_data: train,
-                                                                        self.rnn_keep_prop: 1.0,
-                                                                        self.hidden_layer_keep_prop: 1.0})
-            predict = np.exp(predict)
-            probability = predict / predict.sum()
+        predict = self._session.run(self.predict_target, feed_dict={self.one_train_data: train,
+                                                                    self.rnn_keep_prop: 1.0,
+                                                                    self.hidden_layer_keep_prop: 1.0})
+        predict = np.exp(predict)
+        probability = predict / np.sum(predict, axis=1)[:, np.newaxis]
 
-            max_prob = probability[0][0] if probability[0][0] > probability[0][1] else probability[0][1]
-            tmp_bool_index = prop_step_arr <= max_prob
-            count_arr[tmp_bool_index] += 1
-            if np.argmax(predict) == np.argmax(softmax):
-                right_arr[tmp_bool_index] += 1
+        for i in range(6):
+            prop_threshold = prop_step_arr[i]
+            bool_index = probability > prop_threshold
+            count_arr[i] = bool_index.sum()
+            right_arr[i] = softmax[bool_index].sum()
 
         logger.info("test ratio>>%s", right_arr / count_arr)
         logger.info("test count>>%s", count_arr)

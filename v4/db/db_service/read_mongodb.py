@@ -1,18 +1,10 @@
-import logging
-
 import numpy as np
 import pymongo
 
 from v4.db.db_connect import DBConnectManage
-from v4.util.data_preprocess import DataPreprocess
+from v4.config import config
 
-logging.basicConfig(level=logging.DEBUG,
-                format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                datefmt='%b %d %Y %H:%M:%S',
-                filename='/home/daiab/log/quantlog.log',
-                filemode='w')
-logger = logging.getLogger(__name__)
-
+logger = config.get_logger(__name__)
 
 class ReadDB:
     """field中的数据，日期默认会进行获取，不用额外放入fields中"""
@@ -45,7 +37,6 @@ class ReadDB:
 
         count = len(data)
         logger.info("stock code == %s, count == %d", code, count)
-        print(date_range)
         return np.array(data), date_range
 
     def destory(self):

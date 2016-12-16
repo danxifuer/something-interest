@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-from 4.db.db_connect import DBConnectManage
+from v4.db.db_connect import DBConnectManage
 
 connect = DBConnectManage()
 collection = connect.get_collection()
