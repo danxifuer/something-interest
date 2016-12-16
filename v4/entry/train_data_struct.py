@@ -1,3 +1,4 @@
+import numpy as np
 class DD:
     def __init__(self, date_index, code="", train_data=None, softmax=None, target=None):
         assert train_data.shape[0] == softmax.shape[0]
@@ -7,6 +8,11 @@ class DD:
         self.target = target
         self.code = code
         self.days = len(date_index)
-        self.train_days = self.days - 80
+        train_days = self.days - 80
+        index = list(range(self.days))
+        np.random.shuffle(index)
+        self.train_index = index[:train_days]
+        self.test_index = index[train_days:]
+
 
     # TODO:convert date to index and index to date

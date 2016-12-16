@@ -52,6 +52,5 @@ class ReadDB:
         self.client.close()
 
 if __name__=='__main__':
-    data_process = DataPreprocess(2)
     print("train data>>>>>>")
 

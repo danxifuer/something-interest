@@ -60,7 +60,7 @@ logger = logging.getLogger(__name__)
 
 
 """时间跨度"""
-time_step = 50
+time_step = 40
 """RNN每层个数"""
 hidden_cell_num = 200
 """每个code的迭代次数"""
@@ -76,7 +76,7 @@ hidden_layer_keep_prop = 1
 """学习率"""
 learning_rate = 0.001
 """RNN输出之后的隐藏层单元个数"""
-output_cell_num = 400
+output_cell_num = 512
 """预测指标"""
 predict_index_type = 1  # could be one of {"open":0, "close":1, "high":2, "low":3}
 """LSTM forget gate forget bias"""

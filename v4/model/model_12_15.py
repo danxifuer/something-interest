@@ -87,13 +87,13 @@ class LstmModel:
             count = len(self.dd_list) - 1
             while count >= 0:
                 dd = self.dd_list[count]
-                shuffle_range = list(range(dd.days))
-                np.random.shuffle(shuffle_range)
+                # shuffle_range = list(range(dd.days))
+                # np.random.shuffle(shuffle_range)
 
-                logger.info("stockCode == %d, epoch == %d", dd.code, i)
+                logger.info("epoch == %d, count == %d, stockCode == %d", i, count, dd.code)
                 batch_data = batch(batch_size=config.batch_size,
-                                   data=dd.train_data[0:dd.train_days],
-                                   softmax=dd.softmax[0:dd.train_days])
+                                   data=dd.train_data[dd.train_index],
+                                   softmax=dd.softmax[dd.train_index])
                 feed_dict = {}
                 for one_train_data, _, softmax in batch_data:
                     feed_dict = {self.one_train_data: one_train_data,
@@ -103,8 +103,8 @@ class LstmModel:
                     self._session.run(self.minimize, feed_dict=feed_dict)
 
                 if len(feed_dict) != 0:
-                    crossEntropy = self._session.run(self.cross_entropy, feed_dict=feed_dict)
-                    logger.info("crossEntropy == %f", crossEntropy)
+                    cross_entropy = self._session.run(self.cross_entropy, feed_dict=feed_dict)
+                    logger.info("cross_entropy == %f", cross_entropy)
                 self.test(dd)
                 count -= 1
 
@@ -116,7 +116,7 @@ class LstmModel:
     def test(self, dd):
         count_arr, right_arr, prop_step_arr = np.zeros(6), np.zeros(6), np.array([0.5, 0.6, 0.7, 0.8, 0.9, 0.95])
         logger.info("test begin ......")
-        for day in range(dd.train_days, dd.days):
+        for day in dd.test_index:
             train = [dd.train_data[day]]
             softmax = dd.softmax[day]
 
