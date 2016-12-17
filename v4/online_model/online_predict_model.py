@@ -1,13 +1,12 @@
 import tensorflow as tf
 from v4.config import config
 from v4.model.model_12_15 import LstmModel
-from v4.util.load_all_code import load_all_code
 import numpy as np
 import pandas as pd
 
-all_stock_code = load_all_code()
 
 with tf.Graph().as_default(), tf.Session() as session:
+    print("-------------predict---------------")
     print("start to predict")
     config.config_print()
     lstmModel = LstmModel(session)
@@ -35,6 +34,6 @@ with tf.Graph().as_default(), tf.Session() as session:
         probability.append(prob.max())
     series = pd.Series(probability, index=code_list, name="probability")
     series.to_csv(config.op_export_excel_file_path)
-    print("predict over..., export csv file path == %s" % config.op_export_excel_file_path)
+    print("predict over, export csv file path == %s" % config.op_export_excel_file_path)
 
     session.close()

@@ -33,7 +33,7 @@ time_step = 40
 """RNN每层个数"""
 hidden_cell_num = 200
 """每个code的迭代次数"""
-epochs = 200
+offline_train_epochs = 200
 """批处理大小"""
 batch_size = 500
 """RNN输出之后的隐藏层层数"""
@@ -58,15 +58,18 @@ target_data_norm_type = "none"  # could be ["zscore", "rate", "none"]
 is_save_file = True
 # -------------online predict parameter: op prefix--------------
 """训练文件的保存路径"""
-op_ckpt_file_path = "/home/daiab/ckpt/2016-12-16-15-53.ckpt"
+op_ckpt_file_path = "/home/daiab/ckpt/2016-12-17-13-15.ckpt"
 """预测结果导出excel的路径"""
 op_export_excel_file_path = "/home/daiab/ckpt/predict-outcome.csv"
 """最邻近数据的日期(且这一天必须是交易日),格式必须： 1994-09-07 """
 op_last_transaction_date = '2016-12-02'
 # -------------online train parameter: ot prefix--------------
 """训练文件的保存路径"""
-ot_ckpt_file_path = "/home/daiab/ckpt/2016-12-16-15-53.ckpt"
-ot_limit = time_step + 0
+ot_ckpt_file_path = "/home/daiab/ckpt/2016-12-17-13-15.ckpt"
+ot_online_train_epoche = 5
+# 取出的数据长度就是ot_limit,e.g: 今天是2016-11-11,然后得到了两天的新数据(2016-11-10, 2016-11-11)，那么这儿的ot_limit
+# 就应该在time_step基础上+3!!!!, 不是加2的原因是第一天的train data被丢弃了, ot_last_transaction_date就应该填写'2016-11-11'
+ot_limit = time_step + 2
 ot_last_transaction_date = '2016-12-02'
 
 

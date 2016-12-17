@@ -21,8 +21,8 @@ class ReadDB:
         logger.info("read count == %d", self.read_count)
         self.read_count += 1
         if limit is not None and (end_date is not None):
-            total_count = self.collection.find({"ticker": code, "isOpen": 1, "tradeDate": {"$le": end_date}}).count()
-            dbData = self.collection.find({"ticker": code, "isOpen": 1, "tradeDate": {"$le": end_date}}).sort("tradeDate", pymongo.ASCENDING) \
+            total_count = self.collection.find({"ticker": code, "isOpen": 1, "tradeDate": {"$lte": end_date}}).count()
+            dbData = self.collection.find({"ticker": code, "isOpen": 1, "tradeDate": {"$lte": end_date}}).sort("tradeDate", pymongo.ASCENDING) \
                 .limit(limit).skip(total_count - limit)
         else:
             dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING)

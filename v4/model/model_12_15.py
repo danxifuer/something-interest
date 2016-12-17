@@ -75,8 +75,8 @@ class LstmModel:
         self.saver.save(self.session, "/home/daiab/ckpt/%s.ckpt" % save_time)
         logger.info("save file time: %s", save_time)
 
-    def train_model(self, operate_type):
-        for i in range(config.epochs):
+    def train_model(self, operate_type, epochs):
+        for i in range(epochs):
             count = len(self.dd_list) - 1
             while count >= 0:
                 dd = self.dd_list[count]
@@ -131,7 +131,7 @@ def run():
         lstmModel = LstmModel(session)
         lstmModel.build_graph()
         lstmModel.load_data(operate_type=config.OFFLINE_TRAIN)
-        lstmModel.train_model(operate_type=config.OFFLINE_TRAIN)
+        lstmModel.train_model(operate_type=config.OFFLINE_TRAIN, epochs=config.offline_train_epochs)
         session.close()
 
 
