@@ -5,7 +5,7 @@ from v4.db.db_service.read_mongodb import ReadDB
 class GenTrainData:
     def __init__(self, all_code, time_step, operate_type, end_date=None, limit=None):
         """
-        gen_type:
+        operate_type:
         case 1: 线下训练
         case 2: 在线训练
         case 3: 预测
