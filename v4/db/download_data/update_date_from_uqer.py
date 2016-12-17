@@ -1,11 +1,11 @@
 import pandas as pd
 import json
 from v4.db.db_connect import DBConnectManage
+from v4.config import config
 
 connect = DBConnectManage()
 collection = connect.get_collection()
-file_path = "/home/daiab/Public/update_data/download-2016-12-03.csv"
-data = pd.read_csv(file_path, index_col=0)
+data = pd.read_csv(config.update_uqer_csv_file_path, index_col=0)
 json_data = json.loads(data.to_json(orient='records'))
 print(data.iloc[:3])
 

@@ -2,7 +2,7 @@ import pandas as pd
 from v4.config import config
 """过滤掉数据量没有满足要求的code， 没有对3打头的code过滤"""
 # 2500阀值过滤后大约还剩1318个code
-THRESHOLD = 2500
+THRESHOLD = 2000
 
 
 def load_all_code():

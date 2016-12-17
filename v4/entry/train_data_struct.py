@@ -2,7 +2,7 @@ import numpy as np
 
 
 class DD:
-    def __init__(self, date_range, code="", train_data=None, softmax=None, target=None):
+    def __init__(self, date_range, is_split_data_to_train_test, code="", train_data=None, softmax=None, target=None):
         if softmax is not None:
             assert train_data.shape[0] == softmax.shape[0]
         # assert len(date_range) == train_data.shape[0]
@@ -15,8 +15,12 @@ class DD:
         train_days = self.days - 100
         index = list(range(self.days))
         np.random.shuffle(index)
-        self.train_index = index[:train_days]
-        self.test_index = index[train_days:]
-
+        """在线更新时，不分配测试数据"""
+        if is_split_data_to_train_test:
+            self.train_index = index[:train_days]
+            self.test_index = index[train_days:]
+        else:
+            self.train_index = index
+            self.test_index = []
 
     # TODO:convert date to index and index to date

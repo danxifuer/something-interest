@@ -1,4 +1,5 @@
 import logging
+import os
 
 
 def get_logger(file_name):
@@ -12,8 +13,19 @@ def get_logger(file_name):
 
 logger = get_logger(__name__)
 
+# -----------enum------------
+"""
+case 1: 线下训练
+case 2: 在线训练
+case 3: 预测
+"""
+OFFLINE_TRAIN = 1
+ONLINE_TRAIN = 2
+PREDICT = 3
+
 # ------------some file path------------
 code_csv_file_path = "/home/daiab/code/ml/something-interest/v4/csv_data/all_code.csv"
+update_uqer_csv_file_path = "/home/daiab/Public/update_data/download-2016-12-03.csv"
 
 # ------------model parameter------------
 """时间跨度"""
@@ -44,32 +56,26 @@ train_data_norm_type = "rate"  # could be ["zscore", "rate"]
 target_data_norm_type = "none"  # could be ["zscore", "rate", "none"]
 """是否checkpoint保存文件"""
 is_save_file = True
-"""是否真实开始线上预测"""
-# -------------online parameter--------------
-is_online_predict = False
+# -------------online predict parameter: op prefix--------------
 """训练文件的保存路径"""
-ckpt_file_path = "/home/daiab/ckpt/2016-12-16-15-53.ckpt"
+op_ckpt_file_path = "/home/daiab/ckpt/2016-12-16-15-53.ckpt"
 """预测结果导出excel的路径"""
-export_excel_file_path = "/home/daiab/ckpt/predict-outcome.csv"
+op_export_excel_file_path = "/home/daiab/ckpt/predict-outcome.csv"
 """最邻近数据的日期(且这一天必须是交易日),格式必须： 1994-09-07 """
-last_transaction_date = '2016-12-02'
+op_last_transaction_date = '2016-12-02'
+# -------------online train parameter: ot prefix--------------
+"""训练文件的保存路径"""
+ot_ckpt_file_path = "/home/daiab/ckpt/2016-12-16-15-53.ckpt"
+ot_limit = time_step + 0
+ot_last_transaction_date = '2016-12-02'
+
+
 
 
 def config_print():
-    config_string = "time_step: " + str(time_step) + "\n" \
-            "hidden_cell_num: " + str(hidden_cell_num) + "\n" \
-            "epochs: " + str(epochs) + "\n" \
-            "batch_size: " + str(batch_size) + "\n" \
-            "hidden_layer_num: " + str(hidden_layer_num) + "\n" \
-            "rnn_keep_prop: " + str(rnn_keep_prop) + "\n" \
-            "hidden_layer_keep_prop: " + str(hidden_layer_keep_prop) + "\n" \
-            "learning_rate: " + str(learning_rate) + "\n" \
-            "output_cell_num: " + str(output_cell_num) + "\n" \
-            "predict_index_type: " + str(predict_index_type) + "\n" \
-            "forget_bias: " + str(forget_bias) + "\n" \
-            "train_data_norm_type: " + train_data_norm_type + "\n" \
-            "target_data_norm_type: " + target_data_norm_type + "\n" \
-            "is_save_file: " + str(is_save_file) + "\n" \
-            "is_online_predict" + str(is_online_predict)
-    logger.info("config :\n %s", config_string)
+    config_file_path = os.path.abspath(__file__)
+    print(config_file_path)
+    with open(config_file_path, 'r', encoding='utf-8') as config_file:
+        for line in config_file:
+            logger.info("|||  " + line)
 

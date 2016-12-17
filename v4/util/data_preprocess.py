@@ -23,7 +23,7 @@ class DataPreprocess:
     def __init__(self, time_step):
         self.time_step = time_step
 
-    def process(self, origin_data, date_range):
+    def process(self, origin_data, date_range, operate_type):
         """
         input origin_date: numpy array type, shape like [sample_size, variable_size]
         """
@@ -40,20 +40,36 @@ class DataPreprocess:
         """generate softmax data 返回的数据长度是(sample_size)"""
         softmax = generate_softmax_target(origin_target_data)
 
-        if config.is_online_predict:
-            start_index = self.time_step - 1
-            filter_date_range = date_range[start_index: shape_0]
-            assert len(filter_date_range) == train_data.shape[0]
-            return DD(filter_date_range, train_data=train_data)
+        if operate_type == config.OFFLINE_TRAIN:
+            split_data_to_train_test = True
+        elif operate_type == config.ONLINE_TRAIN or operate_type == config.PREDICT:
+            split_data_to_train_test = False
         else:
-            """DD object, 因为最开始第一天的数据，如果是使用rate norm的方式，第一天的数据是有问题的，所以这里把他排除出去"""
-            start_index = self.time_step - 1 + 1
-            filter_date_range = date_range[start_index: shape_0 - 1]
+            raise Exception("type is error")
+
+        if operate_type == config.OFFLINE_TRAIN or operate_type == config.ONLINE_TRAIN:
+            """
+            因为最开始第一天的数据，如果是使用rate norm的方式，第一天的数据是有问题的，所以这里把他排除出去
+            warning：然后为了统一，在线训练时也把第一天数据给去掉了
+            """
+            filter_date_range = date_range[self.time_step - 1 + 1: shape_0 - 1]
             if target is not None:
                 return DD(filter_date_range, train_data=train_data[1:-1], softmax=softmax[self.time_step + 1:],
-                          target=target[self.time_step + 1:])
+                          target=target[self.time_step + 1:], is_split_data_to_train_test=split_data_to_train_test)
             else:
-                return DD(filter_date_range, train_data=train_data[1:-1], softmax=softmax[self.time_step + 1:])
+                return DD(filter_date_range, train_data=train_data[1:-1], softmax=softmax[self.time_step + 1:],
+                          is_split_data_to_train_test=split_data_to_train_test)
+
+        elif operate_type == config.PREDICT:
+            filter_date_range = date_range[self.time_step - 1: shape_0]
+            assert len(filter_date_range) == train_data.shape[0]
+            return DD(filter_date_range, train_data=train_data, is_split_data_to_train_test=split_data_to_train_test)
+
+        else:
+            raise Exception("type is error")
+
+
+
 
 
 def norm_data(origin_target_data, norm_type):

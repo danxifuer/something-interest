@@ -17,12 +17,12 @@ class ReadDB:
         self.fields = fields
         # warn: 这里一定要copy一份，而且需要用临时变量先存下来，否则append之后是None， 因为append成功之后返回的是none
 
-    def read_one_stock_data(self, code, limit=None):
+    def read_one_stock_data(self, code, end_date=None, limit=None):
         logger.info("read count == %d", self.read_count)
         self.read_count += 1
-        if limit is not None:
-            total_count = self.collection.find({"ticker": code, "isOpen": 1}).count()
-            dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING) \
+        if limit is not None and (end_date is not None):
+            total_count = self.collection.find({"ticker": code, "isOpen": 1, "tradeDate": {"$le": end_date}}).count()
+            dbData = self.collection.find({"ticker": code, "isOpen": 1, "tradeDate": {"$le": end_date}}).sort("tradeDate", pymongo.ASCENDING) \
                 .limit(limit).skip(total_count - limit)
         else:
             dbData = self.collection.find({"ticker": code, "isOpen": 1}).sort("tradeDate", pymongo.ASCENDING)
