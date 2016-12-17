@@ -62,7 +62,7 @@ op_ckpt_file_path = "/home/daiab/ckpt/2016-12-17-13-15.ckpt"
 """预测结果导出excel的路径"""
 op_export_excel_file_path = "/home/daiab/ckpt/predict-outcome.csv"
 """最邻近数据的日期(且这一天必须是交易日),格式必须： 1994-09-07 """
-op_last_transaction_date = '2016-12-02'
+op_last_transaction_date = '2016-12-15'
 # -------------online train parameter: ot prefix--------------
 """训练文件的保存路径"""
 ot_ckpt_file_path = "/home/daiab/ckpt/2016-12-17-13-15.ckpt"

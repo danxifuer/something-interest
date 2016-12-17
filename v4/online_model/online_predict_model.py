@@ -18,6 +18,7 @@ with tf.Graph().as_default(), tf.Session() as session:
     last_transaction_date = config.op_last_transaction_date
     code_list = []
     probability = []
+    up_down = []
     for dd in lstmModel.dd_list:
         if last_transaction_date != dd.date_range[-1]:
             print("stock code : %d, 预测数据有误, 数据最新日期== %s，但last_transaction_date== %s"
@@ -32,8 +33,10 @@ with tf.Graph().as_default(), tf.Session() as session:
         prob = predict / np.sum(predict, axis=1)[:, np.newaxis]
         code_list.append(dd.code)
         probability.append(prob.max())
-    series = pd.Series(probability, index=code_list, name="probability")
-    series.to_csv(config.op_export_excel_file_path)
+        # 1: up, 0:down
+        up_down.append(1 - prob.argmax())
+    data_frame = pd.DataFrame({"code": code_list, "prob": probability, "up_down": up_down})
+    data_frame.to_csv(config.op_export_excel_file_path)
     print("predict over, export csv file path == %s" % config.op_export_excel_file_path)
 
     session.close()
