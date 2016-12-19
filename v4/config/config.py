@@ -56,6 +56,8 @@ train_data_norm_type = "rate"  # could be ["zscore", "rate"]
 target_data_norm_type = "none"  # could be ["zscore", "rate", "none"]
 """是否checkpoint保存文件"""
 is_save_file = True
+"""初始化参数，使用之前保存的文件"""
+init_variable_file_path = ""
 # -------------online predict parameter: op prefix--------------
 """训练文件的保存路径"""
 op_ckpt_file_path = "/home/daiab/ckpt/2016-12-17-13-15.ckpt"

@@ -65,10 +65,17 @@ class LstmModel:
         self.cross_entropy = tf.reduce_mean(
             tf.nn.softmax_cross_entropy_with_logits(self.predict_target, self.one_target_data, name="cross_entropy"))
         self.minimize = tf.train.AdamOptimizer(learning_rate=config.learning_rate).minimize(self.cross_entropy)
-        self.session.run(tf.initialize_all_variables())
 
         """saver"""
         self.saver = tf.train.Saver()
+
+        """init variables"""
+        if config.init_variable_file_path == "":
+            logger.info("init all variables by random")
+            self.session.run(tf.initialize_all_variables())
+        else:
+            logger.info("init all variables by previous file")
+            self.saver.restore(self.session, config.init_variable_file_path)
 
     def save_model(self):
         save_time = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
