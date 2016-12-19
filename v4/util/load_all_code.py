@@ -15,7 +15,7 @@ def filter_code(csv):
     for index in range(csv.shape[0]):
         code = int(csv.iloc[index, 0])
         days = int(csv.iloc[index, 1])
-        if code < 100000 and days > THRESHOLD:
+        if days > THRESHOLD:
             # if code.startswith("3"):continue
             filter_result.append(code)
     print("all code number == %d" % len(filter_result))

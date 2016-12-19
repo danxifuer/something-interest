@@ -17,7 +17,7 @@ class LstmModel:
 
     def load_data(self, operate_type, end_date=None, limit=None):
         """
-        load_type:
+        operate_type:
         case 1: 线下训练
         case 2: 在线训练
         case 3: 预测

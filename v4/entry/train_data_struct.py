@@ -23,4 +23,9 @@ class DD:
             self.train_index = index
             self.test_index = []
 
+        # mask = np.ones(train_data.shape[0], dtype=bool)
+        # index = np.random.randint(low=0, high=self.days, size=100)
+        # mask[index] = False
+
+
     # TODO:convert date to index and index to date
