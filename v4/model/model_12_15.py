@@ -12,7 +12,7 @@ logger = config.get_logger(__name__)
 class LstmModel:
     def __init__(self, session):
         self.session = session
-        self.all_stock_code = load_all_code()
+        self.all_stock_code = [1] # load_all_code()
         self.loop_code_time = 0
 
     def load_data(self, operate_type, end_date=None, limit=None):
@@ -137,6 +137,9 @@ def run():
         else:
             logger.info("init all variables by previous file")
             lstmModel.saver.restore(lstmModel.session, config.init_variable_file_path)
+
+        # writer = tf.train.SummaryWriter("./model-summary", graph=tf.get_default_graph())
+        # writer.close()
 
         lstmModel.load_data(operate_type=config.OFFLINE_TRAIN)
         lstmModel.train_model(operate_type=config.OFFLINE_TRAIN, epochs=config.offline_train_epochs)
