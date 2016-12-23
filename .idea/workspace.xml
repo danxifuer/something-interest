@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="09880e29-17ed-40fa-a0f2-822d5b6503f5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v4/config/config.py" afterPath="$PROJECT_DIR$/v4/config/config.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v4/model/model_12_15.py" afterPath="$PROJECT_DIR$/v4/model/model_12_15.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/v4/util/load_all_code.py" afterPath="$PROJECT_DIR$/v4/util/load_all_code.py" />
     </list>
     <ignored path="something-interest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,18 +28,18 @@
       <file leaf-file-name="train_data_struct.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v4/entry/train_data_struct.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="14" column="18" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="18" />
+            <state relative-caret-position="270">
+              <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="model_12_15.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="model_12_15.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v4/model/model_12_15.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="77" column="75" selection-start-line="77" selection-start-column="52" selection-end-line="77" selection-end-column="75" />
+            <state relative-caret-position="496">
+              <caret line="133" column="41" selection-start-line="133" selection-start-column="18" selection-end-line="133" selection-end-column="41" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -45,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="load_all_code.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/v4/util/load_all_code.py">
+      <file leaf-file-name="mini_batch.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/v4/util/mini_batch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+            <state relative-caret-position="36">
+              <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -58,8 +60,8 @@
       <file leaf-file-name="online_train_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v4/online_model/online_train_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+            <state relative-caret-position="360">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -70,11 +72,9 @@
       <file leaf-file-name="update_date_from_uqer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v4/db/download_data/update_date_from_uqer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
-              <folding>
-                <marker date="1482128859767" expanded="true" signature="375:582" ph="..." />
-              </folding>
+            <state relative-caret-position="198">
+              <caret line="14" column="31" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -83,7 +83,7 @@
         <entry file="file://$PROJECT_DIR$/v4/service/construct_train_data.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="324">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
               </folding>
@@ -94,8 +94,8 @@
       <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v4/config/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="622">
-              <caret line="59" column="28" selection-start-line="59" selection-start-column="28" selection-end-line="59" selection-end-column="28" />
+            <state relative-caret-position="249">
+              <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -103,11 +103,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="data_preprocess.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="data_preprocess.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/v4/util/data_preprocess.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="37" column="75" selection-start-line="37" selection-start-column="54" selection-end-line="37" selection-end-column="75" />
+            <state relative-caret-position="267">
+              <caret line="119" column="19" selection-start-line="119" selection-start-column="19" selection-end-line="119" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -178,17 +178,17 @@
         <option value="$PROJECT_DIR$/v4/v4/util/data_preprocess.py" />
         <option value="$PROJECT_DIR$/v4/util/mini_batch.py" />
         <option value="$PROJECT_DIR$/v4/model/online_predict_model.py" />
-        <option value="$PROJECT_DIR$/v4/util/data_preprocess.py" />
         <option value="$PROJECT_DIR$/v4/online_model/online_update_model.py" />
         <option value="$PROJECT_DIR$/v4/db/db_service/read_mongodb.py" />
         <option value="$PROJECT_DIR$/v4/online_model/online_predict_model.py" />
-        <option value="$PROJECT_DIR$/v4/online_model/online_train_model.py" />
         <option value="$PROJECT_DIR$/v4/entry/train_data_struct.py" />
         <option value="$PROJECT_DIR$/v4/util/load_all_code.py" />
         <option value="$PROJECT_DIR$/v4/db/download_data/update_date_from_uqer.py" />
         <option value="$PROJECT_DIR$/v4/service/construct_train_data.py" />
         <option value="$PROJECT_DIR$/v4/config/config.py" />
+        <option value="$PROJECT_DIR$/v4/online_model/online_train_model.py" />
         <option value="$PROJECT_DIR$/v4/model/model_12_15.py" />
+        <option value="$PROJECT_DIR$/v4/util/data_preprocess.py" />
       </list>
     </option>
   </component>
@@ -562,13 +562,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/v2/db/download_data/load_from_tushare.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/v2/db/download_data/load_from_uqer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -798,13 +791,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v4/util/mini_batch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.5/site-packages/tensorflow/python/training/saver.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="303">
@@ -819,11 +805,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v4/util/data_preprocess.py">
+    <entry file="file://$PROJECT_DIR$/v4/online_model/online_predict_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="37" column="75" selection-start-line="37" selection-start-column="54" selection-end-line="37" selection-end-column="75" />
-          <folding />
+        <state relative-caret-position="540">
+          <caret line="36" column="31" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -835,36 +820,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v4/entry/train_data_struct.py">
+    <entry file="file://$PROJECT_DIR$/v4/util/load_all_code.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="18" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="18" />
+        <state relative-caret-position="378">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v4/util/mini_batch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v4/online_model/online_predict_model.py">
+    <entry file="file://$PROJECT_DIR$/v4/entry/train_data_struct.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="31" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#23#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="270">
+          <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v4/util/load_all_code.py">
+    <entry file="file://$PROJECT_DIR$/v1/quant/lstm-and-quant/v11-10.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+        <state relative-caret-position="18">
+          <caret line="97" column="13" selection-start-line="97" selection-start-column="13" selection-end-line="97" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/v4/online_model/online_train_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
+        <state relative-caret-position="360">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
@@ -873,10 +863,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/v4/db/download_data/update_date_from_uqer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+        <state relative-caret-position="198">
+          <caret line="14" column="31" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v4/model/model_12_15.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="133" column="41" selection-start-line="133" selection-start-column="18" selection-end-line="133" selection-end-column="41" />
           <folding>
-            <marker date="1482128859767" expanded="true" signature="375:582" ph="..." />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -884,7 +882,7 @@
     <entry file="file://$PROJECT_DIR$/v4/service/construct_train_data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
@@ -893,21 +891,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/v4/config/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
-          <caret line="59" column="28" selection-start-line="59" selection-start-column="28" selection-end-line="59" selection-end-column="28" />
+        <state relative-caret-position="249">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v4/model/model_12_15.py">
+    <entry file="file://$PROJECT_DIR$/v4/util/data_preprocess.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="77" column="75" selection-start-line="77" selection-start-column="52" selection-end-line="77" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="267">
+          <caret line="119" column="19" selection-start-line="119" selection-start-column="19" selection-end-line="119" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -69,14 +69,6 @@ class LstmModel:
         """saver"""
         self.saver = tf.train.Saver()
 
-        """init variables"""
-        if config.init_variable_file_path == "":
-            logger.info("init all variables by random")
-            self.session.run(tf.initialize_all_variables())
-        else:
-            logger.info("init all variables by previous file")
-            self.saver.restore(self.session, config.init_variable_file_path)
-
     def save_model(self):
         save_time = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
         self.saver.save(self.session, "/home/daiab/ckpt/%s.ckpt" % save_time)
@@ -137,6 +129,15 @@ def run():
         config.config_print()
         lstmModel = LstmModel(session)
         lstmModel.build_graph()
+
+        """init variables"""
+        if config.init_variable_file_path == "":
+            logger.info("init all variables by random")
+            lstmModel.session.run(tf.initialize_all_variables())
+        else:
+            logger.info("init all variables by previous file")
+            lstmModel.saver.restore(lstmModel.session, config.init_variable_file_path)
+
         lstmModel.load_data(operate_type=config.OFFLINE_TRAIN)
         lstmModel.train_model(operate_type=config.OFFLINE_TRAIN, epochs=config.offline_train_epochs)
         session.close()

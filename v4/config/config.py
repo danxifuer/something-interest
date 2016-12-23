@@ -51,7 +51,7 @@ predict_index_type = 1  # could be one of {"open":0, "close":1, "high":2, "low":
 """LSTM forget gate forget bias"""
 forget_bias = 1  # 最好不要动
 """训练数据的norm类型"""
-train_data_norm_type = "rate"  # could be ["zscore", "rate"]
+train_data_norm_type = "zscore"  # could be ["zscore", "rate"]
 """预测数据的norm类型"""
 target_data_norm_type = "none"  # could be ["zscore", "rate", "none"]
 """是否checkpoint保存文件"""
