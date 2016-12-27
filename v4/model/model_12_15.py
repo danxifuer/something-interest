@@ -12,7 +12,7 @@ logger = config.get_logger(__name__)
 class LstmModel:
     def __init__(self, session):
         self.session = session
-        self.all_stock_code = [1] # load_all_code()
+        self.all_stock_code = load_all_code()
         self.loop_code_time = 0
 
     def load_data(self, operate_type, end_date=None, limit=None):
@@ -43,13 +43,13 @@ class LstmModel:
         val, self.states = tf.nn.dynamic_rnn(multi_cell, self.one_train_data, dtype=tf.float32)
 
         """reshape the RNN output"""
-        # val = tf.transpose(val, [1, 0, 2])
-        # self.val = tf.gather(val, val.get_shape()[0] - 1)
-        dim = config.time_step * config.hidden_cell_num
-        self.val = tf.reshape(val, [-1, dim])
+        val = tf.transpose(val, [1, 0, 2])
+        self.val = tf.gather(val, val.get_shape()[0] - 1)
+        # dim = config.time_step * config.hidden_cell_num
+        # self.val = tf.reshape(val, [-1, dim])
 
         """softmax layer 1"""
-        self.weight = tf.Variable(tf.truncated_normal([dim, config.output_cell_num], dtype=tf.float32), name='weight_1')
+        self.weight = tf.Variable(tf.truncated_normal([config.hidden_cell_num, config.output_cell_num], dtype=tf.float32), name='weight_1')
         self.bias = tf.Variable(tf.constant(0.0, dtype=tf.float32, shape=[1, config.output_cell_num]), name='bias_1')
 
         tmp_value = tf.nn.relu(tf.matmul(self.val, self.weight) + self.bias, name="relu")
@@ -97,7 +97,7 @@ class LstmModel:
                     logger.info("cross_entropy == %f", cross_entropy)
                     self.test_model(dd)
                 count -= 1
-            if config.is_save_file:
+            if (i+1) % 2 == 0 and config.is_save_file:
                 self.save_model()
 
     def test_model(self, dd):

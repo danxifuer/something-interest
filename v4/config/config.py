@@ -25,7 +25,7 @@ PREDICT = 3
 
 # ------------some file path------------
 code_csv_file_path = "/home/daiab/code/ml/something-interest/v4/csv_data/all_code.csv"
-update_uqer_csv_file_path = "/home/daiab/Public/update_data/download-2016-12-03.csv"
+update_uqer_csv_file_path = "/home/daiab/Downloads/download-2016-12-27.csv"
 
 # ------------model parameter------------
 """时间跨度"""
@@ -60,11 +60,11 @@ is_save_file = True
 init_variable_file_path = ""
 # -------------online predict parameter: op prefix--------------
 """训练文件的保存路径"""
-op_ckpt_file_path = "/home/daiab/ckpt/2016-12-17-13-15.ckpt"
+op_ckpt_file_path = "/home/daiab/ckpt/2016-12-27-01-50.ckpt"
 """预测结果导出excel的路径"""
-op_export_excel_file_path = "/home/daiab/ckpt/predict-outcome.csv"
+op_export_excel_file_path = "/home/daiab/log/outcome/predict-outcome-26.csv"
 """最邻近数据的日期(且这一天必须是交易日),格式必须： 1994-09-07 """
-op_last_transaction_date = '2016-12-15'
+op_last_transaction_date = '2016-12-23'
 # -------------online train parameter: ot prefix--------------
 """训练文件的保存路径"""
 ot_ckpt_file_path = "/home/daiab/ckpt/2016-12-17-13-15.ckpt"

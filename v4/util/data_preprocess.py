@@ -121,9 +121,10 @@ def generate_softmax_target(origin_data):
             [0, 1]]
     warn: 注意append的顺序
     """
+    SLIPPAGE = 1.005
     softmax = [[0, 0]]
     for row in range(1, shape_0):
-        if origin_data[row] >= origin_data[row - 1]:
+        if origin_data[row] >= (origin_data[row - 1] * SLIPPAGE):
             softmax.append([1, 0])
         else:
             softmax.append([0, 1])
