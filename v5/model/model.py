@@ -84,6 +84,7 @@ class LstmModel:
                 ce, lr = self.session.run([self.cross_entropy, self.poly_decay_lr])
                 logging.info("%d th iter, cross_entropy == %s, learning rate == %s", i, ce, lr)
                 logging.info('accuracy == %s',  self.right_list / self.samples_list)
+                logging.info('samples distribute == %s', self.samples_list)
                 self.right_list = np.zeros([5])
                 self.samples_list = np.zeros([5])
 

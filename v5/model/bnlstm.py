@@ -2,6 +2,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.contrib.rnn import RNNCell
 
+
 class LSTMCell(RNNCell):
     '''Vanilla LSTM implemented with same initializations as BN-LSTM'''
     def __init__(self, num_units):
