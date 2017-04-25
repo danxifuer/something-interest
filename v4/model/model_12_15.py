@@ -12,12 +12,12 @@ logger = config.get_logger(__name__)
 class LstmModel:
     def __init__(self, session):
         self.session = session
-        self.all_stock_code = load_all_code()
+        self.all_stock_code = [1] # load_all_code()
         self.loop_code_time = 0
 
     def load_data(self, operate_type, end_date=None, limit=None):
         """
-        load_type:
+        operate_type:
         case 1: 线下训练
         case 2: 在线训练
         case 3: 预测
@@ -65,7 +65,6 @@ class LstmModel:
         self.cross_entropy = tf.reduce_mean(
             tf.nn.softmax_cross_entropy_with_logits(self.predict_target, self.one_target_data, name="cross_entropy"))
         self.minimize = tf.train.AdamOptimizer(learning_rate=config.learning_rate).minimize(self.cross_entropy)
-        self.session.run(tf.initialize_all_variables())
 
         """saver"""
         self.saver = tf.train.Saver()
@@ -130,6 +129,18 @@ def run():
         config.config_print()
         lstmModel = LstmModel(session)
         lstmModel.build_graph()
+
+        """init variables"""
+        if config.init_variable_file_path == "":
+            logger.info("init all variables by random")
+            lstmModel.session.run(tf.initialize_all_variables())
+        else:
+            logger.info("init all variables by previous file")
+            lstmModel.saver.restore(lstmModel.session, config.init_variable_file_path)
+
+        # writer = tf.train.SummaryWriter("./model-summary", graph=tf.get_default_graph())
+        # writer.close()
+
         lstmModel.load_data(operate_type=config.OFFLINE_TRAIN)
         lstmModel.train_model(operate_type=config.OFFLINE_TRAIN, epochs=config.offline_train_epochs)
         session.close()

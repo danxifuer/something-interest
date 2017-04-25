@@ -51,18 +51,20 @@ predict_index_type = 1  # could be one of {"open":0, "close":1, "high":2, "low":
 """LSTM forget gate forget bias"""
 forget_bias = 1  # 最好不要动
 """训练数据的norm类型"""
-train_data_norm_type = "rate"  # could be ["zscore", "rate"]
+train_data_norm_type = "zscore"  # could be ["zscore", "rate"]
 """预测数据的norm类型"""
 target_data_norm_type = "none"  # could be ["zscore", "rate", "none"]
 """是否checkpoint保存文件"""
 is_save_file = True
+"""初始化参数，使用之前保存的文件"""
+init_variable_file_path = ""
 # -------------online predict parameter: op prefix--------------
 """训练文件的保存路径"""
 op_ckpt_file_path = "/home/daiab/ckpt/2016-12-17-13-15.ckpt"
 """预测结果导出excel的路径"""
 op_export_excel_file_path = "/home/daiab/ckpt/predict-outcome.csv"
 """最邻近数据的日期(且这一天必须是交易日),格式必须： 1994-09-07 """
-op_last_transaction_date = '2016-12-02'
+op_last_transaction_date = '2016-12-15'
 # -------------online train parameter: ot prefix--------------
 """训练文件的保存路径"""
 ot_ckpt_file_path = "/home/daiab/ckpt/2016-12-17-13-15.ckpt"

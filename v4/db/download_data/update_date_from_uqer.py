@@ -10,14 +10,15 @@ json_data = json.loads(data.to_json(orient='records'))
 print(data.iloc[:3])
 
 i = 0
+print("start to update ......")
 for one in json_data:
     trade_date = one["tradeDate"]
     ticker = one["ticker"]
     count = collection.find({"tradeDate": trade_date, "ticker": ticker}).count()
     if count == 0:
         collection.insert(one)
-    i += 1
+        i += 1
 
-print("insert into %d items" % i)
+print("over...insert into %d items" % i)
 
 connect.close()

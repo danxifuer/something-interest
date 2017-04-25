@@ -2,7 +2,7 @@ import pandas as pd
 from v4.config import config
 """过滤掉数据量没有满足要求的code， 没有对3打头的code过滤"""
 # 2500阀值过滤后大约还剩1318个code
-THRESHOLD = 2000
+THRESHOLD = 2500
 
 
 def load_all_code():
@@ -15,7 +15,7 @@ def filter_code(csv):
     for index in range(csv.shape[0]):
         code = int(csv.iloc[index, 0])
         days = int(csv.iloc[index, 1])
-        if code < 100000 and days > THRESHOLD:
+        if days > THRESHOLD:
             # if code.startswith("3"):continue
             filter_result.append(code)
     print("all code number == %d" % len(filter_result))
