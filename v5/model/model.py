@@ -79,6 +79,7 @@ class LstmModel:
         threads = tf.train.start_queue_runners(sess=self.session, coord=coord)
         for i in range(cfg.iter_num):
             _, logits, labels = self.session.run([self.minimize, self.logits, self.batch_label])
+            # print(logits)
             self.acc_dist(logits, labels, i)
             if (i + 1) % 20 == 0:
                 ce, lr = self.session.run([self.cross_entropy, self.poly_decay_lr])

@@ -9,11 +9,9 @@ logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%b %d %Y %H:%M:%S')
 
-FIELDS = ['ticker', 'tradeDate', 'openPrice', 'highestPrice', 'lowestPrice', 'closePrice', 'isOpen']
-# FIELDS = ['ticker', 'tradeDate', 'openPrice', 'highestPrice', 'lowestPrice', 'closePrice', 'isOpen'
-#           'turnoverVol', 'turnoverValue', 'dealAmount', 'marketValue']
-PRICE_IDX = [2, 3, 4, 5]
-# PRICE_IDX = [2, 3, 4, 5, 7, 8, 9, 10]
+# FIELDS = ['ticker', 'tradeDate', 'openPrice', 'highestPrice', 'lowestPrice', 'closePrice', 'isOpen']
+FIELDS = ['openPrice', 'highestPrice', 'lowestPrice', 'closePrice',
+           'turnoverVol', 'turnoverValue', 'marketValue']
 REF=3  # close price
 TIME_STEP = 40
 SHUFFLE = None
@@ -39,10 +37,17 @@ def parse_args():
 
 def process_data(pd_data):
     pd_data = pd_data[pd_data['isOpen'] == 1]
+    pd_data = pd_data[FIELDS]
+    # drop nan
     pd_data.dropna(axis=0)
-    np_data = pd_data[FIELDS].as_matrix()
-    data = np_data[:, PRICE_IDX]
-    norm = data[1:] / data[:-1] - 1
+    # drop 0
+    pd_data = pd_data[(pd_data.T != 0).all()]
+    np_data = pd_data.as_matrix().astype(np.float32)
+    ratio = np_data[1:] / np_data[:-1] - 1
+    if ratio.shape[0] < TIME_STEP * 1.2:
+        return None, None
+    # z score
+    norm = (ratio - ratio.mean(axis=0)) / ratio.std(axis=0)
     # close_price = data[1:, REF]
     # assert norm.shape[0] == close_price.shape[0]
     ret_data = []
@@ -78,20 +83,25 @@ def read_csv(args):
     data = []
     label = []
     count = 0
+    samples = 0
     for dirpath, dirnames, filenames in os.walk(args.csv_fold):
         for file in filenames:
             pd_data = pd.read_csv('{}/{}'.format(dirpath, file), sep=',')
             d, l = process_data(pd_data)
+            if d is None:
+                continue
             data.extend(d)
             label.extend(l)
             if (count + 1) % SHUFFLE_STEP == 0:
                 to_tfrecord(writer, np.array(data).astype(np.float), np.array(label).astype(np.int))
+                samples += len(label)
                 data=[]
                 label=[]
                 logging.info('{} th write to rec'.format(count))
             count += 1
     if len(data) != 0:
         to_tfrecord(writer, np.array(data).astype(np.float), np.array(label).astype(np.int))
+    logging.info('total {} samples'.format(samples))
     writer.close()
 
 
