@@ -71,7 +71,7 @@ class LstmModel:
 
     def save_model(self):
         save_time = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
-        self.saver.save(self.session, "log/%s.ckpt" % save_time)
+        self.saver.save(self.session, "../log/train/%s.ckpt" % save_time)
         logging.info("save file time: %s", save_time)
 
     def train_model(self):
@@ -88,6 +88,8 @@ class LstmModel:
                 logging.info('samples distribute == %s', self.samples_list)
                 self.right_list = np.zeros([5])
                 self.samples_list = np.zeros([5])
+            if (i + 1) % 5000 == 0:
+                self.save_model()
 
 
             # self.save_model()
