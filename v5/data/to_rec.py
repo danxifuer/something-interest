@@ -19,7 +19,7 @@ SHUFFLE_STEP = 500
 
 
 def int64_feature(value):
-  return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+    return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
 
 def float_feature(value):
@@ -36,12 +36,17 @@ def parse_args():
 
 
 def process_data(pd_data):
+    pd_data = pd_data.set_index('tradeDate')
+
     pd_data = pd_data[pd_data['isOpen'] == 1]
     pd_data = pd_data[FIELDS]
     # drop nan
     pd_data.dropna(axis=0)
     # drop 0
     pd_data = pd_data[(pd_data.T != 0).all()]
+    # get data after some date
+    pd_data = pd_data.loc['2006-01-01':]
+
     np_data = pd_data.as_matrix().astype(np.float32)
     ratio = np_data[1:] / np_data[:-1] - 1
     if ratio.shape[0] < TIME_STEP * 1.2:
@@ -73,7 +78,7 @@ def to_tfrecord(writer, data, label):
         label = label[idx]
     for i in range(row):
         example = tf.train.Example(features=tf.train.Features(feature={
-                'label' : int64_feature(label[i]),
+                'label': int64_feature(label[i]),
                 'data': float_feature(data[i].ravel())})) # need to reshape to one dim
         writer.write(example.SerializeToString())
 
