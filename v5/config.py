@@ -1,7 +1,7 @@
 time_step = 40
 is_training = True
 batch_size = 1200
-rec_file = '/home/daiab/machine_disk/code/something-interest/v5/data/norm_c8.tfrecords'
+rec_file = '/home/daiab/code/uqer-data/_.tfrecords'
 state_size = 200
 hidden_layers = 5
 rnn_keep_prop = 1.0

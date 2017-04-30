@@ -27,9 +27,11 @@ class Model:
 
     def build_graph(self, batch_data, batch_label, valid=False):
         # self.batch_data, self.batch_label = read_rec.read_and_decode(cfg.rec_file)
-        with tf.variable_scope('ce'):
+        param = {}
+        with tf.variable_scope('ce') as scope:
             if valid:
-                tf.get_variable_scope().reuse = True
+                # tf.get_variable_scope().reuse = True
+                scope.reuse_variables()
             multi_cell = tf.contrib.rnn.MultiRNNCell(
                 [BNLSTMCell(cfg.state_size, training=True) for _ in range(cfg.hidden_layers)])
             state_init = multi_cell.zero_state(cfg.batch_size, dtype=tf.float32)
@@ -45,24 +47,29 @@ class Model:
                                           initializer=tf.truncated_normal_initializer(stddev=0.01, dtype=tf.float32))
             fc_bias = tf.get_variable(name='fc_bias', shape=[cfg.class_num], initializer=tf.constant_initializer())
             logits = tf.nn.xw_plus_b(val, fc_weight, fc_bias)
+            param['logits'] = logits
             if valid:
                 return logits
-        self.cross_entropy = tf.reduce_mean(
+        cross_entropy = tf.reduce_mean(
             tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=batch_label, name="cross_entropy"))
+        param['ce'] = cross_entropy
         global_step = tf.get_variable('global_step', shape=[], dtype=tf.int64,
                                       initializer=tf.zeros_initializer(),
                                       trainable=False)
-        self.poly_decay_lr = tf.train.polynomial_decay(learning_rate=cfg.learning_rate,
+        poly_decay_lr = tf.train.polynomial_decay(learning_rate=cfg.learning_rate,
                                                   global_step=global_step,
                                                   decay_steps=cfg.decay_steps,
                                                   end_learning_rate=0.0002,
                                                   power=cfg.power)
+        param['lr'] = poly_decay_lr
         weight = [v for _, v in self.w.items()]
         norm = tf.add_n([tf.nn.l2_loss(i) for i in weight])
-        self.minimize = tf.train.MomentumOptimizer(
-            learning_rate=self.poly_decay_lr, momentum=cfg.momentum).\
-            minimize(self.cross_entropy + cfg.weght_decay * norm, global_step=global_step)
+        minimize = tf.train.MomentumOptimizer(
+            learning_rate=poly_decay_lr, momentum=cfg.momentum).\
+            minimize(cross_entropy + cfg.weght_decay * norm, global_step=global_step)
+        param['minimize'] = minimize
         self.saver = tf.train.Saver()
+        return param
 
     def save_model(self):
         save_time = time.strftime("%Y-%m-%d-%H-%M", time.localtime())
@@ -72,31 +79,51 @@ class Model:
     def run(self):
         train_data, train_label = read_rec.read_and_decode(cfg.rec_file)
         val_data, val_label = read_rec.read_and_decode(cfg.rec_file)
-        self.build_graph(train_data, train_label)
+        param = self.build_graph(train_data, train_label)
         val_logits = self.build_graph(val_data, val_label, valid=True)
+
+        if cfg.ckpt_file is None:
+            self.session.run(tf.global_variables_initializer())
+            logging.info("init all variables by random")
+        else:
+            logging.info("init all variables by previous file")
+            self.saver.restore(self.session, cfg.ckpt_file)
 
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(sess=self.session, coord=coord)
         for i in range(cfg.iter_num):
-            _, logits, labels = self.session.run([self.minimize, self.logits, self.batch_label])
+            _, logits, labels = self.session.run([param['minimize'], param['logits'], train_label])
             self.acc_dist(logits, labels, i)
             if (i + 1) % 20 == 0:
-                ce, lr = self.session.run([self.cross_entropy, self.poly_decay_lr])
+                ce, lr = self.session.run([param['ce'], param['lr']])
                 logging.info("%d th iter, cross_entropy == %s, learning rate == %s", i, ce, lr)
                 logging.info('accuracy == %s',  self.right_list / self.samples_list)
                 logging.info('samples distribute == %s', self.samples_list)
                 self.right_list = np.zeros([5])
                 self.samples_list = np.zeros([5])
-            if (i + 1) % 5000 == 0:
-                self.valid(val_logits)
-                self.save_model()
+            if (i + 1) % 5 == 0:
+                self.valid(val_logits, val_label)
+                # self.save_model()
                 
         coord.request_stop()
         coord.join(threads=threads)
 
-    def valid(self, logits):
-        for i in range(cfg.val_sample_num):
-            logits_result = self.session.run(logits)
+    def valid(self, logits, labels):
+        samples_list = np.zeros([5])
+        right_list = np.zeros([5])
+        for i in range(2):
+            logits_result, labels_result = self.session.run([logits, labels])
+            threshold = np.arange(0.5, 1, 0.1)
+            max = np.max(logits_result, axis=1, keepdims=True)
+            prob = np.exp(logits_result - max) / np.sum(np.exp(logits_result - max), axis=1, keepdims=True)
+            b_labels = labels_result.astype(bool)[:, np.newaxis]
+            b_idx = np.concatenate((~b_labels, b_labels), axis=1)
+            target = b_idx.astype(int)
+            for i, t in enumerate(threshold):
+                bool_index = prob > t
+                samples_list[i] += np.count_nonzero(bool_index)
+                right_list[i] += np.count_nonzero(target[bool_index])
+        logging.info('valid accuracy == %s', right_list / samples_list)
 
     def acc(self, logits, label, gs):
         max_idx = np.argmax(logits, axis=1)
@@ -122,19 +149,12 @@ class Model:
             self.right_list[i] += np.count_nonzero(target[bool_index])
 
 
-
 def run():
     with tf.Graph().as_default(), tf.Session() as session:
         model = Model(session)
-        model.build_graph()
         """init variables"""
-        if cfg.ckpt_file is None:
-            logging.info("init all variables by random")
-            model.session.run(tf.global_variables_initializer())
-        else:
-            logging.info("init all variables by previous file")
-            model.saver.restore(model.session, cfg.ckpt_file)
-            model.train_model()
+
+        model.run()
 
 
 if __name__ == '__main__':
