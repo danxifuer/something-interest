@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO,
                     datefmt='%b %d %Y %H:%M:%S')
 
 
-class Model:
+class LstmModel:
     def __init__(self, session):
         self.session = session
         self.right = 0
@@ -25,30 +25,30 @@ class Model:
                       tf.Variable(tf.constant(0.01, dtype=tf.float32, shape=[cfg.class_num]), name='fc_bias_1'),
                   }
 
-    def build_graph(self, batch_data, batch_label, valid=False):
-        # self.batch_data, self.batch_label = read_rec.read_and_decode(cfg.rec_file)
-        with tf.variable_scope('ce'):
-            if valid:
-                tf.get_variable_scope().reuse = True
-            multi_cell = tf.contrib.rnn.MultiRNNCell(
-                [BNLSTMCell(cfg.state_size, training=True) for _ in range(cfg.hidden_layers)])
-            state_init = multi_cell.zero_state(cfg.batch_size, dtype=tf.float32)
-            val, states = tf.nn.dynamic_rnn(multi_cell, batch_data, initial_state=state_init, dtype=tf.float32)
+    def build_graph(self):
+        self.batch_data, self.batch_label = read_rec.read_and_decode(cfg.rec_file)
+        self.rnn_keep_prop = cfg.rnn_keep_prop
 
-            """reshape the RNN output"""
-            # val = tf.transpose(val, [1, 0, 2])
-            # self.val = tf.gather(val, val.get_shape()[0] - 1)
-            dim = cfg.time_step * cfg.state_size
-            val = tf.reshape(val, [-1, dim])
+        # multi_cell = tf.contrib.rnn.MultiRNNCell([BasicLSTMCell(cfg.state_size)] * cfg.hidden_layers)
+        # cell = tf.contrib.rnn.DropoutWrapper(cell, input_keep_prob=1.0, output_keep_prob=self.rnn_keep_prop)
+        multi_cell = tf.contrib.rnn.MultiRNNCell(
+            [BNLSTMCell(cfg.state_size, training=True) for _ in range(cfg.hidden_layers)])
+        state_init = multi_cell.zero_state(cfg.batch_size, dtype=tf.float32)
+        val, self.states = tf.nn.dynamic_rnn(multi_cell, self.batch_data, initial_state=state_init, dtype=tf.float32)
 
-            fc_weight = tf.get_variable(name='fc_weight_1', shape=[cfg.time_step * cfg.state_size, cfg.class_num],
-                                          initializer=tf.truncated_normal_initializer(stddev=0.01, dtype=tf.float32))
-            fc_bias = tf.get_variable(name='fc_bias', shape=[cfg.class_num], initializer=tf.constant_initializer())
-            logits = tf.nn.xw_plus_b(val, fc_weight, fc_bias)
-            if valid:
-                return logits
+        """reshape the RNN output"""
+        # val = tf.transpose(val, [1, 0, 2])
+        # self.val = tf.gather(val, val.get_shape()[0] - 1)
+        dim = cfg.time_step * cfg.state_size
+        self.val = tf.reshape(val, [-1, dim])
+
+
+        self.logits = tf.nn.xw_plus_b(self.val, self.w['fc_weight_1'], self.b['fc_bias_1'])
+
         self.cross_entropy = tf.reduce_mean(
-            tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=batch_label, name="cross_entropy"))
+            tf.nn.sparse_softmax_cross_entropy_with_logits(logits=self.logits, labels=self.batch_label, name="cross_entropy"))
+
+        """Loss function and Optimizer"""
         global_step = tf.get_variable('global_step', shape=[], dtype=tf.int64,
                                       initializer=tf.zeros_initializer(),
                                       trainable=False)
@@ -62,6 +62,8 @@ class Model:
         self.minimize = tf.train.MomentumOptimizer(
             learning_rate=self.poly_decay_lr, momentum=cfg.momentum).\
             minimize(self.cross_entropy + cfg.weght_decay * norm, global_step=global_step)
+
+        """saver"""
         self.saver = tf.train.Saver()
 
     def save_model(self):
@@ -69,16 +71,12 @@ class Model:
         self.saver.save(self.session, "../log/train/%s.ckpt" % save_time)
         logging.info("save file time: %s", save_time)
 
-    def run(self):
-        train_data, train_label = read_rec.read_and_decode(cfg.rec_file)
-        val_data, val_label = read_rec.read_and_decode(cfg.rec_file)
-        self.build_graph(train_data, train_label)
-        val_logits = self.build_graph(val_data, val_label, valid=True)
-
+    def train_model(self):
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(sess=self.session, coord=coord)
         for i in range(cfg.iter_num):
             _, logits, labels = self.session.run([self.minimize, self.logits, self.batch_label])
+            # print(logits)
             self.acc_dist(logits, labels, i)
             if (i + 1) % 20 == 0:
                 ce, lr = self.session.run([self.cross_entropy, self.poly_decay_lr])
@@ -88,18 +86,18 @@ class Model:
                 self.right_list = np.zeros([5])
                 self.samples_list = np.zeros([5])
             if (i + 1) % 5000 == 0:
-                self.valid(val_logits)
                 self.save_model()
-                
+
+            # self.save_model()
         coord.request_stop()
         coord.join(threads=threads)
 
-    def valid(self, logits):
-        for i in range(cfg.val_sample_num):
-            logits_result = self.session.run(logits)
-
     def acc(self, logits, label, gs):
         max_idx = np.argmax(logits, axis=1)
+        # if (gs + 1) % 20 == 0:
+        #     print(np.count_nonzero(max_idx == 1))
+        #     print(np.count_nonzero(label == 1))
+        #     print('--------------')
         equal = np.sum(np.equal(max_idx, label).astype(int))
         self.right += equal
         self.samples += cfg.batch_size
@@ -125,16 +123,16 @@ class Model:
 
 def run():
     with tf.Graph().as_default(), tf.Session() as session:
-        model = Model(session)
-        model.build_graph()
+        lstmModel = LstmModel(session)
+        lstmModel.build_graph()
         """init variables"""
         if cfg.ckpt_file is None:
             logging.info("init all variables by random")
-            model.session.run(tf.global_variables_initializer())
+            lstmModel.session.run(tf.global_variables_initializer())
         else:
             logging.info("init all variables by previous file")
-            model.saver.restore(model.session, cfg.ckpt_file)
-            model.train_model()
+            lstmModel.saver.restore(lstmModel.session, cfg.ckpt_file)
+        lstmModel.train_model()
 
 
 if __name__ == '__main__':
