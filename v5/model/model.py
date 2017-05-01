@@ -16,8 +16,8 @@ class Model:
         self.session = session
         self.right = 0
         self.samples = 0
-        self.right_list = np.zeros([5])
-        self.samples_list = np.zeros([5])
+        self.right_list = np.zeros([5], dtype=int)
+        self.samples_list = np.zeros([5], dtype=int)
         self.w = {'fc_weight_1':
                       tf.Variable(tf.truncated_normal([cfg.time_step * cfg.state_size, cfg.class_num], stddev=0.01, dtype=tf.float32), name='fc_weight_1'),
                   }
@@ -78,7 +78,7 @@ class Model:
 
     def run(self):
         train_data, train_label = read_rec.read_and_decode(cfg.rec_file)
-        val_data, val_label = read_rec.read_and_decode(cfg.rec_file)
+        val_data, val_label = read_rec.read_and_decode(cfg.rec_file_val)
         param = self.build_graph(train_data, train_label)
         val_logits = self.build_graph(val_data, val_label, valid=True)
 
@@ -94,14 +94,14 @@ class Model:
         for i in range(cfg.iter_num):
             _, logits, labels = self.session.run([param['minimize'], param['logits'], train_label])
             self.acc_dist(logits, labels, i)
-            if (i + 1) % 20 == 0:
+            if (i + 1) % 40 == 0:
                 ce, lr = self.session.run([param['ce'], param['lr']])
                 logging.info("%d th iter, cross_entropy == %s, learning rate == %s", i, ce, lr)
                 logging.info('accuracy == %s',  self.right_list / self.samples_list)
                 logging.info('samples distribute == %s', self.samples_list)
-                self.right_list = np.zeros([5])
-                self.samples_list = np.zeros([5])
-            if (i + 1) % 5 == 0:
+                self.right_list = np.zeros([5], dtype=int)
+                self.samples_list = np.zeros([5], dtype=int)
+            if (i + 1) % 2000 == 0:
                 self.valid(val_logits, val_label)
                 # self.save_model()
                 
@@ -109,9 +109,9 @@ class Model:
         coord.join(threads=threads)
 
     def valid(self, logits, labels):
-        samples_list = np.zeros([5])
-        right_list = np.zeros([5])
-        for i in range(2):
+        samples_list = np.zeros([5], dtype=int)
+        right_list = np.zeros([5], dtype=int)
+        for i in range(int(117350 / cfg.batch_size)):  # total 117350 samples
             logits_result, labels_result = self.session.run([logits, labels])
             threshold = np.arange(0.5, 1, 0.1)
             max = np.max(logits_result, axis=1, keepdims=True)
@@ -119,10 +119,11 @@ class Model:
             b_labels = labels_result.astype(bool)[:, np.newaxis]
             b_idx = np.concatenate((~b_labels, b_labels), axis=1)
             target = b_idx.astype(int)
-            for i, t in enumerate(threshold):
+            for j, t in enumerate(threshold):
                 bool_index = prob > t
-                samples_list[i] += np.count_nonzero(bool_index)
-                right_list[i] += np.count_nonzero(target[bool_index])
+                samples_list[j] += np.count_nonzero(bool_index)
+                right_list[j] += np.count_nonzero(target[bool_index])
+        logging.info('valid right == %s', right_list)
         logging.info('valid accuracy == %s', right_list / samples_list)
 
     def acc(self, logits, label, gs):
@@ -133,7 +134,7 @@ class Model:
 
     def acc_dist(self, logits, labels, gs):
         max_idx = np.argmax(logits, axis=1)
-        if (gs + 1) % 20 == 0:
+        if (gs + 1) % 40 == 0:
             print(np.count_nonzero(max_idx))
             print(np.count_nonzero(labels))
             print('--------------')
